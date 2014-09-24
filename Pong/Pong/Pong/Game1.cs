@@ -9,6 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using Pong.Screens;
+using Pong.Sprites;
+
 namespace Pong
 {
     /// <summary>
@@ -16,8 +19,12 @@ namespace Pong
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        GameScreen gameScreen;
+
 
         public Game1()
         {
@@ -33,7 +40,9 @@ namespace Pong
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            gameScreen = new GameScreen();
+
+
 
             base.Initialize();
         }
@@ -47,7 +56,8 @@ namespace Pong
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            gameScreen.Load(Content);
+
         }
 
         /// <summary>
@@ -66,11 +76,8 @@ namespace Pong
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
+            gameScreen.Update(gameTime);
 
-            // TODO: Add your update logic here
 
             base.Update(gameTime);
         }
@@ -83,8 +90,12 @@ namespace Pong
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
 
+            gameScreen.Draw(spriteBatch);
+
+
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
