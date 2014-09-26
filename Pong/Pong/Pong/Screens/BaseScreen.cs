@@ -15,9 +15,20 @@ namespace Pong.Screens
     {
         protected List<ISprite> _sprites;
 
+
+        protected Viewport _viewPort;
+
+
         public BaseScreen()
         {
+            _viewPort = new Viewport(0, 0, 800, 480);
             _sprites = new List<ISprite>();
+        }
+
+        public BaseScreen(Viewport viewPort)
+        {
+            _sprites = new List<ISprite>();
+            _viewPort = viewPort;
         }
 
         public abstract void Load(ContentManager Content);

@@ -81,6 +81,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\TitleScreen.cs" />
+    <Compile Include="Sprites\Ball.cs" />
     <Compile Include="Sprites\Paddle.cs" />
   </ItemGroup>
   <ItemGroup>
