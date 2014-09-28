@@ -79,7 +79,7 @@ namespace Pong.Sprites
         public Ball (Texture2D image, Vector2 location,Color tint):
         base(image, location, tint)
         {
-            _speed = Vector2.One;
+            _speed = new Vector2(6, 3);
         }
 
         public Ball(Texture2D image, Vector2 location, Color tint, Vector2 speed) :

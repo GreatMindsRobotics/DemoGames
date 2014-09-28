@@ -13,12 +13,13 @@ namespace Pong.Screens
 {
     public class GameScreen : BaseScreen
     {
-
         Ball ball;
-
         Paddle leftPaddle;
         Paddle rightPaddle;
         KeyboardState keyboard;
+
+        int paddleSpeed = 8;
+
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
             leftPaddle = new Paddle(Content.Load<Texture2D>("temp paddle"), Vector2.Zero, Color.White);
@@ -45,19 +46,41 @@ namespace Pong.Screens
 
             keyboard = Keyboard.GetState();
 
+            //Rightpaddle Movement
             if (keyboard.IsKeyDown(Keys.Up) && rightPaddle.Position.Y > 0 )
             {
-                rightPaddle.VectorY -= 4.5f;
+                rightPaddle.VectorY -= paddleSpeed;
             }
 
             if (keyboard.IsKeyDown(Keys.Down) && rightPaddle.Position.Y + rightPaddle.Texture.Height < _viewPort.Height)
             {
-                rightPaddle.VectorY += 4.5f;
+                rightPaddle.VectorY += paddleSpeed;
             }
 
+            //Leftpaddle Movement
+            if(keyboard.IsKeyDown(Keys.W) && leftPaddle.Position.Y > 0)
+            {
+                leftPaddle.VectorY -= paddleSpeed;
+            }
+
+            if(keyboard.IsKeyDown(Keys.S) && leftPaddle.Position.Y + leftPaddle.Texture.Height < _viewPort.Height)
+            {
+                leftPaddle.VectorY += paddleSpeed;
+            }
+
+            //Checking if ball hit rightPaddle
             if(ball.Position.X < rightPaddle.Position.X + rightPaddle.Texture.Width && ball.Position.X + ball.Texture.Width > rightPaddle.Position.X && ball.Position.Y < rightPaddle.Position.Y + rightPaddle.Texture.Height && ball.Texture.Height +  ball.Position.Y > rightPaddle.Position.Y)
             {
-                //ball intersected with rightpaddle
+                //ball intersected with rightPaddle!!!
+
+                ball.SpeedX *= -1;
+            }
+
+            //Checking if ball hit leftPaddle
+            if (ball.Position.X < leftPaddle.Position.X + leftPaddle.Texture.Width && ball.Position.X + ball.Texture.Width > leftPaddle.Position.X && ball.Position.Y < leftPaddle.Position.Y + rightPaddle.Texture.Height && ball.Texture.Height + ball.Position.Y > leftPaddle.Position.Y)
+            {
+                //ball intersected with leftPaddle!!!
+
                 ball.SpeedX *= -1;
             }
 
