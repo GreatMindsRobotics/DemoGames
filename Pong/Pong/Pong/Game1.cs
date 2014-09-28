@@ -77,7 +77,7 @@ namespace Pong
         protected override void Update(GameTime gameTime)
         {
             gameScreen.Update(gameTime);
-            titleScreen.Update(gameTime);
+            //titleScreen.Update(gameTime);
 
             base.Update(gameTime);
         }
