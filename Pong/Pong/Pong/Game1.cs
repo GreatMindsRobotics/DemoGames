@@ -24,7 +24,7 @@ namespace Pong
         SpriteBatch spriteBatch;
 
         GameScreen gameScreen;
-
+        TitleScreen titleScreen;
 
         public Game1()
         {
@@ -41,9 +41,9 @@ namespace Pong
         protected override void Initialize()
         {
             gameScreen = new GameScreen();
+            titleScreen = new TitleScreen();
 
-
-
+            IsMouseVisible = true;
             base.Initialize();
         }
 
@@ -77,7 +77,7 @@ namespace Pong
         protected override void Update(GameTime gameTime)
         {
             gameScreen.Update(gameTime);
-
+            titleScreen.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -93,7 +93,7 @@ namespace Pong
             spriteBatch.Begin();
 
             gameScreen.Draw(spriteBatch);
-
+            //titleScreen.Draw(spriteBatch);
 
             spriteBatch.End();
             base.Draw(gameTime);

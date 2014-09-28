@@ -23,7 +23,6 @@ namespace Pong.Screens
         {
             leftPaddle = new Paddle(Content.Load<Texture2D>("temp paddle"), Vector2.Zero, Color.White);
             rightPaddle = new Paddle(Content.Load<Texture2D>("temp paddle"), new Vector2(_viewPort.Width - leftPaddle.Texture.Width,0), Color.White);
-
             ball = new Ball(Content.Load<Texture2D>("temp ball"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
 
             _sprites.Add(rightPaddle);
@@ -36,26 +35,31 @@ namespace Pong.Screens
 
             if (ball.Position.Y <= 0 || ball.Position.Y + ball.Texture.Height >= _viewPort.Height)
             {
-
                 ball.SpeedY *= -1;
             }
             else if (ball.Position.X <= 0 || ball.Position.X + ball.Texture.Width >= _viewPort.Width)
             {
-                ball.SpeedX *= -1;
+                //Ball goes through the wall
+                //TODO Add scoring
             }
 
             keyboard = Keyboard.GetState();
 
             if (keyboard.IsKeyDown(Keys.Up) && rightPaddle.Position.Y > 0 )
             {
-                rightPaddle.VectorY -= 1;
+                rightPaddle.VectorY -= 4.5f;
             }
 
             if (keyboard.IsKeyDown(Keys.Down) && rightPaddle.Position.Y + rightPaddle.Texture.Height < _viewPort.Height)
             {
-                rightPaddle.VectorY += 1;
+                rightPaddle.VectorY += 4.5f;
             }
 
+            if(ball.Position.X < rightPaddle.Position.X + rightPaddle.Texture.Width && ball.Position.X + ball.Texture.Width > rightPaddle.Position.X && ball.Position.Y < rightPaddle.Position.Y + rightPaddle.Texture.Height && ball.Texture.Height +  ball.Position.Y > rightPaddle.Position.Y)
+            {
+                //ball intersected with rightpaddle
+                ball.SpeedX *= -1;
+            }
 
             base.Update(gameTime);
         }
