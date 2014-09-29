@@ -16,14 +16,18 @@ namespace Pong.Screens
         Ball ball;
         Paddle leftPaddle;
         Paddle rightPaddle;
+
         KeyboardState keyboard;
 
+        Random rnd = new Random();
+
+        int ballDirection;
         int paddleSpeed = 8;
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
-            leftPaddle = new Paddle(Content.Load<Texture2D>("temp paddle"), Vector2.Zero, Color.White);
-            rightPaddle = new Paddle(Content.Load<Texture2D>("temp paddle"), new Vector2(_viewPort.Width - leftPaddle.Texture.Width,0), Color.White);
+            leftPaddle = new Paddle(Content.Load<Texture2D>("temp paddle"), new Vector2(0, 176), Color.White);
+            rightPaddle = new Paddle(Content.Load<Texture2D>("temp paddle"), new Vector2(_viewPort.Width - leftPaddle.Texture.Width,176), Color.White);
             ball = new Ball(Content.Load<Texture2D>("temp ball"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
 
             _sprites.Add(rightPaddle);
@@ -33,18 +37,50 @@ namespace Pong.Screens
 
         public override void Update(GameTime gameTime)
         {
-
-            if (ball.Position.Y <= 0 || ball.Position.Y + ball.Texture.Height >= _viewPort.Height)
-            {
-                ball.SpeedY *= -1;
-            }
-            else if (ball.Position.X <= 0 || ball.Position.X + ball.Texture.Width >= _viewPort.Width)
-            {
-                //Ball goes through the wall
-                //TODO Add scoring
-            }
-
             keyboard = Keyboard.GetState();
+
+            if(keyboard.IsKeyDown(Keys.Space))
+            {
+                if(ball.BallState == BallState.Rested)
+                {
+                    ballDirection = rnd.Next(0, 2);
+
+                    switch(ballDirection)
+                    {
+                        case 0:
+                            ball.Speed = new Vector2(5, 2);
+                            break;
+
+                        case 1:
+                            ball.Speed = new Vector2(-5, 2);
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+
+                ball.BallState = BallState.Moving;
+            }
+
+            if(ball.BallState == BallState.Moving)
+            {
+                if (ball.Position.Y <= 0 || ball.Position.Y + ball.Texture.Height >= _viewPort.Height)
+                {
+                    ball.SpeedY *= -1;
+
+                }
+                else if (ball.Position.X <= 0 || ball.Position.X + ball.Texture.Width >= _viewPort.Width)
+                {
+                    //Ball goes through the wall
+                    //TODO Add scoring
+
+                    //Reset the ball
+                    ball.BallState = BallState.Rested;
+                    ball.Position = new Vector2(_viewPort.Width / 2, _viewPort.Height / 2);
+                    ball.Speed = Vector2.Zero;
+                }
+            }
 
             //Rightpaddle Movement
             if (keyboard.IsKeyDown(Keys.Up) && rightPaddle.Position.Y > 0 )

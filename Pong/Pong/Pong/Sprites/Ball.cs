@@ -10,8 +10,6 @@ namespace Pong.Sprites
 {
     class Ball : GameSprite
     {
-        private Random _ballDirection = new Random();
-
         private Vector2 _speed;
 
         public Vector2 Speed
@@ -76,30 +74,12 @@ namespace Pong.Sprites
             }
         }
 
+        public BallState BallState { get; set; }
 
         public Ball (Texture2D image, Vector2 location,Color tint):
         base(image, location, tint)
         {
-            int ballDirection = _ballDirection.Next(0, 2);
-
-            //Decides were the ball goes
-            switch (ballDirection)
-            {
-                //ball goes to the right
-                case 0:
-                    _speed = new Vector2(5, 2);
-
-                    break;
-
-                //ball goes to the left
-                case 1:
-                    _speed = new Vector2(-5, 2);
-
-                    break;
-
-                default:
-                    break;
-            }
+            _speed = Vector2.Zero; 
         }
 
         public Ball(Texture2D image, Vector2 location, Color tint, Vector2 speed) :
