@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-
 using Pong.Screens;
 using Pong.Sprites;
 
@@ -25,6 +24,9 @@ namespace Pong
 
         GameScreen gameScreen;
         TitleScreen titleScreen;
+        MainMenuScreen mainMenuScreen;
+
+        ScreenState screenState;
 
         public Game1()
         {
@@ -40,7 +42,10 @@ namespace Pong
         /// </summary>
         protected override void Initialize()
         {
-            gameScreen = new GameScreen();
+            screenState = ScreenState.Title;
+
+            //gameScreen = new GameScreen();
+            //mainMenuScreen = new MainMenuScreen();
             titleScreen = new TitleScreen();
 
             IsMouseVisible = true;
@@ -56,8 +61,9 @@ namespace Pong
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            gameScreen.Load(Content);
-
+            //gameScreen.Load(Content);
+            //mainMenuScreen.Load(Content);
+            titleScreen.Load(Content);
         }
 
         /// <summary>
@@ -76,8 +82,9 @@ namespace Pong
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            gameScreen.Update(gameTime);
-            //titleScreen.Update(gameTime);
+            //gameScreen.Update(gameTime);
+            //mainMenuScreen.Update(gameTime);
+            titleScreen.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -92,8 +99,9 @@ namespace Pong
 
             spriteBatch.Begin();
 
-            gameScreen.Draw(spriteBatch);
-            //titleScreen.Draw(spriteBatch);
+            //gameScreen.Draw(spriteBatch);
+            //mainMenuScreen.Draw(spriteBatch);
+            titleScreen.Draw(spriteBatch);
 
             spriteBatch.End();
             base.Draw(gameTime);

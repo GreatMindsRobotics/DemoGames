@@ -10,4 +10,12 @@ namespace Pong
         Rested,
         Moving
     }
+
+    public enum ScreenState
+    {
+        None = 0,
+        Title = 1,
+        MainMenu = 2,
+        Game = 3
+    }
 }
