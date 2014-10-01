@@ -28,8 +28,9 @@ namespace Pong.Screens
         {
             leftPaddle = new Paddle(Content.Load<Texture2D>("temp paddle"), new Vector2(0, 176), Color.White);
             rightPaddle = new Paddle(Content.Load<Texture2D>("temp paddle"), new Vector2(_viewPort.Width - leftPaddle.Texture.Width,176), Color.White);
-            ball = new Ball(Content.Load<Texture2D>("temp ball"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
-
+            ball = new Ball(Content.Load<Texture2D>("temp ball"), new Vector2(_viewPort.Width / 2 , _viewPort.Height / 2), Color.White);
+            ball.Position = new Vector2(_viewPort.Width/2 - ball.Texture.Width/2, _viewPort.Height/2 - ball.Texture.Height/2);
+            
             _sprites.Add(rightPaddle);
             _sprites.Add(leftPaddle);
             _sprites.Add(ball);
@@ -77,7 +78,7 @@ namespace Pong.Screens
 
                     //Reset the ball
                     ball.BallState = BallState.Rested;
-                    ball.Position = new Vector2(_viewPort.Width / 2, _viewPort.Height / 2);
+                    ball.Position = new Vector2(_viewPort.Width / 2 - ball.Texture.Width / 2, _viewPort.Height / 2 - ball.Texture.Height / 2);
                     ball.Speed = Vector2.Zero;
                 }
             }

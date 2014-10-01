@@ -10,8 +10,48 @@ namespace Pong.CoreTypes
 {
     public static class ScreenManager
     {
-        private Dictionary<ScreenState, BaseScreen> _screens = new Dictionary<ScreenState, BaseScreen>();
+        private static Dictionary<ScreenState, BaseScreen> _screenList = new Dictionary<ScreenState, BaseScreen>();
 
-        private ScreenState _currentScreen = ScreenState.None;
+        private static Stack<BaseScreen> _screenStack = new Stack<BaseScreen>();
+
+        public static void AddScreen(ScreenState state, BaseScreen screen)
+        {
+            if (_screenList.ContainsKey(state))
+            {
+                throw new ArgumentException("This state has already been added to the manager class");
+            }
+            
+
+            _screenList.Add(state, screen);  
+        }
+
+        public static void Update(GameTime gameTime)
+        {
+            //update the top of the stack
+            //HINT: _screenStack.Peek()
+
+            _screenStack.Peek().Update(gameTime);
+        }
+
+        public static void Draw(SpriteBatch spriteBatch)
+        {
+            //todo: draw the top of the stack
+            //HINT: _screenStack.Peek()
+
+            _screenStack.Peek().Draw(spriteBatch);
+        }
+
+        public static void Change(ScreenState state)
+        {
+            if (!_screenList.ContainsKey(state))
+            {
+                throw new ArgumentException("This state has not been added to the manager class");
+            }
+            
+            _screenStack.Push(_screenList[state]);
+
+        }
+
+        //private ScreenState _currentScreen = ScreenState.None;
     }
 }

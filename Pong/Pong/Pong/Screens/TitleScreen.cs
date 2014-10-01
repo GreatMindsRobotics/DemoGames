@@ -6,6 +6,7 @@ using FontEffectsLib.SpriteTypes;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Pong.CoreTypes;
 
 namespace Pong.Screens
 {
@@ -30,7 +31,7 @@ namespace Pong.Screens
 
             if(keyboard.IsKeyDown(Keys.Enter))
             {
-                screenState = ScreenState.MainMenu;
+                ScreenManager.Change(ScreenState.MainMenu);
             }
 
             base.Update(gameTime);
