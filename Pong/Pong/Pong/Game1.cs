@@ -57,6 +57,7 @@ namespace Pong
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             gameScreen.Load(Content);
+            titleScreen.Load(Content);
 
         }
 
@@ -76,8 +77,8 @@ namespace Pong
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            gameScreen.Update(gameTime);
-            //titleScreen.Update(gameTime);
+            //gameScreen.Update(gameTime);
+            titleScreen.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -92,8 +93,8 @@ namespace Pong
 
             spriteBatch.Begin();
 
-            gameScreen.Draw(spriteBatch);
-            //titleScreen.Draw(spriteBatch);
+            //gameScreen.Draw(spriteBatch);
+            titleScreen.Draw(spriteBatch);
 
             spriteBatch.End();
             base.Draw(gameTime);

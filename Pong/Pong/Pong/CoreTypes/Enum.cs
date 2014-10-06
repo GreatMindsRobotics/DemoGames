@@ -10,4 +10,10 @@ namespace Pong
         Rested,
         Moving
     }
+
+    public enum GameMode
+    {
+        SinglePlayer,
+        MultiPlayer
+    }
 }
