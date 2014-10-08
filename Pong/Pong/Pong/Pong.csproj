@@ -86,6 +86,7 @@
     <Compile Include="Screens\TitleScreen.cs" />
     <Compile Include="Sprites\Ball.cs" />
     <Compile Include="Sprites\Paddle.cs" />
+    <Compile Include="Sprites\PlusOne.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

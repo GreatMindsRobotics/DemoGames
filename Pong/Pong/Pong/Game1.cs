@@ -71,7 +71,7 @@ namespace Pong
             ScreenManager.AddScreen(ScreenState.Game, gameScreen);
             ScreenManager.AddScreen(ScreenState.MainMenu, mainMenuScreen);
 
-            ScreenManager.Change(ScreenState.Title);
+            ScreenManager.Change(ScreenState.Game);
         }
 
         /// <summary>
