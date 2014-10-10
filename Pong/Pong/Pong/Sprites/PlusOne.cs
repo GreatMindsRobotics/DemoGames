@@ -20,6 +20,15 @@ namespace Pong.Sprites
             IsVisible = false;
             SlideUpdateCount = 200;
             SetCenterAsOrigin();
+
+            SlideCompleted += new SlideCompletedState(PlusOne_SlideCompleted);
+        }
+
+        void PlusOne_SlideCompleted()
+        {
+            IsVisible = false;
+            _scale = Vector2.One;
+            _tintColor = _originalColor;
         }
 
         public override void Update(GameTime gameTime)
@@ -37,13 +46,6 @@ namespace Pong.Sprites
                                     _tintColor.G = (_tintColor.G != 0) ? (byte)(_tintColor.G - 1) : _tintColor.G,
                                     _tintColor.B = (_tintColor.B != 0) ? (byte)(_tintColor.B - 1) : _tintColor.B, 
                                     _tintColor.A = (_tintColor.A != 0) ? (byte)(_tintColor.A - 1) : _tintColor.A);
-
-            if (Position == SlideTo)
-            {
-                IsVisible = false;
-                _scale = Vector2.One;
-                _tintColor = _originalColor;
-            }
 
             base.Update(gameTime);
         }

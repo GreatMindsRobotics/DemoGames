@@ -26,6 +26,7 @@ namespace Pong
         GameScreen gameScreen;
         TitleScreen titleScreen;
         MainMenuScreen mainMenuScreen;
+        GameOverScreen gameOverScreen;
 
         ScreenState screenState;
 
@@ -48,6 +49,7 @@ namespace Pong
             gameScreen = new GameScreen();
             mainMenuScreen = new MainMenuScreen();
             titleScreen = new TitleScreen();
+            gameOverScreen = new GameOverScreen();
 
             IsMouseVisible = true;
             base.Initialize();
@@ -65,11 +67,13 @@ namespace Pong
             gameScreen.Load(Content);
             mainMenuScreen.Load(Content);
             titleScreen.Load(Content);
+            gameOverScreen.Load(Content);
 
 
             ScreenManager.AddScreen(ScreenState.Title, titleScreen);
             ScreenManager.AddScreen(ScreenState.Game, gameScreen);
             ScreenManager.AddScreen(ScreenState.MainMenu, mainMenuScreen);
+            ScreenManager.AddScreen(ScreenState.GameOver, gameOverScreen);
 
             ScreenManager.Change(ScreenState.Game);
         }

@@ -16,6 +16,7 @@ namespace Pong
         None = 0,
         Title = 1,
         MainMenu = 2,
-        Game = 3
-    }
+        Game = 3,
+        GameOver=4
+    }   
 }
