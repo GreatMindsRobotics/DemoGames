@@ -179,6 +179,11 @@
             Gets or sets the <see cref="T:Microsoft.Xna.Framework.Graphics.Texture2D"/> to render.
             </summary>
         </member>
+        <member name="F:FontEffectsLib.SpriteTypes.SlidingSprite.SlideCompleted">
+            <summary>
+            Raised when SlidingSprite completes sliding to the SlideTo position
+            </summary>
+        </member>
         <member name="P:FontEffectsLib.SpriteTypes.SlidingSprite.SlideTo">
             <summary>
             Slide to position. Default is null (not sliding).
@@ -187,6 +192,11 @@
         <member name="P:FontEffectsLib.SpriteTypes.SlidingSprite.SlideUpdateCount">
             <summary>
             Slide update count. Default is 100 (slide in 100 updates)
+            </summary>
+        </member>
+        <member name="T:FontEffectsLib.SpriteTypes.SlidingSprite.SlideCompletedState">
+            <summary>
+            Delegate type for SlideCompleted event 
             </summary>
         </member>
         <member name="F:FontEffectsLib.SpriteTypes.Panel._state">
