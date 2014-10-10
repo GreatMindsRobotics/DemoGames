@@ -179,7 +179,7 @@
             Gets or sets the <see cref="T:Microsoft.Xna.Framework.Graphics.Texture2D"/> to render.
             </summary>
         </member>
-        <member name="F:FontEffectsLib.SpriteTypes.SlidingSprite.SlideCompleted">
+        <member name="E:FontEffectsLib.SpriteTypes.SlidingSprite.SlideCompleted">
             <summary>
             Raised when SlidingSprite completes sliding to the SlideTo position
             </summary>
