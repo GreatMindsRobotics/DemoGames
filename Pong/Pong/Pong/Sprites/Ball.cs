@@ -76,6 +76,8 @@ namespace Pong.Sprites
 
         public BallState BallState { get; set; }
 
+        private Rectangle _boundingBox;
+
         public Ball (Texture2D image, Vector2 location,Color tint):
         base(image, location, tint)
         {

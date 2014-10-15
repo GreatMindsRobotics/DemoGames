@@ -38,10 +38,16 @@ namespace Pong.Screens
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
-            leftPaddle = new Paddle(Content.Load<Texture2D>("temp paddle"), new Vector2(0, 176), Color.White);
-            rightPaddle = new Paddle(Content.Load<Texture2D>("temp paddle"), new Vector2(_viewPort.Width - leftPaddle.Texture.Width, 176), Color.White);
+            leftPaddle = new Paddle(Content.Load<Texture2D>("temp paddle"), new Vector2(0, _viewPort.Height / 2), Color.White);
+            leftPaddle.SetCenterAsOrigin();
+            leftPaddle.Position = new Vector2(leftPaddle.Origin.X, _viewPort.Height / 2);
+
+            rightPaddle = new Paddle(Content.Load<Texture2D>("temp paddle"), new Vector2(_viewPort.Width - leftPaddle.Texture.Width / 2, _viewPort.Height / 2), Color.White);
+            rightPaddle.SetCenterAsOrigin();
+
             ball = new Ball(Content.Load<Texture2D>("temp ball"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
-            ball.Position = new Vector2(_viewPort.Width / 2 - ball.Texture.Width / 2, _viewPort.Height / 2 - ball.Texture.Height / 2);
+            ball.SetCenterAsOrigin();
+             
 
             plusOne = new PlusOne(Content.Load<Texture2D>("Plus1"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.Red);
             plusOne.SlideCompleted += new FontEffectsLib.SpriteTypes.SlidingSprite.SlideCompletedState(plusOne_SlideCompleted);
@@ -128,15 +134,15 @@ namespace Pong.Screens
 
             if (ball.BallState == BallState.Moving)
             {
-                if (ball.Position.Y <= 0 || ball.Position.Y + ball.Texture.Height >= _viewPort.Height)
+                if (ball.Position.Y - ball.Origin.Y <= 0 || ball.Position.Y + ball.Origin.Y >= _viewPort.Height)
                 {
                     ball.SpeedY *= -1;
 
                 }
-                else if (ball.Position.X <= 0)
+                else if (ball.Position.X - ball.Origin.X <= 0)
                 {
                     //Ball goes through the wall
-                    //TODO Add scoring
+
 
                     leftSideScored = false;
 
@@ -149,10 +155,9 @@ namespace Pong.Screens
                     ball.Position = new Vector2(_viewPort.Width / 2 - ball.Texture.Width / 2, _viewPort.Height / 2 - ball.Texture.Height / 2);
                     ball.Speed = Vector2.Zero;
                 }
-                else if (ball.Position.X + ball.Texture.Width >= _viewPort.Width)
+                else if (ball.Position.X + ball.Origin.X >= _viewPort.Width)
                 {
                     //Ball goes through the wall
-                    //TODO Add scoring
 
                     leftSideScored = true;
 
@@ -170,45 +175,46 @@ namespace Pong.Screens
             }
 
             //Rightpaddle Movement
-            if (keyboard.IsKeyDown(Keys.Up) && rightPaddle.Position.Y > 0)
+            if (keyboard.IsKeyDown(Keys.Up) && rightPaddle.Position.Y - rightPaddle.Origin.Y > 0)
             {
                 rightPaddle.VectorY -= paddleSpeed;
             }
 
-            if (keyboard.IsKeyDown(Keys.Down) && rightPaddle.Position.Y + rightPaddle.Texture.Height < _viewPort.Height)
+            if (keyboard.IsKeyDown(Keys.Down) && rightPaddle.Position.Y + rightPaddle.Origin.Y < _viewPort.Height)
             {
                 rightPaddle.VectorY += paddleSpeed;
             }
 
             //Leftpaddle Movement
-            if (keyboard.IsKeyDown(Keys.W) && leftPaddle.Position.Y > 0)
+            if (keyboard.IsKeyDown(Keys.W) && leftPaddle.Position.Y - leftPaddle.Origin.Y > 0)
             {
                 leftPaddle.VectorY -= paddleSpeed;
             }
 
-            if (keyboard.IsKeyDown(Keys.S) && leftPaddle.Position.Y + leftPaddle.Texture.Height < _viewPort.Height)
+            if (keyboard.IsKeyDown(Keys.S) && leftPaddle.Position.Y + leftPaddle.Origin.Y < _viewPort.Height)
             {
                 leftPaddle.VectorY += paddleSpeed;
             }
 
+            
+
             //Checking if ball hit rightPaddle
-            if (ball.Position.X < rightPaddle.Position.X + rightPaddle.Texture.Width && ball.Position.X + ball.Texture.Width > rightPaddle.Position.X && ball.Position.Y < rightPaddle.Position.Y + rightPaddle.Texture.Height && ball.Texture.Height + ball.Position.Y > rightPaddle.Position.Y)
+            if (ball.Position.X + ball.Origin.X < rightPaddle.Position.X + rightPaddle.Origin.X&& ball.Position.X + ball.Origin.X > rightPaddle.Position.X && ball.Position.Y < rightPaddle.Position.Y + rightPaddle.Origin.Y && ball.Origin.Y + ball.Position.Y > rightPaddle.Position.Y)
             {
                 //ball intersected with rightPaddle!!! Is it traveling to the right? If so, inverse direction; otherwise, leave it alone
                 if (ball.SpeedX > 0)
                 {
-                    ball.SpeedX *= -1;
+                    ball.SpeedX *= -1.05f;
                 }
-
             }
 
             //Checking if ball hit leftPaddle
-            if (ball.Position.X < leftPaddle.Position.X + leftPaddle.Texture.Width && ball.Position.X + ball.Texture.Width > leftPaddle.Position.X && ball.Position.Y < leftPaddle.Position.Y + rightPaddle.Texture.Height && ball.Texture.Height + ball.Position.Y > leftPaddle.Position.Y)
+            if (ball.Position.X + ball.Origin.X < leftPaddle.Position.X + leftPaddle.Origin.X && ball.Position.X + ball.Origin.X > leftPaddle.Position.X && ball.Position.Y < leftPaddle.Position.Y + rightPaddle.Origin.Y && ball.Origin.Y + ball.Position.Y > leftPaddle.Position.Y)
             {
                 //ball intersected with leftPaddle!!! Is it traveling to the left? If so, inverse direction; otherwise, leave it alone
                 if (ball.SpeedX < 0)
                 {
-                    ball.SpeedX *= -1;
+                    ball.SpeedX *= -1.05f;
                 }
             }
 
