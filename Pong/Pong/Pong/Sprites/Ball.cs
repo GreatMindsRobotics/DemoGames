@@ -18,6 +18,45 @@ namespace Pong.Sprites
             set { _speed = value; }
         }
 
+        public float Left
+        {
+            get
+            {
+                return _position.X - _origin.X;
+
+            }
+        }
+
+        public float Right
+        {
+            get
+            {
+                return _position.X + _origin.X;
+
+            }
+        }
+
+        public float Top
+        {
+            get
+            {
+                return _position.Y - _origin.Y;
+
+            }
+        }
+
+        public float Bottom
+        {
+            get
+            {
+                return _position.Y + _origin.Y;
+
+            }
+        }
+
+
+
+
         public float SpeedY
         {
             get

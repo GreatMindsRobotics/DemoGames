@@ -23,9 +23,15 @@ namespace Pong.Screens
         FadingFont leftScoreFont;
         FadingFont rightScoreFont;
 
+        FadingFont player1Font;
+        FadingFont player2Font;
+
+        
         KeyboardState keyboard;
 
         Random rnd = new Random();
+
+        public static bool player1Won = false;
 
         bool leftSideScored = false;
 
@@ -59,13 +65,22 @@ namespace Pong.Screens
             rightScoreFont = new FadingFont(Content.Load<SpriteFont>("SpriteFont1"), new Vector2(_viewPort.Width - 30, 0), 0.1f, 1.0f, 0.01f, 1.0f, rightScore.ToString(), Color.White, false);
             rightScoreFont.EnableShadow = false;
 
+            player1Font = new FadingFont(Content.Load<SpriteFont>("SpriteFont1"), new Vector2(10, 50), 0.1f, 1.0f, 0.01f, 1.0f, string.Format("Player1"), Color.White, false);
+            player1Font.EnableShadow = false;
+            player2Font = new FadingFont(Content.Load<SpriteFont>("SpriteFont1"), new Vector2(_viewPort.Width - 85, 50), 0.1f, 1.0f, 0.01f, 1.0f, string.Format( "Player2"), Color.White, false);
+            player2Font.EnableShadow = false;
+
+
 
             _sprites.Add(rightPaddle);
             _sprites.Add(leftPaddle);
-            _sprites.Add(ball);
+            //_sprites.Add(ball);
             _sprites.Add(plusOne);
             _sprites.Add(leftScoreFont);
             _sprites.Add(rightScoreFont);
+            _sprites.Add(player1Font);
+            _sprites.Add(player2Font);
+
         }
 
         void plusOne_SlideCompleted()
@@ -86,13 +101,13 @@ namespace Pong.Screens
             //Check for win
             if (leftScore >= 10)
             {
-
+                player1Won = true;
                 ScreenManager.Change(ScreenState.GameOver);
                 
             }
             else if (rightScore >= 10)
             {
-
+                player1Won = false;
                 ScreenManager.Change(ScreenState.GameOver);
 
             }
@@ -109,7 +124,7 @@ namespace Pong.Screens
             }
 
             if (keyboard.IsKeyDown(Keys.Space))
-            {
+             {
                 if (ball.BallState == BallState.Rested)
                 {
                     ballDirection = rnd.Next(0, 2);
@@ -196,30 +211,52 @@ namespace Pong.Screens
                 leftPaddle.VectorY += paddleSpeed;
             }
 
-            
+            Vector2 amountSpeed = Vector2.Zero;
 
-            //Checking if ball hit rightPaddle
-            if (ball.Position.X + ball.Origin.X < rightPaddle.Position.X + rightPaddle.Origin.X&& ball.Position.X + ball.Origin.X > rightPaddle.Position.X && ball.Position.Y < rightPaddle.Position.Y + rightPaddle.Origin.Y && ball.Origin.Y + ball.Position.Y > rightPaddle.Position.Y)
+            while (Math.Abs(amountSpeed.X) < Math.Abs(ball.Speed.X))
             {
-                //ball intersected with rightPaddle!!! Is it traveling to the right? If so, inverse direction; otherwise, leave it alone
-                if (ball.SpeedX > 0)
+                Vector2 speed = ball.Speed;
+                
+                speed.Normalize();
+                ball.Position += speed;
+                
+                amountSpeed += speed;
+
+                //ball.Update(gameTime);
+                //Checking if ball hit rightPaddle
+                if (ball.Right > rightPaddle.Left && ball.Bottom > rightPaddle.Top && ball.Top < rightPaddle.Bottom)
                 {
-                    ball.SpeedX *= -1.05f;
+                    //ball intersected with rightPaddle!!! Is it traveling to the right? If so, inverse direction; otherwise, leave it alone
+                    if (ball.SpeedX > 0)
+                    {
+
+                        ball.SpeedX *= -1.05f;
+                        ball.SpeedY *= 1.05f;
+
+                    }
                 }
-            }
-
-            //Checking if ball hit leftPaddle
-            if (ball.Position.X + ball.Origin.X < leftPaddle.Position.X + leftPaddle.Origin.X && ball.Position.X + ball.Origin.X > leftPaddle.Position.X && ball.Position.Y < leftPaddle.Position.Y + rightPaddle.Origin.Y && ball.Origin.Y + ball.Position.Y > leftPaddle.Position.Y)
-            {
-                //ball intersected with leftPaddle!!! Is it traveling to the left? If so, inverse direction; otherwise, leave it alone
-                if (ball.SpeedX < 0)
+                 
+                //Checking if ball hit leftPaddle
+                if (ball.Left < leftPaddle.Right && ball.Bottom > leftPaddle.Top && ball.Top < leftPaddle.Bottom)
                 {
-                    ball.SpeedX *= -1.05f;
+                    //ball intersected with leftPaddle!!! Is it traveling to the left? If so, inverse direction; otherwise, leave it alone
+                    if (ball.SpeedX < 0)
+                    {
+
+                        ball.SpeedX *= -1.05f;
+                        ball.SpeedY *= 1.05f;
+                    }
                 }
             }
 
             plusOne.Update(gameTime);
             base.Update(gameTime);
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
+            ball.Draw(spriteBatch);
         }
     }
 }
