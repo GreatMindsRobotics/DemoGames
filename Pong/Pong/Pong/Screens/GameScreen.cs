@@ -98,6 +98,13 @@ namespace Pong.Screens
                 rightScoreFont.Fade = true;
             }
 
+            //Reset the ball
+            ball.BallState = BallState.Rested;
+            ball.Position = new Vector2(_viewPort.Width / 2 - ball.Texture.Width / 2, _viewPort.Height / 2 - ball.Texture.Height / 2);
+            ball.Speed = Vector2.Zero;
+            ball.TintColor = Color.White;
+
+
             //Check for win
             if (leftScore >= 10)
             {
@@ -149,15 +156,30 @@ namespace Pong.Screens
 
             if (ball.BallState == BallState.Moving)
             {
-                if (ball.Position.Y - ball.Origin.Y <= 0 || ball.Position.Y + ball.Origin.Y >= _viewPort.Height)
+                if (ball.Position.Y + ball.Origin.Y >= _viewPort.Height)
                 {
-                    ball.SpeedY *= -1;
+                  
+                    if (ball.SpeedY > 0)
+                    {
+                        ball.SpeedY *= -1;
+                    }
 
                 }
-                else if (ball.Position.X - ball.Origin.X <= 0)
+                else if (ball.Position.Y - ball.Origin.Y <= 0)
+                {
+                    if (ball.SpeedY < 0)
+                    {
+                        ball.SpeedY *= -1;
+                    }
+                }
+
+                if (ball.Position.X - ball.Origin.X <= 0)
                 {
                     //Ball goes through the wall
+                    //right scored
 
+                    ball.Speed = Vector2.Zero;
+                    ball.TintColor = Color.Red;
 
                     leftSideScored = false;
 
@@ -165,14 +187,14 @@ namespace Pong.Screens
                     plusOne.SlideTo = new Vector2(_viewPort.Width - 30, 0);
                     plusOne.IsVisible = true;
 
-                    //Reset the ball
-                    ball.BallState = BallState.Rested;
-                    ball.Position = new Vector2(_viewPort.Width / 2 - ball.Texture.Width / 2, _viewPort.Height / 2 - ball.Texture.Height / 2);
-                    ball.Speed = Vector2.Zero;
                 }
                 else if (ball.Position.X + ball.Origin.X >= _viewPort.Width)
                 {
                     //Ball goes through the wall
+                    //left scored
+
+                    ball.Speed = Vector2.Zero;
+                    ball.TintColor = Color.Red;
 
                     leftSideScored = true;
 
@@ -180,11 +202,6 @@ namespace Pong.Screens
                     plusOne.SlideTo = new Vector2(20, 0);
                     plusOne.IsVisible = true;
 
-
-                    //Reset the ball
-                    ball.BallState = BallState.Rested;
-                    ball.Position = new Vector2(_viewPort.Width / 2 - ball.Texture.Width / 2, _viewPort.Height / 2 - ball.Texture.Height / 2);
-                    ball.Speed = Vector2.Zero;
                 }
 
             }
