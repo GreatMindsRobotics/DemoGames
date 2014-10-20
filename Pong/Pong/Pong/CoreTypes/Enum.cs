@@ -17,6 +17,9 @@ namespace Pong
         Title = 1,
         MainMenu = 2,
         Game = 3,
-        GameOver=4
+        GameOver=4,
+        PlayerSelect=5,
+        OnePlayerSelect=6,
+        TwoPlayerSelect=7
     }   
 }

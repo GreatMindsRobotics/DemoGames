@@ -52,6 +52,11 @@ namespace Pong.CoreTypes
 
         }
 
+        public static void Back()
+        {
+            _screenStack.Pop();
+        }
+
         //private ScreenState _currentScreen = ScreenState.None;
     }
 }

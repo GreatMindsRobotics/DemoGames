@@ -75,6 +75,9 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Screens\OnePlayerSelectScreen.cs" />
+    <Compile Include="Screens\PlayerSelectScreen.cs" />
+    <Compile Include="Sprites\Button.cs" />
     <Compile Include="CoreTypes\Enum.cs" />
     <Compile Include="CoreTypes\ScreenManager.cs" />
     <Compile Include="Screens\BaseScreen.cs" />
@@ -88,6 +91,7 @@
     <Compile Include="Sprites\Ball.cs" />
     <Compile Include="Sprites\Paddle.cs" />
     <Compile Include="Sprites\PlusOne.cs" />
+    <Compile Include="TwoPlayerSelectScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
