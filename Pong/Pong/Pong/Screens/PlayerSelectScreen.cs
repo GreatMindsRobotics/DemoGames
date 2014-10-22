@@ -44,6 +44,10 @@ namespace Pong.Screens
             {
                 ScreenManager.Change(ScreenState.OnePlayerSelect);
             }
+            if (twoPlayersBtn.IsClicked)
+            {
+                ScreenManager.Change(ScreenState.TwoPlayerSelect);
+            }
             else if (backBtn.IsClicked)
             {
                 ScreenManager.Back();

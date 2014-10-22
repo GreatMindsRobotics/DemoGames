@@ -29,6 +29,9 @@ namespace Pong
         GameOverScreen gameOverScreen;
         PlayerSelectScreen playerSelectScreen;
         OnePlayerSelectScreen oneplayerSelectScreen;
+        TwoPlayerSelectScreen twoplayerSelectScreen;
+        OptionsScreen optionsScreen;
+        EditControlsScreen editControls;
 
         ScreenState screenState;
 
@@ -54,6 +57,9 @@ namespace Pong
             gameOverScreen = new GameOverScreen();
             playerSelectScreen = new PlayerSelectScreen();
             oneplayerSelectScreen = new OnePlayerSelectScreen();
+            twoplayerSelectScreen = new TwoPlayerSelectScreen();
+            optionsScreen = new OptionsScreen();
+            editControls = new EditControlsScreen();
 
             IsMouseVisible = true;
             base.Initialize();
@@ -74,6 +80,10 @@ namespace Pong
             gameOverScreen.Load(Content);
             playerSelectScreen.Load(Content);
             oneplayerSelectScreen.Load(Content);
+            twoplayerSelectScreen.Load(Content);
+            optionsScreen.Load(Content);
+            editControls.Load(Content);
+            
 
 
             ScreenManager.AddScreen(ScreenState.Title, titleScreen);
@@ -82,6 +92,9 @@ namespace Pong
             ScreenManager.AddScreen(ScreenState.GameOver, gameOverScreen);
             ScreenManager.AddScreen(ScreenState.PlayerSelect, playerSelectScreen);
             ScreenManager.AddScreen(ScreenState.OnePlayerSelect, oneplayerSelectScreen);
+            ScreenManager.AddScreen(ScreenState.TwoPlayerSelect, twoplayerSelectScreen);
+            ScreenManager.AddScreen(ScreenState.Options, optionsScreen);
+            ScreenManager.AddScreen(ScreenState.EditControls, editControls);
 
             ScreenManager.Change(ScreenState.MainMenu);
         }

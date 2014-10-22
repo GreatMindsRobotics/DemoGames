@@ -37,6 +37,10 @@ namespace Pong.Screens
             {
                 ScreenManager.Change(ScreenState.PlayerSelect);
             }
+            else if (optionsBtn.IsClicked)
+            {
+                ScreenManager.Change(ScreenState.Options);
+            }
 
             base.Update(gameTime);
         }

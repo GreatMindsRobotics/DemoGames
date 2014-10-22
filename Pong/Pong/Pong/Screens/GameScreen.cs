@@ -35,6 +35,8 @@ namespace Pong.Screens
 
         bool leftSideScored = false;
 
+        //Keys player1Up = Keys.W;
+        
 
         int ballDirection;
         int paddleSpeed = 8;
@@ -47,9 +49,13 @@ namespace Pong.Screens
             leftPaddle = new Paddle(Content.Load<Texture2D>("temp paddle"), new Vector2(0, _viewPort.Height / 2), Color.White);
             leftPaddle.SetCenterAsOrigin();
             leftPaddle.Position = new Vector2(leftPaddle.Origin.X, _viewPort.Height / 2);
+            leftPaddle.UpKey = Keys.W;
+            leftPaddle.DownKey = Keys.S;
 
             rightPaddle = new Paddle(Content.Load<Texture2D>("temp paddle"), new Vector2(_viewPort.Width - leftPaddle.Texture.Width / 2, _viewPort.Height / 2), Color.White);
             rightPaddle.SetCenterAsOrigin();
+            rightPaddle.UpKey = Keys.Up;
+            rightPaddle.DownKey = Keys.Down;
 
             ball = new Ball(Content.Load<Texture2D>("temp ball"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
             ball.SetCenterAsOrigin();
@@ -205,25 +211,33 @@ namespace Pong.Screens
                 }
 
             }
+            
+            ////STAN: This code might need to live elsewhere... maybe... for sure... I think... 
+            //Keys[] pressedKeys = keyboard.GetPressedKeys();
+            //if (pressedKeys.Length > 0)
+            //{
+            //    Keys firstPressedKey = pressedKeys[0];
+            //}
+            ////...
 
             //Rightpaddle Movement
-            if (keyboard.IsKeyDown(Keys.Up) && rightPaddle.Position.Y - rightPaddle.Origin.Y > 0)
+            if (keyboard.IsKeyDown(rightPaddle.UpKey) && rightPaddle.Position.Y - rightPaddle.Origin.Y > 0)
             {
                 rightPaddle.VectorY -= paddleSpeed;
             }
 
-            if (keyboard.IsKeyDown(Keys.Down) && rightPaddle.Position.Y + rightPaddle.Origin.Y < _viewPort.Height)
+            if (keyboard.IsKeyDown(rightPaddle.DownKey) && rightPaddle.Position.Y + rightPaddle.Origin.Y < _viewPort.Height)
             {
                 rightPaddle.VectorY += paddleSpeed;
             }
 
             //Leftpaddle Movement
-            if (keyboard.IsKeyDown(Keys.W) && leftPaddle.Position.Y - leftPaddle.Origin.Y > 0)
+            if (keyboard.IsKeyDown(leftPaddle.UpKey) && leftPaddle.Position.Y - leftPaddle.Origin.Y > 0)
             {
                 leftPaddle.VectorY -= paddleSpeed;
             }
 
-            if (keyboard.IsKeyDown(Keys.S) && leftPaddle.Position.Y + leftPaddle.Origin.Y < _viewPort.Height)
+            if (keyboard.IsKeyDown(leftPaddle.DownKey) && leftPaddle.Position.Y + leftPaddle.Origin.Y < _viewPort.Height)
             {
                 leftPaddle.VectorY += paddleSpeed;
             }

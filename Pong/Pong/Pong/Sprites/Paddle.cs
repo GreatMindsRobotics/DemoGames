@@ -5,11 +5,14 @@ using System.Text;
 using FontEffectsLib.SpriteTypes;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace Pong.Sprites
 {
     public class Paddle : GameSprite
     {
+        public Keys UpKey { get; set; }
+        public Keys DownKey { get; set; }
 
         public float Left
         {

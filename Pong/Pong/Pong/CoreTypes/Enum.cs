@@ -13,13 +13,16 @@ namespace Pong
 
     public enum ScreenState
     {
-        None = 0,
-        Title = 1,
-        MainMenu = 2,
-        Game = 3,
-        GameOver=4,
-        PlayerSelect=5,
-        OnePlayerSelect=6,
-        TwoPlayerSelect=7
-    }   
+        None,
+        Title,
+        MainMenu,
+        Game,
+        GameOver,
+        PlayerSelect,
+        OnePlayerSelect,
+        TwoPlayerSelect,
+        Options,
+        EditControls
+
+    }
 }
