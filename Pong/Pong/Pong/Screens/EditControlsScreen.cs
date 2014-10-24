@@ -7,11 +7,16 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pong.CoreTypes;
 using Microsoft.Xna.Framework.Input;
+using FontEffectsLib.FontTypes;
 
 namespace Pong.Screens
 {
     class EditControlsScreen : BaseScreen
     {
+        FadingFont rightUpDisp;
+        FadingFont rightDownDisp;
+        FadingFont leftUpDisp;
+        FadingFont leftDownDisp;
 
         Button changeRightUpBtn;
         Button changeRightDownBtn;
@@ -40,6 +45,18 @@ namespace Pong.Screens
             changeLeftDownBtn.SetCenterAsOrigin();
             changeLeftDownBtn.Position = new Vector2(_viewPort.Width / 2, 400);
 
+            rightUpDisp = new FadingFont(Content.Load<SpriteFont>("SpriteFont1"), new Vector2(changeRightUpBtn.Right,changeRightUpBtn.Top), 0.1f, 1.0f, 0.01f, 1.0f, Global.Player2.UpKey.ToString(), Color.White, true);
+            rightUpDisp.EnableShadow = false;
+
+            rightDownDisp = new FadingFont(Content.Load<SpriteFont>("SpriteFont1"), new Vector2(changeRightDownBtn.Right, changeRightDownBtn.Top), 0.1f, 1.0f, 0.01f, 1.0f, Global.Player2.DownKey.ToString(), Color.White, true);
+            rightDownDisp.EnableShadow = false;
+
+            leftUpDisp = new FadingFont(Content.Load<SpriteFont>("SpriteFont1"), new Vector2(changeLeftUpBtn.Right, changeLeftUpBtn.Top), 0.1f, 1.0f, 0.01f, 1.0f, Global.Player1.UpKey.ToString(), Color.White, true);
+            leftUpDisp.EnableShadow = false;
+
+            leftDownDisp = new FadingFont(Content.Load<SpriteFont>("SpriteFont1"), new Vector2(changeLeftDownBtn.Right, changeLeftDownBtn.Top), 0.1f, 1.0f, 0.01f, 1.0f, Global.Player1.DownKey.ToString(), Color.White, true);
+            leftDownDisp.EnableShadow = false;
+
             backBtn = new Button(Content.Load<Texture2D>("temp back button"), new Vector2(10, 10), Color.CornflowerBlue);
             backBtn.SetCenterAsOrigin();
             backBtn.Position = backBtn.Origin;
@@ -49,31 +66,50 @@ namespace Pong.Screens
             _sprites.Add(changeRightDownBtn);
             _sprites.Add(changeLeftUpBtn);
             _sprites.Add(changeLeftDownBtn);
+            _sprites.Add(rightUpDisp);
+            _sprites.Add(rightDownDisp);
+            _sprites.Add(leftUpDisp);
+            _sprites.Add(leftDownDisp);
 
             _sprites.Add(backBtn);
         }
 
         public override void Update(GameTime gameTime)
         {
+            keyboard = Keyboard.GetState();
             if (changeRightUpBtn.IsClicked)
             {
-                //Keys[] pressedKeys = keyboard.GetPressedKeys();
-                //if (pressedKeys.Length > 0)
-                //{
-                //    rightPaddle.UpKey = pressedKeys[0];
-                //}
+                Keys[] pressedKeys = keyboard.GetPressedKeys();
+                if (pressedKeys.Length > 0)
+                {
+                    Global.Player1.UpKey = pressedKeys[0];
+                }
                 
             }
             else if (changeRightDownBtn.IsClicked)
             {
-                
+                Keys[] pressedKeys = keyboard.GetPressedKeys();
+                if (pressedKeys.Length > 0)
+                {
+                    Global.Player1.DownKey = pressedKeys[0];
+                }
             }
             else if (changeLeftUpBtn.IsClicked)
             {
+                Keys[] pressedKeys = keyboard.GetPressedKeys();
+                if (pressedKeys.Length > 0)
+                {
+                    Global.Player2.UpKey = pressedKeys[0];
+                }
 
             }
             else if (changeLeftDownBtn.IsClicked)
             {
+                Keys[] pressedKeys = keyboard.GetPressedKeys();
+                if (pressedKeys.Length > 0)
+                {
+                    Global.Player2.DownKey = pressedKeys[0];
+                }
                 
             }
             else if (backBtn.IsClicked)

@@ -12,7 +12,6 @@ namespace Pong.Screens
 {
     class GameOverScreen : BaseScreen
     {
-
         FadingFont player1WinsFont;
         FadingFont player2WinsFont;
 

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using FontEffectsLib.FontTypes;
 using Pong.CoreTypes;
+using System.Xml.Linq;
 
 
 
@@ -49,13 +50,28 @@ namespace Pong.Screens
             leftPaddle = new Paddle(Content.Load<Texture2D>("temp paddle"), new Vector2(0, _viewPort.Height / 2), Color.White);
             leftPaddle.SetCenterAsOrigin();
             leftPaddle.Position = new Vector2(leftPaddle.Origin.X, _viewPort.Height / 2);
-            leftPaddle.UpKey = Keys.W;
-            leftPaddle.DownKey = Keys.S;
+            //leftPaddle.UpKey = Keys.W;
+            //leftPaddle.DownKey = Keys.S;
+
+            Global.Player1 = leftPaddle;
 
             rightPaddle = new Paddle(Content.Load<Texture2D>("temp paddle"), new Vector2(_viewPort.Width - leftPaddle.Texture.Width / 2, _viewPort.Height / 2), Color.White);
             rightPaddle.SetCenterAsOrigin();
-            rightPaddle.UpKey = Keys.Up;
-            rightPaddle.DownKey = Keys.Down;
+            //rightPaddle.UpKey = Keys.Up;
+            //rightPaddle.DownKey = Keys.Down;
+
+            Global.Player2 = rightPaddle;
+
+            XDocument optionsXml = XDocument.Load(@"XML\Options.xml");
+            
+            //Ben's dumb work around because he hasn't worked with xdoc enough
+            XElement player1 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Player")).ToList()[0];
+            XElement player2 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Player")).ToList()[1];
+            
+            leftPaddle.UpKey = (Keys)int.Parse(player1.Element(XName.Get("Up")).Value);
+            leftPaddle.DownKey = (Keys)int.Parse(player1.Element(XName.Get("Down")).Value);
+            rightPaddle.UpKey = (Keys)int.Parse(player2.Element(XName.Get("Up")).Value);
+            rightPaddle.DownKey = (Keys)int.Parse(player2.Element(XName.Get("Down")).Value);
 
             ball = new Ball(Content.Load<Texture2D>("temp ball"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
             ball.SetCenterAsOrigin();

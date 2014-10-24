@@ -75,6 +75,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoreTypes\Global.cs" />
     <Compile Include="Screens\EditControlsScreen.cs" />
     <Compile Include="Screens\OnePlayerSelectScreen.cs" />
     <Compile Include="Screens\OptionsScreen.cs" />
@@ -99,6 +100,9 @@
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
+    </Content>
+    <Content Include="XML\Options.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
