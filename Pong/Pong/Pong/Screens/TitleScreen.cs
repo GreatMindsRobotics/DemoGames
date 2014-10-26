@@ -5,9 +5,14 @@ using System.Text;
 using FontEffectsLib.SpriteTypes;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+
 using FontEffectsLib;
 using FontEffectsLib.CoreTypes;
 using FontEffectsLib.FontTypes;
+
+using Microsoft.Xna.Framework.Input;
+using Pong.CoreTypes;
+
 
 namespace Pong.Screens
 {
@@ -24,9 +29,15 @@ namespace Pong.Screens
 
         Vector2 dropSpeed = new Vector2(0, 45);
 
+        KeyboardState keyboard;
+
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
-            titleLogoSprite = new GameSprite(Content.Load<Texture2D>("titleLogo"), Vector2.Zero, Color.White);
+            
+ 
+            ScreenState screenState;
+            titleLogoSprite = new GameSprite(Content.Load<Texture2D>("titleLogo"), new Vector2(_viewPort.Width / 2 - 25, _viewPort.Height / 2), Color.White);
+
 
             _sprites.Add(titleLogoSprite);
 
@@ -129,6 +140,18 @@ namespace Pong.Screens
             {
                 //TODO Add sound effects
             }
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            keyboard = Keyboard.GetState();
+
+            if(keyboard.IsKeyDown(Keys.Enter))
+            {
+                ScreenManager.Change(ScreenState.MainMenu);
+            }
+
+            base.Update(gameTime);
         }
     }
 }

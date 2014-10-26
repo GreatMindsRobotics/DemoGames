@@ -8,26 +8,16 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using Pong.Screens;
-using Pong.Sprites;
-using Pong.CoreTypes;
 
-namespace Pong
+namespace BrickBreaker
 {
     /// <summary>
     /// This is the main type for your game
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
-        GameScreen gameScreen;
-        TitleScreen titleScreen;
-        MainMenuScreen mainMenuScreen;
-
-        ScreenState screenState;
 
         public Game1()
         {
@@ -43,13 +33,8 @@ namespace Pong
         /// </summary>
         protected override void Initialize()
         {
-            screenState = ScreenState.Title;
+            // TODO: Add your initialization logic here
 
-            gameScreen = new GameScreen();
-            mainMenuScreen = new MainMenuScreen();
-            titleScreen = new TitleScreen();
-
-            IsMouseVisible = true;
             base.Initialize();
         }
 
@@ -62,18 +47,7 @@ namespace Pong
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            gameScreen.Load(Content);
-
-            titleScreen.Load(Content);
-
-            mainMenuScreen.Load(Content);
-
-
-            ScreenManager.AddScreen(ScreenState.Title, titleScreen);
-            ScreenManager.AddScreen(ScreenState.Game, gameScreen);
-            ScreenManager.AddScreen(ScreenState.MainMenu, mainMenuScreen);
-
-            ScreenManager.Change(ScreenState.Title);
+            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -92,8 +66,11 @@ namespace Pong
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            // Allows the game to exit
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                this.Exit();
 
-            ScreenManager.Update(gameTime);
+            // TODO: Add your update logic here
 
             base.Update(gameTime);
         }
@@ -106,11 +83,8 @@ namespace Pong
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
+            // TODO: Add your drawing code here
 
-            ScreenManager.Draw(spriteBatch);
-
-            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
