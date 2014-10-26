@@ -26,6 +26,12 @@ namespace Pong
         GameScreen gameScreen;
         TitleScreen titleScreen;
         MainMenuScreen mainMenuScreen;
+        GameOverScreen gameOverScreen;
+        PlayerSelectScreen playerSelectScreen;
+        OnePlayerSelectScreen oneplayerSelectScreen;
+        TwoPlayerSelectScreen twoplayerSelectScreen;
+        OptionsScreen optionsScreen;
+        EditControlsScreen editControls;
 
         ScreenState screenState;
 
@@ -48,6 +54,12 @@ namespace Pong
             gameScreen = new GameScreen();
             mainMenuScreen = new MainMenuScreen();
             titleScreen = new TitleScreen();
+            gameOverScreen = new GameOverScreen();
+            playerSelectScreen = new PlayerSelectScreen();
+            oneplayerSelectScreen = new OnePlayerSelectScreen();
+            twoplayerSelectScreen = new TwoPlayerSelectScreen();
+            optionsScreen = new OptionsScreen();
+            editControls = new EditControlsScreen();
 
             IsMouseVisible = true;
             base.Initialize();
@@ -65,6 +77,13 @@ namespace Pong
             gameScreen.Load(Content);
 
             titleScreen.Load(Content);
+            gameOverScreen.Load(Content);
+            playerSelectScreen.Load(Content);
+            oneplayerSelectScreen.Load(Content);
+            twoplayerSelectScreen.Load(Content);
+            optionsScreen.Load(Content);
+            editControls.Load(Content);
+            
 
             mainMenuScreen.Load(Content);
 
@@ -72,8 +91,14 @@ namespace Pong
             ScreenManager.AddScreen(ScreenState.Title, titleScreen);
             ScreenManager.AddScreen(ScreenState.Game, gameScreen);
             ScreenManager.AddScreen(ScreenState.MainMenu, mainMenuScreen);
+            ScreenManager.AddScreen(ScreenState.GameOver, gameOverScreen);
+            ScreenManager.AddScreen(ScreenState.PlayerSelect, playerSelectScreen);
+            ScreenManager.AddScreen(ScreenState.OnePlayerSelect, oneplayerSelectScreen);
+            ScreenManager.AddScreen(ScreenState.TwoPlayerSelect, twoplayerSelectScreen);
+            ScreenManager.AddScreen(ScreenState.Options, optionsScreen);
+            ScreenManager.AddScreen(ScreenState.EditControls, editControls);
 
-            ScreenManager.Change(ScreenState.Title);
+            ScreenManager.Change(ScreenState.MainMenu);
         }
 
         /// <summary>
