@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Options>
+
+  <PlayerControls>
+    <Player id="1">
+      <Up>87</Up>
+      <Down>83</Down>
+    </Player>
+    <Player id="2">
+      <Up>38</Up>
+      <Down>40</Down>
+    </Player>
+  </PlayerControls>
+
+</Options>

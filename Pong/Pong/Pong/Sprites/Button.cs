@@ -9,10 +9,17 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Pong.Sprites
 {
-    public class Paddle : GameSprite
+    class Button : GameSprite
     {
-        public Keys UpKey { get; set; }
-        public Keys DownKey { get; set; }
+        bool isClicked = false;
+
+        public bool IsClicked
+        {
+            get
+            {
+                return isClicked;
+            }
+        }
 
         public float Left
         {
@@ -50,6 +57,7 @@ namespace Pong.Sprites
             }
         }
 
+
         public float VectorY
         {
             get
@@ -74,14 +82,29 @@ namespace Pong.Sprites
             }
         }
 
-        public Paddle(Texture2D image, Vector2 location, Color tint):
+        public Button(Texture2D image, Vector2 location, Color tint) :
             base(image, location, tint)
         {
+            ls = Mouse.GetState();
         }
+
+        MouseState ls;
 
         public override void Update(GameTime gameTime)
         {
-            //todo: add moving functions
+            MouseState mouse = Mouse.GetState();
+
+            if (mouse.X > Left && mouse.X < Right && mouse.Y > Top && mouse.Y < Bottom && mouse.LeftButton == ButtonState.Released && ls.LeftButton == ButtonState.Pressed)
+            {
+                isClicked = true;
+            }
+            else
+            {
+                isClicked = false;
+            }
+
+
+            ls = mouse;
             base.Update(gameTime);
         }
 
