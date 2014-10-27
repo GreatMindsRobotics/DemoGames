@@ -98,7 +98,7 @@ namespace Pong
             ScreenManager.AddScreen(ScreenState.Options, optionsScreen);
             ScreenManager.AddScreen(ScreenState.EditControls, editControls);
 
-            ScreenManager.Change(ScreenState.MainMenu);
+            ScreenManager.Change(ScreenState.Title);
         }
 
         /// <summary>

@@ -48,5 +48,10 @@ namespace Pong.Screens
                 sprite.Update(gameTime);
             }
         }
+
+        public virtual void Reset()
+        {
+
+        }
     }
 }

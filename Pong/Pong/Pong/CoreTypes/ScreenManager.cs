@@ -49,12 +49,13 @@ namespace Pong.CoreTypes
             }
             
             _screenStack.Push(_screenList[state]);
-
+            _screenList[state].Reset();
         }
 
         public static void Back()
         {
             _screenStack.Pop();
+            _screenStack.Peek().Reset();
         }
 
         //private ScreenState _currentScreen = ScreenState.None;

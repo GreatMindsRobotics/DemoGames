@@ -5,22 +5,22 @@ using System.Text;
 using FontEffectsLib.SpriteTypes;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-
 using FontEffectsLib;
 using FontEffectsLib.CoreTypes;
 using FontEffectsLib.FontTypes;
-
 using Microsoft.Xna.Framework.Input;
 using Pong.CoreTypes;
+using Pong.Sprites;
 
 
 namespace Pong.Screens
 {
     public class TitleScreen : BaseScreen
     {
-        GameSprite titleLogoSprite;
+        Button startButton;
 
-        DropInFont epicDropInFont;
+        DropInFont greatDropInFont;
+        DropInFont mindsDropInFont;
 
         DropInFont pDropInFont;
         DropInFont oDropInFont;
@@ -33,24 +33,35 @@ namespace Pong.Screens
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
-            
- 
             ScreenState screenState;
-            titleLogoSprite = new GameSprite(Content.Load<Texture2D>("titleLogo"), new Vector2(_viewPort.Width / 2 - 25, _viewPort.Height / 2), Color.White);
 
+            //TODO Change Button so it says "Start"
+            startButton = new Button(Content.Load<Texture2D>("temp play button"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
+            startButton.SetCenterAsOrigin();
 
-            _sprites.Add(titleLogoSprite);
+            _sprites.Add(startButton);
 
-            epicDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(300, -1000), new Vector2(300, 50), dropSpeed, "EPIC", Color.CornflowerBlue);
-            epicDropInFont.IsVisible = true;
-            epicDropInFont.SetCenterAsOrigin();
-            epicDropInFont.EnableShadow = false;
-            epicDropInFont.TintColor = Color.Black;
-            epicDropInFont.ShadowPosition = new Vector2(epicDropInFont.Position.X - 4, epicDropInFont.Position.Y + 4);
-            epicDropInFont.ShadowColor = Color.Gray;
-            epicDropInFont.StateChanged += new EventHandler<StateEventArgs>(epicDropInFont_StateChanged);
+            greatDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(320, -1000), new Vector2(320, 50), dropSpeed, "Great", Color.CornflowerBlue);
+            greatDropInFont.IsVisible = true;
+            greatDropInFont.SetCenterAsOrigin();
+            greatDropInFont.EnableShadow = false;
+            greatDropInFont.TintColor = Color.Black;
+            greatDropInFont.ShadowPosition = new Vector2(greatDropInFont.Position.X - 4, greatDropInFont.Position.Y + 4);
+            greatDropInFont.ShadowColor = Color.Gray;
+            greatDropInFont.StateChanged += new EventHandler<StateEventArgs>(epicDropInFont_StateChanged);
 
-            _sprites.Add(epicDropInFont);
+            _sprites.Add(greatDropInFont);
+
+            mindsDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(490, -1000), new Vector2(490, 50), dropSpeed, "Minds", Color.CornflowerBlue);
+            mindsDropInFont.IsVisible = false;
+            mindsDropInFont.SetCenterAsOrigin();
+            mindsDropInFont.EnableShadow = false;
+            mindsDropInFont.TintColor = Color.Black;
+            mindsDropInFont.ShadowPosition = new Vector2(mindsDropInFont.Position.X - 4, mindsDropInFont.Position.Y + 4);
+            mindsDropInFont.ShadowColor = Color.Gray;
+            mindsDropInFont.StateChanged += new EventHandler<StateEventArgs>(mindsDropInFont_StateChanged);
+
+            _sprites.Add(mindsDropInFont);
 
             pDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(305, -1000), new Vector2(305, 100), dropSpeed, "P", Color.CornflowerBlue);
             pDropInFont.IsVisible = false;
@@ -103,6 +114,14 @@ namespace Pong.Screens
             if ((DropInFont.FontState)e.Data == DropInFont.FontState.Compress)
             {
                 //TODO Add sound effects
+                mindsDropInFont.IsVisible = true;
+            }
+        }
+
+        void mindsDropInFont_StateChanged(object sender, StateEventArgs e)
+        {
+            if ((DropInFont.FontState)e.Data == DropInFont.FontState.Compress)
+            {
                 pDropInFont.IsVisible = true;
             }
         }
@@ -151,7 +170,24 @@ namespace Pong.Screens
                 ScreenManager.Change(ScreenState.MainMenu);
             }
 
+            if(startButton.IsClicked)
+            {
+                ScreenManager.Change(ScreenState.MainMenu);
+            }
+
             base.Update(gameTime);
+        }
+
+        public override void Reset()
+        {
+            greatDropInFont.Reset();
+            mindsDropInFont.Reset();
+            pDropInFont.Reset();
+            oDropInFont.Reset();
+            nDropInFont.Reset();
+            gDropInFont.Reset();
+
+            base.Reset();
         }
     }
 }

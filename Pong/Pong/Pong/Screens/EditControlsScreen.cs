@@ -45,16 +45,16 @@ namespace Pong.Screens
             changeLeftDownBtn.SetCenterAsOrigin();
             changeLeftDownBtn.Position = new Vector2(_viewPort.Width / 2, 400);
 
-            rightUpDisp = new FadingFont(Content.Load<SpriteFont>("SpriteFont1"), new Vector2(changeRightUpBtn.Right,changeRightUpBtn.Top), 0.1f, 1.0f, 0.01f, 1.0f, Global.Player2.UpKey.ToString(), Color.White, true);
+            rightUpDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(changeRightUpBtn.Right, changeRightUpBtn.Top), 0.1f, 1.0f, 0.01f, 1.0f, Global.Player2.UpKey.ToString(), Color.White, true);
             rightUpDisp.EnableShadow = false;
 
-            rightDownDisp = new FadingFont(Content.Load<SpriteFont>("SpriteFont1"), new Vector2(changeRightDownBtn.Right, changeRightDownBtn.Top), 0.1f, 1.0f, 0.01f, 1.0f, Global.Player2.DownKey.ToString(), Color.White, true);
+            rightDownDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(changeRightDownBtn.Right, changeRightDownBtn.Top), 0.1f, 1.0f, 0.01f, 1.0f, Global.Player2.DownKey.ToString(), Color.White, true);
             rightDownDisp.EnableShadow = false;
 
-            leftUpDisp = new FadingFont(Content.Load<SpriteFont>("SpriteFont1"), new Vector2(changeLeftUpBtn.Right, changeLeftUpBtn.Top), 0.1f, 1.0f, 0.01f, 1.0f, Global.Player1.UpKey.ToString(), Color.White, true);
+            leftUpDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(changeLeftUpBtn.Right, changeLeftUpBtn.Top), 0.1f, 1.0f, 0.01f, 1.0f, Global.Player1.UpKey.ToString(), Color.White, true);
             leftUpDisp.EnableShadow = false;
 
-            leftDownDisp = new FadingFont(Content.Load<SpriteFont>("SpriteFont1"), new Vector2(changeLeftDownBtn.Right, changeLeftDownBtn.Top), 0.1f, 1.0f, 0.01f, 1.0f, Global.Player1.DownKey.ToString(), Color.White, true);
+            leftDownDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(changeLeftDownBtn.Right, changeLeftDownBtn.Top), 0.1f, 1.0f, 0.01f, 1.0f, Global.Player1.DownKey.ToString(), Color.White, true);
             leftDownDisp.EnableShadow = false;
 
             backBtn = new Button(Content.Load<Texture2D>("temp back button"), new Vector2(10, 10), Color.CornflowerBlue);
