@@ -39,8 +39,6 @@ namespace Pong.Screens
             startButton = new Button(Content.Load<Texture2D>("temp play button"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
             startButton.SetCenterAsOrigin();
 
-            _sprites.Add(startButton);
-
             greatDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(320, -1000), new Vector2(320, 50), dropSpeed, "Great", Color.CornflowerBlue);
             greatDropInFont.IsVisible = true;
             greatDropInFont.SetCenterAsOrigin();
@@ -49,8 +47,6 @@ namespace Pong.Screens
             greatDropInFont.ShadowPosition = new Vector2(greatDropInFont.Position.X - 4, greatDropInFont.Position.Y + 4);
             greatDropInFont.ShadowColor = Color.Gray;
             greatDropInFont.StateChanged += new EventHandler<StateEventArgs>(epicDropInFont_StateChanged);
-
-            _sprites.Add(greatDropInFont);
 
             mindsDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(490, -1000), new Vector2(490, 50), dropSpeed, "Minds", Color.CornflowerBlue);
             mindsDropInFont.IsVisible = false;
@@ -61,8 +57,6 @@ namespace Pong.Screens
             mindsDropInFont.ShadowColor = Color.Gray;
             mindsDropInFont.StateChanged += new EventHandler<StateEventArgs>(mindsDropInFont_StateChanged);
 
-            _sprites.Add(mindsDropInFont);
-
             pDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(305, -1000), new Vector2(305, 100), dropSpeed, "P", Color.CornflowerBlue);
             pDropInFont.IsVisible = false;
             pDropInFont.SetCenterAsOrigin();
@@ -71,8 +65,6 @@ namespace Pong.Screens
             pDropInFont.ShadowPosition = new Vector2(pDropInFont.Position.X - 4, pDropInFont.Position.Y + 4);
             pDropInFont.ShadowColor = Color.Gray;
             pDropInFont.StateChanged += new EventHandler<StateEventArgs>(pDropInFont_StateChanged);
-
-            _sprites.Add(pDropInFont);
 
             oDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(335, -1000), new Vector2(335, 100), dropSpeed, "O", Color.CornflowerBlue);
             oDropInFont.IsVisible = false;
@@ -83,8 +75,6 @@ namespace Pong.Screens
             oDropInFont.ShadowColor = Color.Gray;
             oDropInFont.StateChanged += new EventHandler<StateEventArgs>(oDropInFont_StateChanged);
 
-            _sprites.Add(oDropInFont);
-
             nDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(370, -1000), new Vector2(370, 100), dropSpeed, "N", Color.CornflowerBlue);
             nDropInFont.IsVisible = false;
             nDropInFont.SetCenterAsOrigin();
@@ -93,8 +83,6 @@ namespace Pong.Screens
             nDropInFont.ShadowPosition = new Vector2(nDropInFont.Position.X - 4, nDropInFont.Position.Y + 4);
             nDropInFont.ShadowColor = Color.Gray;
             nDropInFont.StateChanged += new EventHandler<StateEventArgs>(nDropInFont_StateChanged);
-
-            _sprites.Add(nDropInFont);
 
             gDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(405, -1000), new Vector2(405, 100), dropSpeed, "G", Color.CornflowerBlue);
             gDropInFont.IsVisible = false;
@@ -105,6 +93,12 @@ namespace Pong.Screens
             gDropInFont.ShadowColor = Color.Gray;
             gDropInFont.StateChanged += new EventHandler<StateEventArgs>(gDropInFont_StateChanged);
 
+            _sprites.Add(startButton);
+            _sprites.Add(greatDropInFont);
+            _sprites.Add(mindsDropInFont);
+            _sprites.Add(pDropInFont);
+            _sprites.Add(oDropInFont);
+            _sprites.Add(nDropInFont);
             _sprites.Add(gDropInFont);
 
         }

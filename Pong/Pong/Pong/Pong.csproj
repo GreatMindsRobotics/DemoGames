@@ -79,6 +79,7 @@
     <Compile Include="Screens\EditControlsScreen.cs" />
     <Compile Include="Screens\OnePlayerSelectScreen.cs" />
     <Compile Include="Screens\OptionsScreen.cs" />
+    <Compile Include="Screens\PauseScreen.cs" />
     <Compile Include="Screens\PlayerSelectScreen.cs" />
     <Compile Include="Sprites\Button.cs" />
     <Compile Include="CoreTypes\Enum.cs" />

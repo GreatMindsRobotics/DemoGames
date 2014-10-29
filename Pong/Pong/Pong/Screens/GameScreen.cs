@@ -75,7 +75,6 @@ namespace Pong.Screens
 
             ball = new Ball(Content.Load<Texture2D>("temp ball"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
             ball.SetCenterAsOrigin();
-             
 
             plusOne = new PlusOne(Content.Load<Texture2D>("Plus1"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.Red);
             plusOne.SlideCompleted += new FontEffectsLib.SpriteTypes.SlidingSprite.SlideCompletedState(plusOne_SlideCompleted);
@@ -150,6 +149,11 @@ namespace Pong.Screens
             if (gameTime.IsRunningSlowly)
             {
                 //System.Diagnostics.Debugger.Break();
+            }
+
+            if(keyboard.IsKeyDown(Keys.Escape))
+            {
+                ScreenManager.Change(ScreenState.Pause);
             }
 
             if (keyboard.IsKeyDown(Keys.Space))

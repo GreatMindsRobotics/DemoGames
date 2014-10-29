@@ -28,6 +28,7 @@ namespace Pong
         OnePlayerSelect,
         TwoPlayerSelect,
         Options,
-        EditControls
+        EditControls,
+        Pause
     }
 }

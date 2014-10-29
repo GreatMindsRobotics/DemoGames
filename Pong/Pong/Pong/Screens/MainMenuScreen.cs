@@ -28,7 +28,7 @@ namespace Pong.Screens
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
-            titleDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(400, -1000), new Vector2(400, 50), dropSpeed, "Main Menu", Color.CornflowerBlue);
+            titleDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(400, 50), new Vector2(400, 50), dropSpeed, "Main Menu", Color.CornflowerBlue);
             titleDropInFont.IsVisible = true;
             titleDropInFont.SetCenterAsOrigin();
             titleDropInFont.EnableShadow = false;
@@ -53,12 +53,11 @@ namespace Pong.Screens
         {
             keyboard = Keyboard.GetState();
 
-            if (keyboard.IsKeyDown(Keys.Escape))
+            if(keyboard.IsKeyDown(Keys.Escape))
             {
-                ScreenManager.Change(ScreenState.Title);
+                ScreenManager.Back();
             }
-
-            if(playBtn.IsClicked)
+            else if(playBtn.IsClicked)
             {
                 ScreenManager.Change(ScreenState.PlayerSelect);
             }
@@ -73,7 +72,6 @@ namespace Pong.Screens
         public override void Reset()
         {
             titleDropInFont.Reset();
-
             base.Reset();
         }
     }

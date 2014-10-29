@@ -32,6 +32,7 @@ namespace Pong
         TwoPlayerSelectScreen twoplayerSelectScreen;
         OptionsScreen optionsScreen;
         EditControlsScreen editControls;
+        PauseScreen pauseScreen;
 
         ScreenState screenState;
 
@@ -60,6 +61,7 @@ namespace Pong
             twoplayerSelectScreen = new TwoPlayerSelectScreen();
             optionsScreen = new OptionsScreen();
             editControls = new EditControlsScreen();
+            pauseScreen = new PauseScreen();
 
             IsMouseVisible = true;
             base.Initialize();
@@ -83,7 +85,7 @@ namespace Pong
             twoplayerSelectScreen.Load(Content);
             optionsScreen.Load(Content);
             editControls.Load(Content);
-            
+            pauseScreen.Load(Content);
 
             mainMenuScreen.Load(Content);
 
@@ -97,6 +99,7 @@ namespace Pong
             ScreenManager.AddScreen(ScreenState.TwoPlayerSelect, twoplayerSelectScreen);
             ScreenManager.AddScreen(ScreenState.Options, optionsScreen);
             ScreenManager.AddScreen(ScreenState.EditControls, editControls);
+            ScreenManager.AddScreen(ScreenState.Pause, pauseScreen);
 
             ScreenManager.Change(ScreenState.Title);
         }

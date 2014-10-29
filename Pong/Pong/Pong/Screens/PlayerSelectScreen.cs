@@ -10,6 +10,7 @@ using Pong.CoreTypes;
 using FontEffectsLib;
 using FontEffectsLib.CoreTypes;
 using FontEffectsLib.FontTypes;
+using Microsoft.Xna.Framework.Input;
 
 namespace Pong.Screens
 {
@@ -24,9 +25,11 @@ namespace Pong.Screens
 
         Button backBtn;
 
+        KeyboardState keyboard;
+
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
-            titleDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(400, -1000), new Vector2(400, 50), dropSpeed, "Game Mode", Color.CornflowerBlue);
+            titleDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(400, 50), new Vector2(400, 50), dropSpeed, "Game Mode", Color.CornflowerBlue);
             titleDropInFont.IsVisible = true;
             titleDropInFont.SetCenterAsOrigin();
             titleDropInFont.EnableShadow = false;
@@ -54,11 +57,13 @@ namespace Pong.Screens
 
         public override void Update(GameTime gameTime)
         {
+            keyboard = Keyboard.GetState();
+
             if(onePlayerBtn.IsClicked)
             {
                 ScreenManager.Change(ScreenState.OnePlayerSelect);
             }
-            if (twoPlayersBtn.IsClicked)
+            else if (twoPlayersBtn.IsClicked)
             {
                 ScreenManager.Change(ScreenState.TwoPlayerSelect);
             }
@@ -73,7 +78,6 @@ namespace Pong.Screens
         public override void Reset()
         {
             titleDropInFont.Reset();
-
             base.Reset();
         }
     }
