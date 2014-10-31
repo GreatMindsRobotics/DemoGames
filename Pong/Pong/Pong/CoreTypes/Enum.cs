@@ -31,4 +31,10 @@ namespace Pong
         EditControls,
         Pause
     }
+
+    public enum ControlScreenState
+    {
+        SelectingControl,
+        WaitingForKey
+    }
 }

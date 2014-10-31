@@ -18,6 +18,9 @@ namespace Pong.Screens
         FadingFont leftUpDisp;
         FadingFont leftDownDisp;
 
+        ControlScreenState state;
+        int buttonthatwaspressed = 0;
+
         Button changeRightUpBtn;
         Button changeRightDownBtn;
         Button changeLeftUpBtn;
@@ -29,6 +32,7 @@ namespace Pong.Screens
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
+            state = ControlScreenState.SelectingControl;
             changeRightUpBtn = new Button(Content.Load<Texture2D>("temp right up button"), new Vector2(0, 0), Color.White);
             changeRightUpBtn.SetCenterAsOrigin();
             changeRightUpBtn.Position = new Vector2(_viewPort.Width / 2, 100);
@@ -53,7 +57,7 @@ namespace Pong.Screens
 
             leftUpDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(changeLeftUpBtn.Right, changeLeftUpBtn.Top), 0.1f, 1.0f, 0.01f, 1.0f, Global.Player1.UpKey.ToString(), Color.White, true);
             leftUpDisp.EnableShadow = false;
-            
+
             leftDownDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(changeLeftDownBtn.Right, changeLeftDownBtn.Top), 0.1f, 1.0f, 0.01f, 1.0f, Global.Player1.DownKey.ToString(), Color.White, true);
             leftDownDisp.EnableShadow = false;
 
@@ -77,45 +81,68 @@ namespace Pong.Screens
         public override void Update(GameTime gameTime)
         {
             keyboard = Keyboard.GetState();
-            if (changeRightUpBtn.IsClicked)
+            if (state == ControlScreenState.WaitingForKey)
             {
                 Keys[] pressedKeys = keyboard.GetPressedKeys();
                 if (pressedKeys.Length > 0)
                 {
-                    Global.Player1.UpKey = pressedKeys[0];
-                }
-                
-            }
-            else if (changeRightDownBtn.IsClicked)
-            {
-                Keys[] pressedKeys = keyboard.GetPressedKeys();
-                if (pressedKeys.Length > 0)
-                {
-                    Global.Player1.DownKey = pressedKeys[0];
-                }
-            }
-            else if (changeLeftUpBtn.IsClicked)
-            {
-                Keys[] pressedKeys = keyboard.GetPressedKeys();
-                if (pressedKeys.Length > 0)
-                {
-                    Global.Player2.UpKey = pressedKeys[0];
+                    if (buttonthatwaspressed == 1)
+                    {
+                        Global.Player2.UpKey = pressedKeys[0];
+                        state = ControlScreenState.SelectingControl;
+                    }
+                    if (buttonthatwaspressed == 2)
+                    {
+                        Global.Player2.DownKey = pressedKeys[0];
+                        state = ControlScreenState.SelectingControl;
+                    }
+                    if (buttonthatwaspressed == 3)
+                    {
+                        Global.Player1.UpKey = pressedKeys[0];
+                        state = ControlScreenState.SelectingControl;
+                    }
+                    if (buttonthatwaspressed == 4)
+                    {
+                        Global.Player1.DownKey = pressedKeys[0];
+                        state = ControlScreenState.SelectingControl;
+                    }
                 }
 
             }
-            else if (changeLeftDownBtn.IsClicked)
+
+            if (state == ControlScreenState.SelectingControl)
             {
-                Keys[] pressedKeys = keyboard.GetPressedKeys();
-                if (pressedKeys.Length > 0)
+                if (changeRightUpBtn.IsClicked)
                 {
-                    Global.Player2.DownKey = pressedKeys[0];
+                    state = ControlScreenState.WaitingForKey;
+                    buttonthatwaspressed = 1;
+
                 }
-                
+                else if (changeRightDownBtn.IsClicked)
+                {
+                    state = ControlScreenState.WaitingForKey;
+                    buttonthatwaspressed = 2;
+                }
+                else if (changeLeftUpBtn.IsClicked)
+                {
+                    state = ControlScreenState.WaitingForKey;
+                    buttonthatwaspressed = 3;
+
+                }
+                else if (changeLeftDownBtn.IsClicked)
+                {
+                    state = ControlScreenState.WaitingForKey;
+                    buttonthatwaspressed = 4;
+                }
             }
-            else if (backBtn.IsClicked)
+
+            if (backBtn.IsClicked)
             {
                 ScreenManager.Back();
             }
+
+            rightUpDisp.Text.Clear();
+            rightUpDisp.Text.Append(Global.Player2.UpKey.ToString());
 
             base.Update(gameTime);
         }
