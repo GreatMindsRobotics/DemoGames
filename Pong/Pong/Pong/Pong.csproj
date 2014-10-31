@@ -104,6 +104,7 @@
     </Content>
     <Content Include="XML\Options.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>

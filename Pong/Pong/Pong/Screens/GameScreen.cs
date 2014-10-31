@@ -27,6 +27,7 @@ namespace Pong.Screens
         FadingFont player1Font;
         FadingFont player2Font;
 
+        FadingFont pauseFont;
         
         KeyboardState keyboard;
 
@@ -91,16 +92,18 @@ namespace Pong.Screens
             player2Font = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(_viewPort.Width - 85, 50), 0.1f, 1.0f, 0.01f, 1.0f, string.Format("Player2"), Color.White, false);
             player2Font.EnableShadow = false;
 
-
+            pauseFont = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(_viewPort.Width / 2, _viewPort.Height-15), 0.1f, 1.0f, 0.01f, 1.0f, string.Format("Press Esc to pause"), Color.White, false);
+            pauseFont.EnableShadow = false;
+            pauseFont.SetCenterAsOrigin();
 
             _sprites.Add(rightPaddle);
             _sprites.Add(leftPaddle);
-            //_sprites.Add(ball);
             _sprites.Add(plusOne);
             _sprites.Add(leftScoreFont);
             _sprites.Add(rightScoreFont);
             _sprites.Add(player1Font);
             _sprites.Add(player2Font);
+            _sprites.Add(pauseFont);
 
         }
 

@@ -53,7 +53,7 @@ namespace Pong.Screens
 
             leftUpDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(changeLeftUpBtn.Right, changeLeftUpBtn.Top), 0.1f, 1.0f, 0.01f, 1.0f, Global.Player1.UpKey.ToString(), Color.White, true);
             leftUpDisp.EnableShadow = false;
-
+            
             leftDownDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(changeLeftDownBtn.Right, changeLeftDownBtn.Top), 0.1f, 1.0f, 0.01f, 1.0f, Global.Player1.DownKey.ToString(), Color.White, true);
             leftDownDisp.EnableShadow = false;
 
