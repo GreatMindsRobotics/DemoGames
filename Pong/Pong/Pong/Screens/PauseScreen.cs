@@ -19,6 +19,7 @@ namespace Pong.Screens
         Vector2 dropSpeed = new Vector2(0, 45);
 
         Button resumeBtn;
+        Button optionsButton;
 
         KeyboardState keyboard;
 
@@ -33,12 +34,15 @@ namespace Pong.Screens
             titleDropInFont.ShadowPosition = new Vector2(titleDropInFont.Position.X - 4, titleDropInFont.Position.Y + 4);
             titleDropInFont.ShadowColor = Color.Gray;
 
-            resumeBtn = new Button(Content.Load<Texture2D>("temp resume button"), new Vector2(0, 0), Color.White);
+            resumeBtn = new Button(Content.Load<Texture2D>("temp resume button"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2 - 100), Color.White);
             resumeBtn.SetCenterAsOrigin();
-            resumeBtn.Position = new Vector2(_viewPort.Width / 2, _viewPort.Height / 2);
+
+            optionsButton = new Button(Content.Load<Texture2D>("temp options button"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
+            optionsButton.SetCenterAsOrigin();
 
             _sprites.Add(resumeBtn);
             _sprites.Add(titleDropInFont);
+            _sprites.Add(optionsButton);
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
@@ -49,7 +53,10 @@ namespace Pong.Screens
             {
                 ScreenManager.Change(ScreenState.Game);
             }
-
+            else if(optionsButton.IsClicked)
+            {
+                ScreenManager.Change(ScreenState.Options);
+            }
 
             base.Update(gameTime);
         }
