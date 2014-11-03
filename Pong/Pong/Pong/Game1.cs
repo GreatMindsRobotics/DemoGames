@@ -33,6 +33,7 @@ namespace Pong
         OptionsScreen optionsScreen;
         EditControlsScreen editControls;
         PauseScreen pauseScreen;
+        ErrorScreen errorScreen;
 
         ScreenState screenState;
 
@@ -62,6 +63,7 @@ namespace Pong
             optionsScreen = new OptionsScreen();
             editControls = new EditControlsScreen();
             pauseScreen = new PauseScreen();
+            errorScreen = new ErrorScreen();
 
             IsMouseVisible = true;
             base.Initialize();
@@ -86,6 +88,7 @@ namespace Pong
             optionsScreen.Load(Content);
             editControls.Load(Content);
             pauseScreen.Load(Content);
+            errorScreen.Load(Content);
 
             mainMenuScreen.Load(Content);
 
@@ -100,6 +103,7 @@ namespace Pong
             ScreenManager.AddScreen(ScreenState.Options, optionsScreen);
             ScreenManager.AddScreen(ScreenState.EditControls, editControls);
             ScreenManager.AddScreen(ScreenState.Pause, pauseScreen);
+            ScreenManager.AddScreen(ScreenState.Error, errorScreen);
 
             ScreenManager.Change(ScreenState.Title);
         }
