@@ -29,7 +29,8 @@ namespace Pong
         TwoPlayerSelect,
         Options,
         EditControls,
-        Pause
+        Pause,
+        Error
     }
 
     public enum ControlScreenState

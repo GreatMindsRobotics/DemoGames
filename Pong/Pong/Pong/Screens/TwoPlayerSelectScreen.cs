@@ -54,7 +54,7 @@ namespace Pong.Screens
         {
             if (onlineBtn.IsClicked)
             {
-                ScreenManager.Change(ScreenState.Game);
+                ScreenManager.Change(ScreenState.Error);
             }
             else if (localBtn.IsClicked)
             {
