@@ -47,15 +47,15 @@ namespace Pong.Screens
         {
             if (easyBtn.IsClicked)
             {
-                ScreenManager.Change(ScreenState.Error);
+                ScreenManager.Change(ScreenState.Game);
             }
             else if (mediumBtn.IsClicked)
             {
-                ScreenManager.Change(ScreenState.Error);
+                ScreenManager.Change(ScreenState.Game);
             }
             else if (hardBtn.IsClicked)
             {
-                ScreenManager.Change(ScreenState.Error);
+                ScreenManager.Change(ScreenState.Game);
             }
             else if (backBtn.IsClicked)
             {
