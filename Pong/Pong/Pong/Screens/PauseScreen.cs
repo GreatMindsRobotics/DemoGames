@@ -19,6 +19,7 @@ namespace Pong.Screens
         Vector2 dropSpeed = new Vector2(0, 45);
 
         Button resumeBtn;
+        Button mainMenuButton;
         Button optionsButton;
 
         KeyboardState keyboard;
@@ -37,11 +38,16 @@ namespace Pong.Screens
             resumeBtn = new Button(Content.Load<Texture2D>("temp resume button"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2 - 100), Color.White);
             resumeBtn.SetCenterAsOrigin();
 
-            optionsButton = new Button(Content.Load<Texture2D>("temp options button"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
+            //TODO: ADD MAINMENU BUTTON
+            mainMenuButton = new Button(Content.Load<Texture2D>("temp options button"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
+            mainMenuButton.SetCenterAsOrigin();
+
+            optionsButton = new Button(Content.Load<Texture2D>("temp options button"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2 + 100), Color.White);
             optionsButton.SetCenterAsOrigin();
 
             _sprites.Add(resumeBtn);
             _sprites.Add(titleDropInFont);
+            _sprites.Add(mainMenuButton);
             _sprites.Add(optionsButton);
         }
 
@@ -56,6 +62,10 @@ namespace Pong.Screens
             else if(optionsButton.IsClicked)
             {
                 ScreenManager.Change(ScreenState.Options);
+            }
+            else if(mainMenuButton.IsClicked)
+            {
+                ScreenManager.Change(ScreenState.MainMenu);
             }
 
             base.Update(gameTime);
