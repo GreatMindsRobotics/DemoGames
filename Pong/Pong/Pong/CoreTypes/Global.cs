@@ -10,5 +10,6 @@ namespace Pong.CoreTypes
     {
         public static Paddle Player1;
         public static Paddle Player2;
+        public static bool isOnline;
     }
 }

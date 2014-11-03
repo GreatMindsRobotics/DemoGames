@@ -11,10 +11,17 @@ namespace Pong
         Moving
     }
 
-    public enum GameMode
+    public enum Mode
     {
         SinglePlayer,
         MultiPlayer
+    }
+
+    public enum Difficulty
+    { 
+        Easy,
+        Medium,
+        Hard
     }
 
     public enum ScreenState
