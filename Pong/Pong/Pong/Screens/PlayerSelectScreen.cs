@@ -61,12 +61,12 @@ namespace Pong.Screens
 
             if(onePlayerBtn.IsClicked)
             {
-                Mode mode = Mode.SinglePlayer;
+                Global.Mode = Mode.SinglePlayer;
                 ScreenManager.Change(ScreenState.OnePlayerSelect);
             }
             else if (twoPlayersBtn.IsClicked)
             {
-                Mode mode = Mode.MultiPlayer;
+                Global.Mode = Mode.MultiPlayer;
                 ScreenManager.Change(ScreenState.TwoPlayerSelect);
             }
             else if (backBtn.IsClicked)

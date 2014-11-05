@@ -57,6 +57,8 @@ namespace Pong.Screens
 
         public override void Reset()
         {
+            errorDropInFont.Reset();
+            errorInfoFadingFont.Reset();
             base.Reset();
         }
     }

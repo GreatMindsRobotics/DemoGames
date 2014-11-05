@@ -39,12 +39,13 @@ namespace Pong.Screens
 
         //Keys player1Up = Keys.W;
         
-
         int ballDirection;
         int paddleSpeed = 8;
 
         int leftScore = 0;
         int rightScore = 0;
+
+        int maxPoints = 5;
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
@@ -82,7 +83,6 @@ namespace Pong.Screens
 
             leftScoreFont = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(10, 0), 0.1f, 1.0f, 0.01f, 1.0f, leftScore.ToString(), Color.White, false);
             leftScoreFont.EnableShadow = false;
-
 
             rightScoreFont = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(_viewPort.Width - 30, 0), 0.1f, 1.0f, 0.01f, 1.0f, rightScore.ToString(), Color.White, false);
             rightScoreFont.EnableShadow = false;
@@ -131,13 +131,13 @@ namespace Pong.Screens
 
 
             //Check for win
-            if (leftScore >= 10)
+            if (leftScore >= maxPoints)
             {
                 player1Won = true;
                 ScreenManager.Change(ScreenState.GameOver);
                 
             }
-            else if (rightScore >= 10)
+            else if (rightScore >= maxPoints)
             {
                 player1Won = false;
                 ScreenManager.Change(ScreenState.GameOver);

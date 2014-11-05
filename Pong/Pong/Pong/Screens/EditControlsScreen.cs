@@ -49,16 +49,16 @@ namespace Pong.Screens
             changeLeftDownBtn.SetCenterAsOrigin();
             changeLeftDownBtn.Position = new Vector2(_viewPort.Width / 2, 400);
 
-            rightUpDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(changeRightUpBtn.Right, changeRightUpBtn.Top), 0.1f, 1.0f, 0.01f, 1.0f, Global.Player2.UpKey.ToString(), Color.White, true);
+            rightUpDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(changeRightUpBtn.Right, changeRightUpBtn.Top), 0.1f, 1.0f, 0.1f, 1.0f, Global.Player2.UpKey.ToString(), Color.White, true);
             rightUpDisp.EnableShadow = false;
 
-            rightDownDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(changeRightDownBtn.Right, changeRightDownBtn.Top), 0.1f, 1.0f, 0.01f, 1.0f, Global.Player2.DownKey.ToString(), Color.White, true);
+            rightDownDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(changeRightDownBtn.Right, changeRightDownBtn.Top), 0.1f, 1.0f, 0.1f, 1.0f, Global.Player2.DownKey.ToString(), Color.White, true);
             rightDownDisp.EnableShadow = false;
 
-            leftUpDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(changeLeftUpBtn.Right, changeLeftUpBtn.Top), 0.1f, 1.0f, 0.01f, 1.0f, Global.Player1.UpKey.ToString(), Color.White, true);
+            leftUpDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(changeLeftUpBtn.Right, changeLeftUpBtn.Top), 0.1f, 1.0f, 0.01f, 1.0f, Global.Player1.UpKey.ToString(), Color.White, true);
             leftUpDisp.EnableShadow = false;
 
-            leftDownDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(changeLeftDownBtn.Right, changeLeftDownBtn.Top), 0.1f, 1.0f, 0.01f, 1.0f, Global.Player1.DownKey.ToString(), Color.White, true);
+            leftDownDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(changeLeftDownBtn.Right, changeLeftDownBtn.Top), 0.1f, 1.0f, 0.1f, 1.0f, Global.Player1.DownKey.ToString(), Color.White, true);
             leftDownDisp.EnableShadow = false;
 
             backBtn = new Button(Content.Load<Texture2D>("temp back button"), new Vector2(10, 10), Color.CornflowerBlue);
@@ -88,23 +88,43 @@ namespace Pong.Screens
                 {
                     if (buttonthatwaspressed == 1)
                     {
+                        rightUpDisp.TintColor = Color.White;
+
                         Global.Player2.UpKey = pressedKeys[0];
                         state = ControlScreenState.SelectingControl;
+
+                        rightUpDisp.Text.Clear();
+                        rightUpDisp.Text.Append(Global.Player2.UpKey.ToString());
                     }
                     if (buttonthatwaspressed == 2)
                     {
+                        rightDownDisp.TintColor = Color.White;
+
                         Global.Player2.DownKey = pressedKeys[0];
                         state = ControlScreenState.SelectingControl;
+
+                        rightDownDisp.Text.Clear();
+                        rightDownDisp.Text.Append(Global.Player2.DownKey.ToString());
                     }
                     if (buttonthatwaspressed == 3)
                     {
+                        leftUpDisp.TintColor = Color.White;
+
                         Global.Player1.UpKey = pressedKeys[0];
                         state = ControlScreenState.SelectingControl;
+
+                        leftUpDisp.Text.Clear();
+                        leftUpDisp.Text.Append(Global.Player1.UpKey.ToString());
                     }
                     if (buttonthatwaspressed == 4)
                     {
+                        leftDownDisp.TintColor = Color.White;
+
                         Global.Player1.DownKey = pressedKeys[0];
                         state = ControlScreenState.SelectingControl;
+
+                        leftDownDisp.Text.Clear();
+                        leftDownDisp.Text.Append(Global.Player1.DownKey.ToString());
                     }
                 }
 
@@ -114,23 +134,29 @@ namespace Pong.Screens
             {
                 if (changeRightUpBtn.IsClicked)
                 {
+                    rightUpDisp.TintColor = Color.Yellow;
+
                     state = ControlScreenState.WaitingForKey;
                     buttonthatwaspressed = 1;
-
                 }
                 else if (changeRightDownBtn.IsClicked)
                 {
+                    rightDownDisp.TintColor = Color.Yellow;
+
                     state = ControlScreenState.WaitingForKey;
                     buttonthatwaspressed = 2;
                 }
                 else if (changeLeftUpBtn.IsClicked)
                 {
+                    leftUpDisp.TintColor = Color.Yellow;
+
                     state = ControlScreenState.WaitingForKey;
                     buttonthatwaspressed = 3;
-
                 }
                 else if (changeLeftDownBtn.IsClicked)
                 {
+                    leftDownDisp.TintColor = Color.Yellow;
+
                     state = ControlScreenState.WaitingForKey;
                     buttonthatwaspressed = 4;
                 }
@@ -141,8 +167,8 @@ namespace Pong.Screens
                 ScreenManager.Back();
             }
 
-            rightUpDisp.Text.Clear();
-            rightUpDisp.Text.Append(Global.Player2.UpKey.ToString());
+            //rightUpDisp.Text.Clear();
+            //rightUpDisp.Text.Append(Global.Player2.UpKey.ToString());
 
             base.Update(gameTime);
         }
