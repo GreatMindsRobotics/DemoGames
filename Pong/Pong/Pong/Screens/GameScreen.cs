@@ -244,27 +244,72 @@ namespace Pong.Screens
             //}
             ////...
 
-            //Rightpaddle Movement
-            if (keyboard.IsKeyDown(rightPaddle.UpKey) && rightPaddle.Position.Y - rightPaddle.Origin.Y > 0)
+            switch (Global.Mode)
             {
-                rightPaddle.VectorY -= paddleSpeed;
+                case Mode.SinglePlayer:
+
+                    //Rightpaddle Movement
+                    if (keyboard.IsKeyDown(rightPaddle.UpKey) && rightPaddle.Position.Y - rightPaddle.Origin.Y > 0)
+                    {
+                        rightPaddle.VectorY -= paddleSpeed;
+                    }
+
+                    if (keyboard.IsKeyDown(rightPaddle.DownKey) && rightPaddle.Position.Y + rightPaddle.Origin.Y < _viewPort.Height)
+                    {
+                        rightPaddle.VectorY += paddleSpeed;
+                    }
+
+                    switch (Global.Difficulty)
+	                {
+                        case Difficulty.Easy:
+                            //TODO Add Easy AI
+                            break;
+                        case Difficulty.Medium:
+                            //TODO Add Medium AI
+                            break;
+                        case Difficulty.Hard:
+                            //TODO Add Hrd AI
+                            break;
+                        default:
+                            break;
+	                }
+
+                    break;
+                case Mode.MultiPlayer:
+
+                    if(Global.isOnline)
+                    {
+                         //TODO Add Online Capability
+                    }
+                    else
+                    {
+                        //Rightpaddle Movement
+                        if (keyboard.IsKeyDown(rightPaddle.UpKey) && rightPaddle.Position.Y - rightPaddle.Origin.Y > 0)
+                        {
+                            rightPaddle.VectorY -= paddleSpeed;
+                        }
+
+                        if (keyboard.IsKeyDown(rightPaddle.DownKey) && rightPaddle.Position.Y + rightPaddle.Origin.Y < _viewPort.Height)
+                        {
+                            rightPaddle.VectorY += paddleSpeed;
+                        }
+
+                        //Leftpaddle Movement
+                        if (keyboard.IsKeyDown(leftPaddle.UpKey) && leftPaddle.Position.Y - leftPaddle.Origin.Y > 0)
+                        {
+                            leftPaddle.VectorY -= paddleSpeed;
+                        }
+
+                        if (keyboard.IsKeyDown(leftPaddle.DownKey) && leftPaddle.Position.Y + leftPaddle.Origin.Y < _viewPort.Height)
+                        {
+                            leftPaddle.VectorY += paddleSpeed;
+                        }
+                    }
+                    break;
+                default:
+                    break;
             }
 
-            if (keyboard.IsKeyDown(rightPaddle.DownKey) && rightPaddle.Position.Y + rightPaddle.Origin.Y < _viewPort.Height)
-            {
-                rightPaddle.VectorY += paddleSpeed;
-            }
-
-            //Leftpaddle Movement
-            if (keyboard.IsKeyDown(leftPaddle.UpKey) && leftPaddle.Position.Y - leftPaddle.Origin.Y > 0)
-            {
-                leftPaddle.VectorY -= paddleSpeed;
-            }
-
-            if (keyboard.IsKeyDown(leftPaddle.DownKey) && leftPaddle.Position.Y + leftPaddle.Origin.Y < _viewPort.Height)
-            {
-                leftPaddle.VectorY += paddleSpeed;
-            }
 
             Vector2 amountSpeed = Vector2.Zero;
 

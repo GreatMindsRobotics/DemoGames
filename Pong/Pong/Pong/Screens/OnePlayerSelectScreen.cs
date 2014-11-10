@@ -48,17 +48,17 @@ namespace Pong.Screens
             if (easyBtn.IsClicked)
             {
                 Global.Difficulty = Difficulty.Easy;
-                ScreenManager.Change(ScreenState.Error);
+                ScreenManager.Change(ScreenState.Game);
             }
             else if (mediumBtn.IsClicked)
             {
                 Global.Difficulty = Difficulty.Medium;
-                ScreenManager.Change(ScreenState.Error);
+                ScreenManager.Change(ScreenState.Game);
             }
             else if (hardBtn.IsClicked)
             {
                 Global.Difficulty = Difficulty.Hard;
-                ScreenManager.Change(ScreenState.Error);
+                ScreenManager.Change(ScreenState.Game);
             }
             else if (backBtn.IsClicked)
             {
