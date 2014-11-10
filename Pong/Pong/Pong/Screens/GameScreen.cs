@@ -28,7 +28,7 @@ namespace Pong.Screens
         FadingFont player2Font;
 
         FadingFont pauseFont;
-        
+
         KeyboardState keyboard;
 
         Random rnd = new Random();
@@ -38,7 +38,7 @@ namespace Pong.Screens
         bool leftSideScored = false;
 
         //Keys player1Up = Keys.W;
-        
+
         int ballDirection;
         int paddleSpeed = 8;
 
@@ -65,11 +65,11 @@ namespace Pong.Screens
             Global.Player2 = rightPaddle;
 
             XDocument optionsXml = XDocument.Load(@"XML\Options.xml");
-            
+
             //Ben's dumb work around because he hasn't worked with xdoc enough
             XElement player1 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Player")).ToList()[0];
             XElement player2 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Player")).ToList()[1];
-            
+
             leftPaddle.UpKey = (Keys)int.Parse(player1.Element(XName.Get("Up")).Value);
             leftPaddle.DownKey = (Keys)int.Parse(player1.Element(XName.Get("Down")).Value);
             rightPaddle.UpKey = (Keys)int.Parse(player2.Element(XName.Get("Up")).Value);
@@ -93,7 +93,7 @@ namespace Pong.Screens
             player2Font = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(_viewPort.Width - 85, 50), 0.1f, 1.0f, 0.01f, 1.0f, string.Format("Player2"), Color.White, false);
             player2Font.EnableShadow = false;
 
-            pauseFont = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(_viewPort.Width / 2, _viewPort.Height-15), 0.1f, 1.0f, 0.01f, 1.0f, string.Format("Press Esc to pause"), Color.White, false);
+            pauseFont = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(_viewPort.Width / 2, _viewPort.Height - 15), 0.1f, 1.0f, 0.01f, 1.0f, string.Format("Press Esc to pause"), Color.White, false);
             pauseFont.EnableShadow = false;
             pauseFont.SetCenterAsOrigin();
 
@@ -135,7 +135,7 @@ namespace Pong.Screens
             {
                 player1Won = true;
                 ScreenManager.Change(ScreenState.GameOver);
-                
+
             }
             else if (rightScore >= maxPoints)
             {
@@ -155,13 +155,13 @@ namespace Pong.Screens
                 //System.Diagnostics.Debugger.Break();
             }
 
-            if(keyboard.IsKeyDown(Keys.Escape))
+            if (keyboard.IsKeyDown(Keys.Escape))
             {
                 ScreenManager.Change(ScreenState.Pause);
             }
 
             if (keyboard.IsKeyDown(Keys.Space))
-             {
+            {
                 if (ball.BallState == BallState.Rested)
                 {
                     ballDirection = rnd.Next(0, 2);
@@ -188,7 +188,7 @@ namespace Pong.Screens
             {
                 if (ball.Position.Y + ball.Origin.Y >= _viewPort.Height)
                 {
-                  
+
                     if (ball.SpeedY > 0)
                     {
                         ball.SpeedY *= -1;
@@ -235,7 +235,7 @@ namespace Pong.Screens
                 }
 
             }
-            
+
             ////STAN: This code might need to live elsewhere... maybe... for sure... I think... 
             //Keys[] pressedKeys = keyboard.GetPressedKeys();
             //if (pressedKeys.Length > 0)
@@ -260,7 +260,7 @@ namespace Pong.Screens
                     }
 
                     switch (Global.Difficulty)
-	                {
+                    {
                         case Difficulty.Easy:
                             //TODO Add Easy AI
                             break;
@@ -272,14 +272,14 @@ namespace Pong.Screens
                             break;
                         default:
                             break;
-	                }
+                    }
 
                     break;
                 case Mode.MultiPlayer:
 
-                    if(Global.isOnline)
+                    if (Global.isOnline)
                     {
-                         //TODO Add Online Capability
+                        //TODO Add Online Capability
                     }
                     else
                     {
@@ -305,6 +305,19 @@ namespace Pong.Screens
                             leftPaddle.VectorY += paddleSpeed;
                         }
                     }
+
+                    //Changing gamemode
+                    //TODO Add screen to choose GameMode
+                    switch (Global.GameMode)
+                    {
+                        case GameMode.Classical:
+                            break;
+                        case GameMode.PingPong:
+                            break;
+                        default:
+                            break;
+                    }
+
                     break;
                 default:
                     break;
@@ -316,10 +329,10 @@ namespace Pong.Screens
             while (Math.Abs(amountSpeed.X) < Math.Abs(ball.Speed.X))
             {
                 Vector2 speed = ball.Speed;
-                
+
                 speed.Normalize();
                 ball.Position += speed;
-                
+
                 amountSpeed += speed;
 
                 //ball.Update(gameTime);
@@ -335,7 +348,7 @@ namespace Pong.Screens
 
                     }
                 }
-                 
+
                 //Checking if ball hit leftPaddle
                 if (ball.Left < leftPaddle.Right && ball.Bottom > leftPaddle.Top && ball.Top < leftPaddle.Bottom)
                 {

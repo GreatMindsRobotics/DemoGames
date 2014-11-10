@@ -14,5 +14,6 @@ namespace Pong.CoreTypes
         public static bool isOnline;
         public static Mode Mode;
         public static Difficulty Difficulty;
+        public static GameMode GameMode;
     }
 }

@@ -24,6 +24,12 @@ namespace Pong
         Hard
     }
 
+    public enum GameMode
+    { 
+        Classical,
+        PingPong
+    }
+
     public enum ScreenState
     {
         None,
