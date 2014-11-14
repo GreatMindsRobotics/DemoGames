@@ -17,8 +17,6 @@ namespace Pong.Screens
     public class GameScreen : BaseScreen
     {
         Ball ball;
-        Paddle leftPaddle;
-        Paddle rightPaddle;
         PlusOne plusOne;
 
         FadingFont leftScoreFont;
@@ -49,20 +47,20 @@ namespace Pong.Screens
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
-            leftPaddle = new Paddle(Content.Load<Texture2D>("temp paddle"), new Vector2(0, _viewPort.Height / 2), Color.White);
-            leftPaddle.SetCenterAsOrigin();
-            leftPaddle.Position = new Vector2(leftPaddle.Origin.X, _viewPort.Height / 2);
+            Global.LeftPlayer = new Paddle(Content.Load<Texture2D>("temp paddle"), new Vector2(0, _viewPort.Height / 2), Color.White);
+            Global.LeftPlayer.SetCenterAsOrigin();
+            Global.LeftPlayer.Position = new Vector2(Global.LeftPlayer.Origin.X, _viewPort.Height / 2);
             //leftPaddle.UpKey = Keys.W;
             //leftPaddle.DownKey = Keys.S;
 
-            Global.Player1 = leftPaddle;
+            //Global.LeftPlayer = Global.LeftPlayer;
 
-            rightPaddle = new Paddle(Content.Load<Texture2D>("temp paddle"), new Vector2(_viewPort.Width - leftPaddle.Texture.Width / 2, _viewPort.Height / 2), Color.White);
-            rightPaddle.SetCenterAsOrigin();
+            Global.RightPlayer = new Paddle(Content.Load<Texture2D>("temp paddle"), new Vector2(_viewPort.Width - Global.LeftPlayer.Texture.Width / 2, _viewPort.Height / 2), Color.White);
+            Global.RightPlayer.SetCenterAsOrigin();
             //rightPaddle.UpKey = Keys.Up;
             //rightPaddle.DownKey = Keys.Down;
 
-            Global.Player2 = rightPaddle;
+           // Global.RightPlayer = rightPaddle;
 
             XDocument optionsXml = XDocument.Load(@"XML\Options.xml");
 
@@ -70,10 +68,10 @@ namespace Pong.Screens
             XElement player1 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Player")).ToList()[0];
             XElement player2 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Player")).ToList()[1];
 
-            leftPaddle.UpKey = (Keys)int.Parse(player1.Element(XName.Get("Up")).Value);
-            leftPaddle.DownKey = (Keys)int.Parse(player1.Element(XName.Get("Down")).Value);
-            rightPaddle.UpKey = (Keys)int.Parse(player2.Element(XName.Get("Up")).Value);
-            rightPaddle.DownKey = (Keys)int.Parse(player2.Element(XName.Get("Down")).Value);
+            Global.LeftPlayer.UpKey = (Keys)int.Parse(player1.Element(XName.Get("Up")).Value);
+            Global.LeftPlayer.DownKey = (Keys)int.Parse(player1.Element(XName.Get("Down")).Value);
+            Global.RightPlayer.UpKey = (Keys)int.Parse(player2.Element(XName.Get("Up")).Value);
+            Global.RightPlayer.DownKey = (Keys)int.Parse(player2.Element(XName.Get("Down")).Value);
 
             ball = new Ball(Content.Load<Texture2D>("temp ball"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
             ball.SetCenterAsOrigin();
@@ -97,8 +95,8 @@ namespace Pong.Screens
             pauseFont.EnableShadow = false;
             pauseFont.SetCenterAsOrigin();
 
-            _sprites.Add(rightPaddle);
-            _sprites.Add(leftPaddle);
+            _sprites.Add(Global.RightPlayer);
+            _sprites.Add(Global.LeftPlayer);
             _sprites.Add(plusOne);
             _sprites.Add(leftScoreFont);
             _sprites.Add(rightScoreFont);
@@ -249,14 +247,14 @@ namespace Pong.Screens
                 case Mode.SinglePlayer:
 
                     //Rightpaddle Movement
-                    if (keyboard.IsKeyDown(rightPaddle.UpKey) && rightPaddle.Position.Y - rightPaddle.Origin.Y > 0)
+                    if (keyboard.IsKeyDown(Global.RightPlayer.UpKey) && Global.RightPlayer.Position.Y - Global.RightPlayer.Origin.Y > 0)
                     {
-                        rightPaddle.VectorY -= paddleSpeed;
+                        Global.RightPlayer.VectorY -= paddleSpeed;
                     }
 
-                    if (keyboard.IsKeyDown(rightPaddle.DownKey) && rightPaddle.Position.Y + rightPaddle.Origin.Y < _viewPort.Height)
+                    if (keyboard.IsKeyDown(Global.RightPlayer.DownKey) && Global.RightPlayer.Position.Y + Global.RightPlayer.Origin.Y < _viewPort.Height)
                     {
-                        rightPaddle.VectorY += paddleSpeed;
+                        Global.RightPlayer.VectorY += paddleSpeed;
                     }
 
                     switch (Global.Difficulty)
@@ -284,25 +282,25 @@ namespace Pong.Screens
                     else
                     {
                         //Rightpaddle Movement
-                        if (keyboard.IsKeyDown(rightPaddle.UpKey) && rightPaddle.Position.Y - rightPaddle.Origin.Y > 0)
+                        if (keyboard.IsKeyDown(Global.RightPlayer.UpKey) && Global.RightPlayer.Position.Y - Global.RightPlayer.Origin.Y > 0)
                         {
-                            rightPaddle.VectorY -= paddleSpeed;
+                            Global.RightPlayer.VectorY -= paddleSpeed;
                         }
 
-                        if (keyboard.IsKeyDown(rightPaddle.DownKey) && rightPaddle.Position.Y + rightPaddle.Origin.Y < _viewPort.Height)
+                        if (keyboard.IsKeyDown(Global.RightPlayer.DownKey) && Global.RightPlayer.Position.Y + Global.RightPlayer.Origin.Y < _viewPort.Height)
                         {
-                            rightPaddle.VectorY += paddleSpeed;
+                            Global.RightPlayer.VectorY += paddleSpeed;
                         }
 
                         //Leftpaddle Movement
-                        if (keyboard.IsKeyDown(leftPaddle.UpKey) && leftPaddle.Position.Y - leftPaddle.Origin.Y > 0)
+                        if (keyboard.IsKeyDown(Global.LeftPlayer.UpKey) && Global.LeftPlayer.Position.Y - Global.LeftPlayer.Origin.Y > 0)
                         {
-                            leftPaddle.VectorY -= paddleSpeed;
+                            Global.LeftPlayer.VectorY -= paddleSpeed;
                         }
 
-                        if (keyboard.IsKeyDown(leftPaddle.DownKey) && leftPaddle.Position.Y + leftPaddle.Origin.Y < _viewPort.Height)
+                        if (keyboard.IsKeyDown(Global.LeftPlayer.DownKey) && Global.LeftPlayer.Position.Y + Global.LeftPlayer.Origin.Y < _viewPort.Height)
                         {
-                            leftPaddle.VectorY += paddleSpeed;
+                            Global.LeftPlayer.VectorY += paddleSpeed;
                         }
                     }
 
@@ -337,7 +335,7 @@ namespace Pong.Screens
 
                 //ball.Update(gameTime);
                 //Checking if ball hit rightPaddle
-                if (ball.Right > rightPaddle.Left && ball.Bottom > rightPaddle.Top && ball.Top < rightPaddle.Bottom)
+                if (ball.Right > Global.RightPlayer.Left && ball.Bottom > Global.RightPlayer.Top && ball.Top < Global.RightPlayer.Bottom)
                 {
                     //ball intersected with rightPaddle!!! Is it traveling to the right? If so, inverse direction; otherwise, leave it alone
                     if (ball.SpeedX > 0)
@@ -350,7 +348,7 @@ namespace Pong.Screens
                 }
 
                 //Checking if ball hit leftPaddle
-                if (ball.Left < leftPaddle.Right && ball.Bottom > leftPaddle.Top && ball.Top < leftPaddle.Bottom)
+                if (ball.Left < Global.LeftPlayer.Right && ball.Bottom > Global.LeftPlayer.Top && ball.Top < Global.LeftPlayer.Bottom)
                 {
                     //ball intersected with leftPaddle!!! Is it traveling to the left? If so, inverse direction; otherwise, leave it alone
                     if (ball.SpeedX < 0)

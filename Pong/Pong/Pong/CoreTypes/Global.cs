@@ -8,8 +8,8 @@ namespace Pong.CoreTypes
 {
     public static class Global
     {
-        public static Paddle Player1;
-        public static Paddle Player2;
+        public static Paddle LeftPlayer;
+        public static Paddle RightPlayer;
 
         public static bool isOnline;
         public static Mode Mode;
