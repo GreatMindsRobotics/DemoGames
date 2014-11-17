@@ -21,7 +21,8 @@ namespace Pong.Screens
 
         Vector2 dropSpeed = new Vector2(0, 45);
 
-        Button playBtn;
+        Button classicalBtn;
+        Button pingPongBtn;
         Button optionsBtn;
 
         KeyboardState keyboard;
@@ -36,16 +37,21 @@ namespace Pong.Screens
             titleDropInFont.ShadowPosition = new Vector2(titleDropInFont.Position.X - 4, titleDropInFont.Position.Y + 4);
             titleDropInFont.ShadowColor = Color.Gray;
 
-            playBtn = new Button(Content.Load<Texture2D>("temp play button"), new Vector2(0,0), Color.White);
-            playBtn.SetCenterAsOrigin();
-            playBtn.Position = new Vector2(_viewPort.Width / 2, 150);
+            classicalBtn = new Button(Content.Load<Texture2D>("temp classical button"), new Vector2(0, 0), Color.White);
+            classicalBtn.SetCenterAsOrigin();
+            classicalBtn.Position = new Vector2(_viewPort.Width / 2, 160);
+
+            pingPongBtn = new Button(Content.Load<Texture2D>("temp ping pong button"), new Vector2(0, 0), Color.White);
+            pingPongBtn.SetCenterAsOrigin();
+            pingPongBtn.Position = new Vector2(_viewPort.Width / 2, 280);
 
             optionsBtn = new Button(Content.Load<Texture2D>("temp options button"), new Vector2(0, 0), Color.White);
             optionsBtn.SetCenterAsOrigin();
-            optionsBtn.Position = new Vector2(_viewPort.Width / 2, 300);
+            optionsBtn.Position = new Vector2(_viewPort.Width / 2, 400);
 
             _sprites.Add(titleDropInFont);
-            _sprites.Add(playBtn);
+            _sprites.Add(classicalBtn);
+            _sprites.Add(pingPongBtn);
             _sprites.Add(optionsBtn);
         }
 
@@ -57,8 +63,14 @@ namespace Pong.Screens
             {
                 ScreenManager.Back();
             }
-            else if(playBtn.IsClicked)
+            else if (classicalBtn.IsClicked)
             {
+                Global.GameMode = GameMode.Classical;
+                ScreenManager.Change(ScreenState.PlayerSelect);
+            }
+            else if (pingPongBtn.IsClicked)
+            {
+                Global.GameMode = GameMode.PingPong;
                 ScreenManager.Change(ScreenState.PlayerSelect);
             }
             else if (optionsBtn.IsClicked)

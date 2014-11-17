@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using FontEffectsLib.FontTypes;
 using Pong.CoreTypes;
 using System.Xml.Linq;
+using FontEffectsLib.SpriteTypes;
 
 
 
@@ -19,13 +20,15 @@ namespace Pong.Screens
         Ball ball;
         PlusOne plusOne;
 
+        GameSprite arrow;
+
         FadingFont leftScoreFont;
         FadingFont rightScoreFont;
 
         FadingFont player1Font;
         FadingFont player2Font;
 
-        FadingFont pauseFont;
+        FadingFont infoFont;
 
         KeyboardState keyboard;
 
@@ -35,7 +38,11 @@ namespace Pong.Screens
 
         bool leftSideScored = false;
 
+        bool stuckToLeftPaddle = true;
+
         //Keys player1Up = Keys.W;
+
+        int swichCount = 0;
 
         int ballDirection;
         int paddleSpeed = 8;
@@ -44,6 +51,8 @@ namespace Pong.Screens
         int rightScore = 0;
 
         int maxPoints = 5;
+
+        float rotationspeed = .01f;
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
@@ -73,8 +82,14 @@ namespace Pong.Screens
             Global.RightPlayer.UpKey = (Keys)int.Parse(player2.Element(XName.Get("Up")).Value);
             Global.RightPlayer.DownKey = (Keys)int.Parse(player2.Element(XName.Get("Down")).Value);
 
+
             ball = new Ball(Content.Load<Texture2D>("temp ball"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
             ball.SetCenterAsOrigin();
+
+
+            arrow = new GameSprite(Content.Load<Texture2D>("temp arrow"), new Vector2(0, 0), Color.CornflowerBlue);
+            arrow.IsVisible = false;
+            arrow.Origin = new Vector2(-ball.Texture.Width/2 , arrow.Texture.Height/2);
 
             plusOne = new PlusOne(Content.Load<Texture2D>("Plus1"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.Red);
             plusOne.SlideCompleted += new FontEffectsLib.SpriteTypes.SlidingSprite.SlideCompletedState(plusOne_SlideCompleted);
@@ -91,18 +106,19 @@ namespace Pong.Screens
             player2Font = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(_viewPort.Width - 85, 50), 0.1f, 1.0f, 0.01f, 1.0f, string.Format("Player2"), Color.White, false);
             player2Font.EnableShadow = false;
 
-            pauseFont = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(_viewPort.Width / 2, _viewPort.Height - 15), 0.1f, 1.0f, 0.01f, 1.0f, string.Format("Press Esc to pause"), Color.White, false);
-            pauseFont.EnableShadow = false;
-            pauseFont.SetCenterAsOrigin();
+            infoFont = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(_viewPort.Width / 2, _viewPort.Height - 15), 0.1f, 1.0f, 0.01f, 1.0f, string.Format("Press Space to start"), Color.White, false);
+            infoFont.EnableShadow = false;
+            infoFont.SetCenterAsOrigin();
 
             _sprites.Add(Global.RightPlayer);
             _sprites.Add(Global.LeftPlayer);
             _sprites.Add(plusOne);
+            _sprites.Add(arrow);
             _sprites.Add(leftScoreFont);
             _sprites.Add(rightScoreFont);
             _sprites.Add(player1Font);
             _sprites.Add(player2Font);
-            _sprites.Add(pauseFont);
+            _sprites.Add(infoFont);
 
         }
 
@@ -123,21 +139,47 @@ namespace Pong.Screens
 
             //Reset the ball
             ball.BallState = BallState.Rested;
-            ball.Position = new Vector2(_viewPort.Width / 2 - ball.Texture.Width / 2, _viewPort.Height / 2 - ball.Texture.Height / 2);
             ball.Speed = Vector2.Zero;
             ball.TintColor = Color.White;
 
-
+            if (Global.GameMode == GameMode.Classical)
+            {
+                ball.Position = new Vector2(_viewPort.Width / 2 - ball.Texture.Width / 2, _viewPort.Height / 2 - ball.Texture.Height / 2);
+            }
+            else if (Global.GameMode == GameMode.PingPong)
+            {
+                //set ball.state = ballstate.stucktospecificplayer
+                if (stuckToLeftPaddle)
+                {
+                    ball.Position = new Vector2(Global.LeftPlayer.Right + ball.Texture.Width / 2 + 5, Global.LeftPlayer.Top + Global.LeftPlayer.Texture.Height / 2);
+                }
+                else
+                {
+                    ball.Position = new Vector2(Global.RightPlayer.Left - ball.Texture.Width / 2 - 5, Global.RightPlayer.Top + Global.RightPlayer.Texture.Height / 2);
+                }
+            }
             //Check for win
             if (leftScore >= maxPoints)
             {
+                leftScore = 0;
+                rightScore = 0;
                 player1Won = true;
+                leftScoreFont.Text.Clear();
+                leftScoreFont.Text.Append(leftScore);
+                rightScoreFont.Text.Clear();
+                rightScoreFont.Text.Append(rightScore);
                 ScreenManager.Change(ScreenState.GameOver);
 
             }
             else if (rightScore >= maxPoints)
             {
+                leftScore = 0;
+                rightScore = 0;
                 player1Won = false;
+                leftScoreFont.Text.Clear();
+                leftScoreFont.Text.Append(leftScore);
+                rightScoreFont.Text.Clear();
+                rightScoreFont.Text.Append(rightScore);
                 ScreenManager.Change(ScreenState.GameOver);
 
             }
@@ -147,7 +189,18 @@ namespace Pong.Screens
         public override void Update(GameTime gameTime)
         {
             keyboard = Keyboard.GetState();
+            arrow.Rotation += rotationspeed;
 
+
+            if (arrow.Rotation >= Math.PI/2)
+            {
+                rotationspeed *= -1;
+            }
+            else if (arrow.Rotation <= -Math.PI/2)
+            {
+                rotationspeed *= -1;
+            }
+            
             if (gameTime.IsRunningSlowly)
             {
                 //System.Diagnostics.Debugger.Break();
@@ -160,22 +213,39 @@ namespace Pong.Screens
 
             if (keyboard.IsKeyDown(Keys.Space))
             {
+                arrow.IsVisible = false;
+                infoFont.Text.Clear();
+                infoFont.Text.Append("Press Esc to pause");
+
                 if (ball.BallState == BallState.Rested)
                 {
-                    ballDirection = rnd.Next(0, 2);
-
-                    switch (ballDirection)
+                    if (Global.GameMode == GameMode.PingPong)
                     {
-                        case 0:
-                            ball.Speed = new Vector2(5, 2);
-                            break;
+                        //using trigonometry to read the current rotation in degrees and have it spit out a vector2 to use for the speed.
+                        ball.Speed = new Vector2((float)Math.Cos(arrow.Rotation),(float)Math.Sin(arrow.Rotation));
+                        //make it a regular speed, but storing the direction as well
+                        ball.Speed.Normalize();
+                        //making it a bit faster
+                        ball.SpeedX *= 4;
+                        ball.SpeedY *= 4;
+                    }
+                    else
+                    {
+                        ballDirection = rnd.Next(0, 2);
 
-                        case 1:
-                            ball.Speed = new Vector2(-5, 2);
-                            break;
+                        switch (ballDirection)
+                        {
+                            case 0:
+                                ball.Speed = new Vector2(5, 2);
+                                break;
 
-                        default:
-                            break;
+                            case 1:
+                                ball.Speed = new Vector2(-5, 2);
+                                break;
+
+                            default:
+                                break;
+                        }
                     }
                 }
 
@@ -206,6 +276,17 @@ namespace Pong.Screens
                     //Ball goes through the wall
                     //right scored
 
+                    swichCount++;
+
+                    if(swichCount >= 2)
+                    {
+                        swichCount = 0;
+                        stuckToLeftPaddle = !stuckToLeftPaddle;
+                    }
+
+                    infoFont.Text.Clear();
+                    infoFont.Text.Append("Press Space to start");
+
                     ball.Speed = Vector2.Zero;
                     ball.TintColor = Color.Red;
 
@@ -221,6 +302,17 @@ namespace Pong.Screens
                     //Ball goes through the wall
                     //left scored
 
+                    swichCount++;
+
+                    if (swichCount >= 2)
+                    {
+                        swichCount = 0;
+                        stuckToLeftPaddle = !stuckToLeftPaddle;
+                    }
+
+                    infoFont.Text.Clear();
+                    infoFont.Text.Append("Press Space to start");
+
                     ball.Speed = Vector2.Zero;
                     ball.TintColor = Color.Red;
 
@@ -234,6 +326,31 @@ namespace Pong.Screens
 
             }
 
+            if (ball.BallState == BallState.Rested && Global.GameMode == GameMode.PingPong)
+            {
+                if (stuckToLeftPaddle)
+                {
+                    ball.Position = new Vector2(Global.LeftPlayer.Right + ball.Texture.Width / 2 + 5, Global.LeftPlayer.Top + Global.LeftPlayer.Texture.Height / 2);
+                    arrow.Position = new Vector2(ball.Position.X, ball.Position.Y);
+                    arrow.Effects = SpriteEffects.None;
+                    arrow.IsVisible = true;
+
+                }
+                else
+                {
+                    ball.Position = new Vector2(Global.RightPlayer.Left - ball.Texture.Width / 2 - 5, Global.RightPlayer.Top + Global.RightPlayer.Texture.Height / 2);
+                    arrow.Position = new Vector2(ball.Position.X, ball.Position.Y);
+                    //arrow.Effects = SpriteEffects.FlipHorizontally;
+                    arrow.IsVisible = true;
+                }
+            }
+
+            //also check for other ballstates (stucktoleftplayer..etc)
+            //if stucktoleftplayer
+                //constantly position it next to left player
+
+
+
             ////STAN: This code might need to live elsewhere... maybe... for sure... I think... 
             //Keys[] pressedKeys = keyboard.GetPressedKeys();
             //if (pressedKeys.Length > 0)
@@ -245,7 +362,6 @@ namespace Pong.Screens
             switch (Global.Mode)
             {
                 case Mode.SinglePlayer:
-
                     //Rightpaddle Movement
                     if (keyboard.IsKeyDown(Global.RightPlayer.UpKey) && Global.RightPlayer.Position.Y - Global.RightPlayer.Origin.Y > 0)
                     {
@@ -260,12 +376,15 @@ namespace Pong.Screens
                     switch (Global.Difficulty)
                     {
                         case Difficulty.Easy:
+                            ScreenManager.Change(ScreenState.Error);
                             //TODO Add Easy AI
                             break;
                         case Difficulty.Medium:
+                            ScreenManager.Change(ScreenState.Error);
                             //TODO Add Medium AI
                             break;
                         case Difficulty.Hard:
+                            ScreenManager.Change(ScreenState.Error);
                             //TODO Add Hrd AI
                             break;
                         default:
@@ -277,6 +396,7 @@ namespace Pong.Screens
 
                     if (Global.isOnline)
                     {
+                        ScreenManager.Change(ScreenState.Error);
                         //TODO Add Online Capability
                     }
                     else
@@ -340,14 +460,20 @@ namespace Pong.Screens
                     //ball intersected with rightPaddle!!! Is it traveling to the right? If so, inverse direction; otherwise, leave it alone
                     if (ball.SpeedX > 0)
                     {
-
                         ball.SpeedX *= -1.05f;
                         ball.SpeedY *= 1.05f;
-
+                    }
+                    if (Global.GameMode == GameMode.PingPong)
+                    {
+                        //get the Y distance from the center of the ball and the center of the paddle
+                        //dist: paddlecenterY - ballcenterY
+                        //add that onto the ball yspeed
+                        ball.SpeedY -= (Global.RightPlayer.Position.Y - ball.Position.Y)/10;
+                        ball.SpeedY = MathHelper.Clamp(ball.SpeedY, -5, 5);
                     }
                 }
 
-                //Checking if ball hit leftPaddle
+                //Checking if ball hit leftPaddlewwwwww
                 if (ball.Left < Global.LeftPlayer.Right && ball.Bottom > Global.LeftPlayer.Top && ball.Top < Global.LeftPlayer.Bottom)
                 {
                     //ball intersected with leftPaddle!!! Is it traveling to the left? If so, inverse direction; otherwise, leave it alone
@@ -356,6 +482,14 @@ namespace Pong.Screens
 
                         ball.SpeedX *= -1.05f;
                         ball.SpeedY *= 1.05f;
+                    }
+                    if (Global.GameMode == GameMode.PingPong)
+                    {
+                        //get the Y distance from the center of the ball and the center of the paddle
+                        //dist: paddlecenterY - ballcenterY
+                        //add that onto the ball yspeed
+                        ball.SpeedY -= (Global.LeftPlayer.Position.Y - ball.Position.Y)/10;
+                        ball.SpeedY = MathHelper.Clamp(ball.SpeedY, -5, 5);
                     }
                 }
             }

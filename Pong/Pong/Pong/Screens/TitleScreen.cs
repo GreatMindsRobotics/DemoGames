@@ -17,7 +17,7 @@ namespace Pong.Screens
 {
     public class TitleScreen : BaseScreen
     {
-        Button startButton;
+        //Button startButton;
 
         DropInFont greatDropInFont;
 
@@ -25,6 +25,8 @@ namespace Pong.Screens
         DropInFont oDropInFont;
         DropInFont nDropInFont;
         DropInFont gDropInFont;
+
+        FadingFont infoFont;
 
         Vector2 dropSpeed = new Vector2(0, 45);
 
@@ -35,8 +37,12 @@ namespace Pong.Screens
             ScreenState screenState;
 
             //TODO Change Button so it says "Start"
-            startButton = new Button(Content.Load<Texture2D>("temp play button"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
-            startButton.SetCenterAsOrigin();
+            //startButton = new Button(Content.Load<Texture2D>("temp play button"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
+            //startButton.SetCenterAsOrigin();
+
+            infoFont = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(_viewPort.Width / 2, _viewPort.Height - 15), 0.1f, 1.0f, 0.01f, 1.0f, string.Format("Press any key to continue "), Color.White, false);
+            infoFont.EnableShadow = false;
+            infoFont.SetCenterAsOrigin();
 
             greatDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(_viewPort.Width / 2 - _viewPort.X, -1000), new Vector2(_viewPort.Width / 2 - _viewPort.X, 50), dropSpeed, "GreatMinds", Color.CornflowerBlue);
             greatDropInFont.IsVisible = true;
@@ -83,7 +89,8 @@ namespace Pong.Screens
             gDropInFont.ShadowColor = Color.Gray;
             gDropInFont.StateChanged += new EventHandler<StateEventArgs>(gDropInFont_StateChanged);
 
-            _sprites.Add(startButton);
+            //_sprites.Add(startButton);
+            _sprites.Add(infoFont);
             _sprites.Add(greatDropInFont);
             _sprites.Add(pDropInFont);
             _sprites.Add(oDropInFont);
@@ -139,16 +146,17 @@ namespace Pong.Screens
         public override void Update(GameTime gameTime)
         {
             keyboard = Keyboard.GetState();
+            Keys[] pressedKeys = keyboard.GetPressedKeys();
 
-            if(keyboard.IsKeyDown(Keys.Enter))
+            if (pressedKeys.Length > 0)
             {
                 ScreenManager.Change(ScreenState.MainMenu);
             }
 
-            if(startButton.IsClicked)
-            {
-                ScreenManager.Change(ScreenState.MainMenu);
-            }
+            //if(startButton.IsClicked)
+            //{
+            //    ScreenManager.Change(ScreenState.MainMenu);
+            //}
 
             base.Update(gameTime);
         }
