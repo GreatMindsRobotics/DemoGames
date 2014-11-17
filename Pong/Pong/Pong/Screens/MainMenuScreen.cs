@@ -28,7 +28,7 @@ namespace Pong.Screens
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
-            titleDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(400, 50), new Vector2(400, 50), dropSpeed, "Main Menu", Color.CornflowerBlue);
+            titleDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), new Vector2(_viewPort.Width / 2, 50), dropSpeed, "Main Menu", Color.CornflowerBlue);
             titleDropInFont.IsVisible = true;
             titleDropInFont.SetCenterAsOrigin();
             titleDropInFont.EnableShadow = false;
@@ -38,11 +38,11 @@ namespace Pong.Screens
 
             playBtn = new Button(Content.Load<Texture2D>("temp play button"), new Vector2(0,0), Color.White);
             playBtn.SetCenterAsOrigin();
-            playBtn.Position = new Vector2(_viewPort.Width / 2, 150);
+            playBtn.Position = new Vector2(_viewPort.Width / 2, titleDropInFont.Position.Y +  playBtn.Origin.Y * 2.5f);
 
             optionsBtn = new Button(Content.Load<Texture2D>("temp options button"), new Vector2(0, 0), Color.White);
             optionsBtn.SetCenterAsOrigin();
-            optionsBtn.Position = new Vector2(_viewPort.Width / 2, 300);
+            optionsBtn.Position = new Vector2(_viewPort.Width / 2, playBtn.Position.Y + optionsBtn.Origin.Y * 4);
 
             _sprites.Add(titleDropInFont);
             _sprites.Add(playBtn);

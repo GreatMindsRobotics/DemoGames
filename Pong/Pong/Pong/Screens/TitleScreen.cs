@@ -38,7 +38,7 @@ namespace Pong.Screens
             startButton = new Button(Content.Load<Texture2D>("temp play button"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
             startButton.SetCenterAsOrigin();
 
-            greatDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(_viewPort.Width / 2 - _viewPort.X, -1000), new Vector2(_viewPort.Width / 2 - _viewPort.X, 50), dropSpeed, "GreatMinds", Color.CornflowerBlue);
+            greatDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(_viewPort.Width / 2 - _viewPort.X, -1000), new Vector2(_viewPort.Width / 2 - _viewPort.X, _viewPort.Height * 0.1f), dropSpeed, "GreatMinds", Color.CornflowerBlue);
             greatDropInFont.IsVisible = true;
             greatDropInFont.SetCenterAsOrigin();
             greatDropInFont.EnableShadow = false;
