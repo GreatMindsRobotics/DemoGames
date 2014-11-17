@@ -39,7 +39,7 @@ namespace Pong.Screens
         {
             state = ControlScreenState.SelectingControl;
 
-            titleDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts//JingJingTitle"), new Vector2(_viewPort.Width / 2, 50), new Vector2(_viewPort.Width / 2, 50), dropSpeed, "Controls",Color.White);
+            titleDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts//JingJingTitle"), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), dropSpeed, "Controls", Color.White);
             titleDropInFont.IsVisible = true;
             titleDropInFont.SetCenterAsOrigin();
             titleDropInFont.EnableShadow = false;
@@ -240,6 +240,7 @@ namespace Pong.Screens
             rightDownDisp.Reset();
             leftUpDisp.Reset();
             leftDownDisp.Reset();
+            titleDropInFont.Reset();
             base.Reset();
         }
 

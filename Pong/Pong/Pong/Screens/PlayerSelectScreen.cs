@@ -29,7 +29,7 @@ namespace Pong.Screens
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
-            titleDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(400, 50), new Vector2(400, 50), dropSpeed, "Game Mode", Color.CornflowerBlue);
+            titleDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), dropSpeed, "Game Mode", Color.CornflowerBlue);
             titleDropInFont.IsVisible = true;
             titleDropInFont.SetCenterAsOrigin();
             titleDropInFont.EnableShadow = false;
@@ -39,11 +39,11 @@ namespace Pong.Screens
 
             onePlayerBtn = new Button(Content.Load<Texture2D>("temp 1 player button"), new Vector2(0, 0), Color.White);
             onePlayerBtn.SetCenterAsOrigin();
-            onePlayerBtn.Position = new Vector2(_viewPort.Width / 2, 150);
+            onePlayerBtn.Position = new Vector2(_viewPort.Width / 2, titleDropInFont.Position.Y + onePlayerBtn.Origin.Y * 2.5f);
 
             twoPlayersBtn = new Button(Content.Load<Texture2D>("temp 2 players button"), new Vector2(0, 0), Color.White);
             twoPlayersBtn.SetCenterAsOrigin();
-            twoPlayersBtn.Position = new Vector2(_viewPort.Width / 2, 300);
+            twoPlayersBtn.Position = new Vector2(_viewPort.Width / 2, onePlayerBtn.Position.Y + twoPlayersBtn.Origin.Y * 4);
 
             backBtn = new Button(Content.Load<Texture2D>("temp back button"), new Vector2(10, 10), Color.CornflowerBlue);
             backBtn.SetCenterAsOrigin();
