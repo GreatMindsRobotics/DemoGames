@@ -43,7 +43,8 @@ namespace Pong
         Options,
         EditControls,
         Pause,
-        Error
+        Error,
+        GameMode
     }
 
     public enum ControlScreenState

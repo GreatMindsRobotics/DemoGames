@@ -24,7 +24,7 @@ namespace Pong.Screens
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
-            titleDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), dropSpeed, "SinglePlayer", Color.CornflowerBlue);
+            titleDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), dropSpeed, "Difficulty", Color.CornflowerBlue);
             titleDropInFont.IsVisible = true;
             titleDropInFont.SetCenterAsOrigin();
             titleDropInFont.EnableShadow = false;
@@ -38,11 +38,11 @@ namespace Pong.Screens
 
             mediumBtn = new Button(Content.Load<Texture2D>("temp medium button"), new Vector2(0, 0), Color.White);
             mediumBtn.SetCenterAsOrigin();
-            mediumBtn.Position = new Vector2(_viewPort.Width / 2, easyBtn.Position.Y + mediumBtn.Origin.Y * 4);
+            mediumBtn.Position = new Vector2(_viewPort.Width / 2, easyBtn.Position.Y + mediumBtn.Origin.Y * 3);
 
             hardBtn = new Button(Content.Load<Texture2D>("temp hard button"), new Vector2(0, 0), Color.White);
             hardBtn.SetCenterAsOrigin();
-            hardBtn.Position = new Vector2(_viewPort.Width / 2, mediumBtn.Position.Y + hardBtn.Origin.Y * 4);
+            hardBtn.Position = new Vector2(_viewPort.Width / 2, mediumBtn.Position.Y + hardBtn.Origin.Y * 3);
 
             backBtn = new Button(Content.Load<Texture2D>("temp back button"), new Vector2(10, 10), Color.CornflowerBlue);
             backBtn.SetCenterAsOrigin();
@@ -78,6 +78,12 @@ namespace Pong.Screens
             }
 
             base.Update(gameTime);
+        }
+
+        public override void Reset()
+        {
+            titleDropInFont.Reset();
+            base.Reset();
         }
     }
 }

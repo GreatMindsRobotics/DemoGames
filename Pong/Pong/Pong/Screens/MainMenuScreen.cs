@@ -21,8 +21,8 @@ namespace Pong.Screens
 
         Vector2 dropSpeed = new Vector2(0, 45);
 
-        Button classicalBtn;
-        Button pingPongBtn;
+        Button singlaPlayerBtn;
+        Button multiPlayerBtn;
         Button optionsBtn;
 
         KeyboardState keyboard;
@@ -37,23 +37,22 @@ namespace Pong.Screens
             titleDropInFont.ShadowPosition = new Vector2(titleDropInFont.Position.X - 4, titleDropInFont.Position.Y + 4);
             titleDropInFont.ShadowColor = Color.Gray;
 
+            singlaPlayerBtn = new Button(Content.Load<Texture2D>("temp 1 player button"), new Vector2(0, 0), Color.White);
+            singlaPlayerBtn.SetCenterAsOrigin();
+            singlaPlayerBtn.Position = new Vector2(_viewPort.Width / 2, titleDropInFont.Position.Y + singlaPlayerBtn.Origin.Y * 2.5f);
 
-            classicalBtn = new Button(Content.Load<Texture2D>("temp classical button"), new Vector2(0, 0), Color.White);
-            classicalBtn.SetCenterAsOrigin();
-            classicalBtn.Position = new Vector2(_viewPort.Width / 2, 160);
-
-            pingPongBtn = new Button(Content.Load<Texture2D>("temp ping pong button"), new Vector2(0, 0), Color.White);
-            pingPongBtn.SetCenterAsOrigin();
-            pingPongBtn.Position = new Vector2(_viewPort.Width / 2, 280);
+            multiPlayerBtn = new Button(Content.Load<Texture2D>("temp 2 players button"), new Vector2(0, 0), Color.White);
+            multiPlayerBtn.SetCenterAsOrigin();
+            multiPlayerBtn.Position = new Vector2(_viewPort.Width / 2, singlaPlayerBtn.Position.Y + multiPlayerBtn.Origin.Y * 3);
 
             optionsBtn = new Button(Content.Load<Texture2D>("temp options button"), new Vector2(0, 0), Color.White);
             optionsBtn.SetCenterAsOrigin();
-            optionsBtn.Position = new Vector2(_viewPort.Width / 2, 400);
+            optionsBtn.Position = new Vector2(_viewPort.Width / 2, multiPlayerBtn.Position.Y + optionsBtn.Origin.Y * 3);
 
 
             _sprites.Add(titleDropInFont);
-            _sprites.Add(classicalBtn);
-            _sprites.Add(pingPongBtn);
+            _sprites.Add(singlaPlayerBtn);
+            _sprites.Add(multiPlayerBtn);
             _sprites.Add(optionsBtn);
         }
 
@@ -65,15 +64,15 @@ namespace Pong.Screens
             {
                 ScreenManager.Back();
             }
-            else if (classicalBtn.IsClicked)
+            else if (singlaPlayerBtn.IsClicked)
             {
-                Global.GameMode = GameMode.Classical;
-                ScreenManager.Change(ScreenState.PlayerSelect);
+                Global.Mode = Mode.SinglePlayer;
+                ScreenManager.Change(ScreenState.GameMode);
             }
-            else if (pingPongBtn.IsClicked)
+            else if (multiPlayerBtn.IsClicked)
             {
-                Global.GameMode = GameMode.PingPong;
-                ScreenManager.Change(ScreenState.PlayerSelect);
+                Global.Mode = Mode.MultiPlayer;
+                ScreenManager.Change(ScreenState.TwoPlayerSelect);
             }
             else if (optionsBtn.IsClicked)
             {

@@ -49,7 +49,7 @@ namespace Pong.Screens
         {
             if(backButton.IsClicked)
             {
-                ScreenManager.Back();
+                ScreenManager.Change(ScreenState.MainMenu);
             }
 
             base.Update(gameTime);

@@ -34,6 +34,7 @@ namespace Pong
         EditControlsScreen editControls;
         PauseScreen pauseScreen;
         ErrorScreen errorScreen;
+        GameModeScreen gameModeScreen;
 
         ScreenState screenState;
 
@@ -64,6 +65,7 @@ namespace Pong
             editControls = new EditControlsScreen();
             pauseScreen = new PauseScreen();
             errorScreen = new ErrorScreen();
+            gameModeScreen = new GameModeScreen();
 
             IsMouseVisible = true;
             base.Initialize();
@@ -89,6 +91,7 @@ namespace Pong
             editControls.Load(Content);
             pauseScreen.Load(Content);
             errorScreen.Load(Content);
+            gameModeScreen.Load(Content);
 
             mainMenuScreen.Load(Content);
 
@@ -104,6 +107,7 @@ namespace Pong
             ScreenManager.AddScreen(ScreenState.EditControls, editControls);
             ScreenManager.AddScreen(ScreenState.Pause, pauseScreen);
             ScreenManager.AddScreen(ScreenState.Error, errorScreen);
+            ScreenManager.AddScreen(ScreenState.GameMode, gameModeScreen);
 
             ScreenManager.Change(ScreenState.Title);
         }

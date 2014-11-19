@@ -78,6 +78,7 @@
     <Compile Include="CoreTypes\Global.cs" />
     <Compile Include="Screens\EditControlsScreen.cs" />
     <Compile Include="Screens\ErrorScreen.cs" />
+    <Compile Include="Screens\GameModeScreen.cs" />
     <Compile Include="Screens\OnePlayerSelectScreen.cs" />
     <Compile Include="Screens\OptionsScreen.cs" />
     <Compile Include="Screens\PauseScreen.cs" />
