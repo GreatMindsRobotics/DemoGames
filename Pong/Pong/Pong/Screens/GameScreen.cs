@@ -69,7 +69,7 @@ namespace Pong.Screens
             //rightPaddle.UpKey = Keys.Up;
             //rightPaddle.DownKey = Keys.Down;
 
-           // Global.RightPlayer = rightPaddle;
+            // Global.RightPlayer = rightPaddle;
 
             XDocument optionsXml = XDocument.Load(@"XML\Options.xml");
 
@@ -89,7 +89,7 @@ namespace Pong.Screens
 
             arrow = new GameSprite(Content.Load<Texture2D>("temp arrow"), new Vector2(0, 0), Color.CornflowerBlue);
             arrow.IsVisible = false;
-            arrow.Origin = new Vector2(-ball.Texture.Width/2 , arrow.Texture.Height/2);
+            arrow.Origin = new Vector2(-ball.Texture.Width / 2, arrow.Texture.Height / 2);
 
             plusOne = new PlusOne(Content.Load<Texture2D>("Plus1"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.Red);
             plusOne.SlideCompleted += new FontEffectsLib.SpriteTypes.SlidingSprite.SlideCompletedState(plusOne_SlideCompleted);
@@ -191,16 +191,39 @@ namespace Pong.Screens
             keyboard = Keyboard.GetState();
             arrow.Rotation += rotationspeed;
 
+            if (ball.BallState == BallState.Rested)
+            {
+                if (stuckToLeftPaddle)
+                {
 
-            if (arrow.Rotation >= Math.PI/2)
-            {
-                rotationspeed *= -1;
+                    if (arrow.Rotation >= MathHelper.ToRadians(60))
+                        {
+                            rotationspeed = -Math.Abs(rotationspeed);
+                            arrow.Rotation = MathHelper.ToRadians(60);
+                        }
+                    else if (arrow.Rotation <= -MathHelper.ToRadians(60))
+                        {
+                            rotationspeed = Math.Abs(rotationspeed);
+                            arrow.Rotation = -MathHelper.ToRadians(60);
+                        }
+
+                }
+                else
+                {
+
+                        if (arrow.Rotation <= MathHelper.ToRadians(120))
+                        {
+                            rotationspeed = Math.Abs(rotationspeed);
+                            arrow.Rotation = MathHelper.ToRadians(120);
+                        }
+                        else if (arrow.Rotation >= MathHelper.ToRadians(240))
+                        {
+                            rotationspeed = -Math.Abs(rotationspeed);
+                            arrow.Rotation = MathHelper.ToRadians(240);
+                        }
+                }
             }
-            else if (arrow.Rotation <= -Math.PI/2)
-            {
-                rotationspeed *= -1;
-            }
-            
+
             if (gameTime.IsRunningSlowly)
             {
                 //System.Diagnostics.Debugger.Break();
@@ -222,7 +245,7 @@ namespace Pong.Screens
                     if (Global.GameMode == GameMode.PingPong)
                     {
                         //using trigonometry to read the current rotation in degrees and have it spit out a vector2 to use for the speed.
-                        ball.Speed = new Vector2((float)Math.Cos(arrow.Rotation),(float)Math.Sin(arrow.Rotation));
+                        ball.Speed = new Vector2((float)Math.Cos(arrow.Rotation), (float)Math.Sin(arrow.Rotation));
                         //make it a regular speed, but storing the direction as well
                         ball.Speed.Normalize();
                         //making it a bit faster
@@ -278,7 +301,7 @@ namespace Pong.Screens
 
                     swichCount++;
 
-                    if(swichCount >= 2)
+                    if (swichCount >= 2)
                     {
                         swichCount = 0;
                         stuckToLeftPaddle = !stuckToLeftPaddle;
@@ -308,6 +331,10 @@ namespace Pong.Screens
                     {
                         swichCount = 0;
                         stuckToLeftPaddle = !stuckToLeftPaddle;
+                        //if (!stuckToLeftPaddle)
+                        //{
+                        //    arrow.Rotation += (float)Math.PI;
+                        //}
                     }
 
                     infoFont.Text.Clear();
@@ -347,7 +374,7 @@ namespace Pong.Screens
 
             //also check for other ballstates (stucktoleftplayer..etc)
             //if stucktoleftplayer
-                //constantly position it next to left player
+            //constantly position it next to left player
 
 
 
@@ -468,7 +495,7 @@ namespace Pong.Screens
                         //get the Y distance from the center of the ball and the center of the paddle
                         //dist: paddlecenterY - ballcenterY
                         //add that onto the ball yspeed
-                        ball.SpeedY -= (Global.RightPlayer.Position.Y - ball.Position.Y)/10;
+                        ball.SpeedY -= (Global.RightPlayer.Position.Y - ball.Position.Y) / 10;
                         ball.SpeedY = MathHelper.Clamp(ball.SpeedY, -5, 5);
                     }
                 }
@@ -488,7 +515,7 @@ namespace Pong.Screens
                         //get the Y distance from the center of the ball and the center of the paddle
                         //dist: paddlecenterY - ballcenterY
                         //add that onto the ball yspeed
-                        ball.SpeedY -= (Global.LeftPlayer.Position.Y - ball.Position.Y)/10;
+                        ball.SpeedY -= (Global.LeftPlayer.Position.Y - ball.Position.Y) / 10;
                         ball.SpeedY = MathHelper.Clamp(ball.SpeedY, -5, 5);
                     }
                 }
