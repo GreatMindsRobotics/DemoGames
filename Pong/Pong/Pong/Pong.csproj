@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoreTypes\Global.cs" />
+    <Compile Include="DebugTypes\PathMapper.cs" />
     <Compile Include="Screens\EditControlsScreen.cs" />
     <Compile Include="Screens\ErrorScreen.cs" />
     <Compile Include="Screens\GameModeScreen.cs" />

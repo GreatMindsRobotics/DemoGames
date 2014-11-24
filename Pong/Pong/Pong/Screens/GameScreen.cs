@@ -236,6 +236,8 @@ namespace Pong.Screens
 
             if (keyboard.IsKeyDown(Keys.Space))
             {
+                new DebugTypes.PathMapper(Vector2.Zero, new Vector2(20, 30), _viewPort.Bounds, DebugTypes.PathMapper.BoundingBoxSide.Right).Update(gameTime);
+
                 arrow.IsVisible = false;
                 infoFont.Text.Clear();
                 infoFont.Text.Append("Press Esc to pause");
