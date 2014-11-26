@@ -11,8 +11,6 @@ using Pong.CoreTypes;
 using System.Xml.Linq;
 using FontEffectsLib.SpriteTypes;
 
-
-
 namespace Pong.Screens
 {
     public class GameScreen : BaseScreen

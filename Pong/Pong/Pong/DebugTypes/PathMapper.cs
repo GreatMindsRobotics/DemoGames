@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Pong.DebugTypes
 {
@@ -56,11 +57,13 @@ namespace Pong.DebugTypes
             Vector2 newDirection = Vector2.Zero;
             
             //TODO: calculations... see "BulletPath" example ... and Stan
+            float yDistanceRatio = (boundingBox.Height - startingPosition.Y) / initialDirection.Y;
+            float xintercept = initialDirection.X * yDistanceRatio;
 
             //Recursion and exit condition
             if (exitBorder != finalDestination)
             {
-                calculatePath(exitPosition, newDirection, boundingBox, finalDestination);
+                //calculatePath(exitPosition, newDirection, boundingBox, finalDestination);
             }
         }
     }
