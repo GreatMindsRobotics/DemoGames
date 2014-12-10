@@ -259,11 +259,11 @@ namespace Pong.Screens
                         switch (ballDirection)
                         {
                             case 0:
-                                ball.Speed = new Vector2(5, 2);
+                                ball.Speed = new Vector2(rnd.Next(5, 11), rnd.Next(2, 6));
                                 break;
 
                             case 1:
-                                ball.Speed = new Vector2(-5, 2);
+                                ball.Speed = new Vector2(rnd.Next(-11, -5), rnd.Next(2, 6));
                                 break;
 
                             default:
