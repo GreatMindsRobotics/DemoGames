@@ -20,6 +20,8 @@ namespace Pong.Screens
 
         GameSprite arrow;
 
+        //GameSprite numbers;
+
         FadingFont leftScoreFont;
         FadingFont rightScoreFont;
 
@@ -54,7 +56,8 @@ namespace Pong.Screens
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
-            Global.LeftPlayer = new Paddle(Content.Load<Texture2D>("temp paddle"), new Vector2(0, _viewPort.Height / 2), Color.White);
+            Global.LeftPlayer = new Paddle(Content.Load<Texture2D>("PaddleLeft"), new Vector2(0, _viewPort.Height / 2), Color.White);
+            Global.LeftPlayer.Scale = new Vector2(0.5f);
             Global.LeftPlayer.SetCenterAsOrigin();
             Global.LeftPlayer.Position = new Vector2(Global.LeftPlayer.Origin.X, _viewPort.Height / 2);
             //leftPaddle.UpKey = Keys.W;
@@ -62,7 +65,8 @@ namespace Pong.Screens
 
             //Global.LeftPlayer = Global.LeftPlayer;
 
-            Global.RightPlayer = new Paddle(Content.Load<Texture2D>("temp paddle"), new Vector2(_viewPort.Width - Global.LeftPlayer.Texture.Width / 2, _viewPort.Height / 2), Color.White);
+            Global.RightPlayer = new Paddle(Content.Load<Texture2D>("PaddleRight"), new Vector2(_viewPort.Width - Global.LeftPlayer.Texture.Width / 2, _viewPort.Height / 2), Color.White);
+            Global.RightPlayer.Scale = new Vector2(0.5f);
             Global.RightPlayer.SetCenterAsOrigin();
             //rightPaddle.UpKey = Keys.Up;
             //rightPaddle.DownKey = Keys.Down;
@@ -81,14 +85,18 @@ namespace Pong.Screens
             Global.RightPlayer.DownKey = (Keys)int.Parse(player2.Element(XName.Get("Down")).Value);
 
 
-            ball = new Ball(Content.Load<Texture2D>("temp ball"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
+            ball = new Ball(Content.Load<Texture2D>("Ball"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
+            ball.Scale = new Vector2(0.5f);
             ball.SetCenterAsOrigin();
 
 
-            arrow = new GameSprite(Content.Load<Texture2D>("temp arrow"), new Vector2(0, 0), Color.CornflowerBlue);
+            arrow = new GameSprite(Content.Load<Texture2D>("ArrowRight"), new Vector2(0, 0), Color.CornflowerBlue);
+            arrow.Scale = new Vector2(0.5f);
             arrow.IsVisible = false;
             arrow.Origin = new Vector2(-ball.Texture.Width / 2, arrow.Texture.Height / 2);
 
+
+            //numbers = new GameSprite(Content.Load<Texture2D>("Numbers"), new Vector2(0, 0), Color.CornflowerBlue);
             plusOne = new PlusOne(Content.Load<Texture2D>("Plus1"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.Red);
             plusOne.SlideCompleted += new FontEffectsLib.SpriteTypes.SlidingSprite.SlideCompletedState(plusOne_SlideCompleted);
 
@@ -117,7 +125,7 @@ namespace Pong.Screens
             _sprites.Add(player1Font);
             _sprites.Add(player2Font);
             _sprites.Add(infoFont);
-
+            //_sprites.Add(numbers);
         }
 
         void plusOne_SlideCompleted()
@@ -142,18 +150,20 @@ namespace Pong.Screens
 
             if (Global.GameMode == GameMode.Classical)
             {
-                ball.Position = new Vector2(_viewPort.Width / 2 - ball.Texture.Width / 2, _viewPort.Height / 2 - ball.Texture.Height / 2);
+                ball.Position = new Vector2(_viewPort.Width / 2 - ball.Texture.Width * ball.Scale.X / 2, _viewPort.Height / 2 - ball.Texture.Height * ball.Scale.Y / 2);
             }
             else if (Global.GameMode == GameMode.PingPong)
             {
                 //set ball.state = ballstate.stucktospecificplayer
                 if (stuckToLeftPaddle)
                 {
-                    ball.Position = new Vector2(Global.LeftPlayer.Right + ball.Texture.Width / 2 + 5, Global.LeftPlayer.Top + Global.LeftPlayer.Texture.Height / 2);
+                    //ball.Position = new Vector2(Global.LeftPlayer.Right + ball.Texture.Width / 2 + 5, Global.LeftPlayer.Top + Global.LeftPlayer.Texture.Height / 2);
+                    ball.Position = new Vector2(Global.LeftPlayer.Right + ball.Texture.Width * ball.Scale.X / 2 + 5 , Global.LeftPlayer.Top + Global.LeftPlayer.Texture.Height * Global.LeftPlayer.Scale.Y / 2);
                 }
                 else
                 {
-                    ball.Position = new Vector2(Global.RightPlayer.Left - ball.Texture.Width / 2 - 5, Global.RightPlayer.Top + Global.RightPlayer.Texture.Height / 2);
+                    //ball.Position = new Vector2(Global.RightPlayer.Left - ball.Texture.Width / 2 - 5, Global.RightPlayer.Top + Global.RightPlayer.Texture.Height / 2);
+                    ball.Position = new Vector2(Global.RightPlayer.Left - ball.Texture.Width * ball.Scale.X / 2 - 5 , Global.RightPlayer.Top + Global.LeftPlayer.Texture.Height * Global.LeftPlayer.Scale.Y / 2);
                 }
             }
             //Check for win
@@ -277,7 +287,7 @@ namespace Pong.Screens
 
             if (ball.BallState == BallState.Moving)
             {
-                if (ball.Position.Y + ball.Origin.Y >= _viewPort.Height)
+                if (ball.Bottom >= _viewPort.Height)
                 {
 
                     if (ball.SpeedY > 0)
@@ -286,7 +296,7 @@ namespace Pong.Screens
                     }
 
                 }
-                else if (ball.Position.Y - ball.Origin.Y <= 0)
+                else if (ball.Top <= 0)
                 {
                     if (ball.SpeedY < 0)
                     {
@@ -357,7 +367,7 @@ namespace Pong.Screens
             {
                 if (stuckToLeftPaddle)
                 {
-                    ball.Position = new Vector2(Global.LeftPlayer.Right + ball.Texture.Width / 2 + 5, Global.LeftPlayer.Top + Global.LeftPlayer.Texture.Height / 2);
+                    ball.Position = new Vector2(Global.LeftPlayer.Right + ball.Texture.Width * ball.Scale.X / 2 + 5, Global.LeftPlayer.Top + Global.LeftPlayer.Texture.Height * ball.Scale.Y/ 2);
                     arrow.Position = new Vector2(ball.Position.X, ball.Position.Y);
                     arrow.Effects = SpriteEffects.None;
                     arrow.IsVisible = true;
@@ -365,7 +375,7 @@ namespace Pong.Screens
                 }
                 else
                 {
-                    ball.Position = new Vector2(Global.RightPlayer.Left - ball.Texture.Width / 2 - 5, Global.RightPlayer.Top + Global.RightPlayer.Texture.Height / 2);
+                    ball.Position = new Vector2(Global.RightPlayer.Left - ball.Texture.Width * ball.Scale.X / 2 - 5, Global.RightPlayer.Top + Global.RightPlayer.Texture.Height * ball.Scale.Y/ 2);
                     arrow.Position = new Vector2(ball.Position.X, ball.Position.Y);
                     //arrow.Effects = SpriteEffects.FlipHorizontally;
                     arrow.IsVisible = true;
@@ -395,7 +405,7 @@ namespace Pong.Screens
                         Global.RightPlayer.VectorY -= paddleSpeed;
                     }
 
-                    if (keyboard.IsKeyDown(Global.RightPlayer.DownKey) && Global.RightPlayer.Position.Y + Global.RightPlayer.Origin.Y < _viewPort.Height)
+                    if (keyboard.IsKeyDown(Global.RightPlayer.DownKey) && Global.RightPlayer.Bottom < _viewPort.Height)
                     {
                         Global.RightPlayer.VectorY += paddleSpeed;
                     }
@@ -429,23 +439,23 @@ namespace Pong.Screens
                     else
                     {
                         //Rightpaddle Movement
-                        if (keyboard.IsKeyDown(Global.RightPlayer.UpKey) && Global.RightPlayer.Position.Y - Global.RightPlayer.Origin.Y > 0)
+                        if (keyboard.IsKeyDown(Global.RightPlayer.UpKey) && Global.RightPlayer.Top > 0)
                         {
                             Global.RightPlayer.VectorY -= paddleSpeed;
                         }
 
-                        if (keyboard.IsKeyDown(Global.RightPlayer.DownKey) && Global.RightPlayer.Position.Y + Global.RightPlayer.Origin.Y < _viewPort.Height)
+                        if (keyboard.IsKeyDown(Global.RightPlayer.DownKey) && Global.RightPlayer.Bottom < _viewPort.Height)
                         {
                             Global.RightPlayer.VectorY += paddleSpeed;
                         }
 
                         //Leftpaddle Movement
-                        if (keyboard.IsKeyDown(Global.LeftPlayer.UpKey) && Global.LeftPlayer.Position.Y - Global.LeftPlayer.Origin.Y > 0)
+                        if (keyboard.IsKeyDown(Global.LeftPlayer.UpKey) && Global.LeftPlayer.Top > 0)
                         {
                             Global.LeftPlayer.VectorY -= paddleSpeed;
                         }
 
-                        if (keyboard.IsKeyDown(Global.LeftPlayer.DownKey) && Global.LeftPlayer.Position.Y + Global.LeftPlayer.Origin.Y < _viewPort.Height)
+                        if (keyboard.IsKeyDown(Global.LeftPlayer.DownKey) && Global.LeftPlayer.Bottom < _viewPort.Height)
                         {
                             Global.LeftPlayer.VectorY += paddleSpeed;
                         }

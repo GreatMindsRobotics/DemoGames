@@ -18,7 +18,7 @@ namespace Pong.Sprites
         {
             get
             {
-                return _position.X - _origin.X;
+                return _position.X - _origin.X * _scale.X;
 
             }
         }
@@ -27,7 +27,7 @@ namespace Pong.Sprites
         {
             get
             {
-                return _position.X + _origin.X;
+                return _position.X + _origin.X * _scale.X;
 
             }
         }
@@ -36,7 +36,7 @@ namespace Pong.Sprites
         {
             get
             {
-                return _position.Y - _origin.Y;
+                return _position.Y - _origin.Y * _scale.Y;
 
             }
         }
@@ -45,7 +45,7 @@ namespace Pong.Sprites
         {
             get
             {
-                return _position.Y + _origin.Y;
+                return _position.Y + _origin.Y * _scale.Y;
 
             }
         }
