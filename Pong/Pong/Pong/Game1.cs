@@ -52,6 +52,8 @@ namespace Pong
         /// </summary>
         protected override void Initialize()
         {
+            graphics.ToggleFullScreen();
+
             screenState = ScreenState.Title;
 
             gameScreen = new GameScreen();
@@ -66,6 +68,14 @@ namespace Pong
             pauseScreen = new PauseScreen();
             errorScreen = new ErrorScreen();
             gameModeScreen = new GameModeScreen();
+            
+
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
+            graphics.ApplyChanges();
+           
+
+            Global.Scale = new Vector2(GraphicsDevice.Viewport.Width / 1920f);
 
             IsMouseVisible = true;
             base.Initialize();

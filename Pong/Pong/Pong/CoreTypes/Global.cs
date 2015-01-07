@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Pong.Sprites;
+using Microsoft.Xna.Framework;
 
 namespace Pong.CoreTypes
 {
@@ -15,5 +16,7 @@ namespace Pong.CoreTypes
         public static Mode Mode;
         public static Difficulty Difficulty;
         public static GameMode GameMode;
+
+        public static Vector2 Scale;
     }
 }

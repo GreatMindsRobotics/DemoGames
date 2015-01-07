@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Pong.Sprites
 {
-    class Button : GameSprite
+    public class Button : GameSprite
     {
         bool isClicked = false;
 
@@ -34,8 +34,16 @@ namespace Pong.Sprites
         {
             get
             {
-                return _position.X + _origin.X * _scale.X;
-
+                float blah = Left;
+                if (_sourceRectangle.HasValue)
+                {
+                    blah += _sourceRectangle.Value.Width * _scale.X;
+                }
+                else
+                {
+                    blah += _texture.Width * _scale.X;
+                }
+                return blah;
             }
         }
 
@@ -44,7 +52,6 @@ namespace Pong.Sprites
             get
             {
                 return _position.Y - _origin.Y * _scale.Y;
-
             }
         }
 
@@ -52,8 +59,16 @@ namespace Pong.Sprites
         {
             get
             {
-                return _position.Y + _origin.Y * _scale.Y;
-
+                float blah = Top;
+                if (_sourceRectangle.HasValue)
+                {
+                    blah += _sourceRectangle.Value.Height * _scale.Y;
+                }
+                else
+                {
+                    blah += _texture.Height * _scale.Y;
+                }
+                return blah;
             }
         }
 
@@ -82,17 +97,62 @@ namespace Pong.Sprites
             }
         }
 
+        private Rectangle[] _rectangles;
+
         public Button(Texture2D image, Vector2 location, Color tint) :
             base(image, location, tint)
         {
             ls = Mouse.GetState();
         }
 
+        public Button(Texture2D releasedImage, Vector2 location, Color tint, params Rectangle[] rectangles) :
+            base(releasedImage, location, tint)
+        {
+
+            _rectangles = rectangles;
+            SourceRectangle = _rectangles[0];
+
+            ls = Mouse.GetState();
+        }
+
         MouseState ls;
+        bool isPressed = false;
 
         public override void Update(GameTime gameTime)
         {
             MouseState mouse = Mouse.GetState();
+            
+            
+
+            if (_rectangles != null)
+            {
+
+                _origin.Y = SourceRectangle.Value.Height;
+
+                if (mouse.X > Left && mouse.X < Right && mouse.Y > Top && mouse.Y < Bottom)
+                {
+                    if (mouse.LeftButton == ButtonState.Pressed)
+                    {
+                        if (!isPressed)
+                        {
+                            Mouse.SetPosition(mouse.X, mouse.Y + _rectangles[0].Height - _rectangles[1].Height);
+                        }
+                        isPressed = true;
+                        SourceRectangle = _rectangles[1];
+                    }
+                    else
+                    {
+                        isPressed = false;
+                        SourceRectangle = _rectangles[0];
+                    }
+                }
+                else
+                {
+                    isPressed = false;
+                    SourceRectangle = _rectangles[0];
+                }
+            }
+
 
             if (mouse.X > Left && mouse.X < Right && mouse.Y > Top && mouse.Y < Bottom && mouse.LeftButton == ButtonState.Released && ls.LeftButton == ButtonState.Pressed)
             {
@@ -102,7 +162,6 @@ namespace Pong.Sprites
             {
                 isClicked = false;
             }
-
 
             ls = mouse;
             base.Update(gameTime);

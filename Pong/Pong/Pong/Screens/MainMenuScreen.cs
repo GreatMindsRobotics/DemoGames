@@ -10,6 +10,7 @@ using Pong.CoreTypes;
 using FontEffectsLib;
 using FontEffectsLib.CoreTypes;
 using FontEffectsLib.FontTypes;
+using FontEffectsLib.SpriteTypes;
 
 namespace Pong.Screens
 {
@@ -29,28 +30,37 @@ namespace Pong.Screens
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
-            titleDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), new Vector2(_viewPort.Width / 2, 50), dropSpeed, "Main Menu", Color.CornflowerBlue);
-            titleDropInFont.IsVisible = true;
-            titleDropInFont.SetCenterAsOrigin();
-            titleDropInFont.EnableShadow = false;
-            titleDropInFont.TintColor = Color.Black;
-            titleDropInFont.ShadowPosition = new Vector2(titleDropInFont.Position.X - 4, titleDropInFont.Position.Y + 4);
-            titleDropInFont.ShadowColor = Color.Gray;
 
-            singlaPlayerBtn = new Button(Content.Load<Texture2D>("temp 1 player button"), new Vector2(0, 0), Color.White);
-            singlaPlayerBtn.SetCenterAsOrigin();
-            singlaPlayerBtn.Position = new Vector2(_viewPort.Width / 2, titleDropInFont.Position.Y + singlaPlayerBtn.Origin.Y * 2.5f);
+            GameSprite background = new GameSprite(Content.Load<Texture2D>("Background\\MainMenu"), Vector2.Zero, Color.White);
+            background.Scale = Global.Scale;
 
-            multiPlayerBtn = new Button(Content.Load<Texture2D>("temp 2 players button"), new Vector2(0, 0), Color.White);
-            multiPlayerBtn.SetCenterAsOrigin();
-            multiPlayerBtn.Position = new Vector2(_viewPort.Width / 2, singlaPlayerBtn.Position.Y + multiPlayerBtn.Origin.Y * 3);
+
+            //titleDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), new Vector2(_viewPort.Width / 2, 50), dropSpeed, "Main Menu", Color.CornflowerBlue);
+            //titleDropInFont.IsVisible = true;
+            //titleDropInFont.SetCenterAsOrigin();
+            //titleDropInFont.EnableShadow = false;
+            //titleDropInFont.TintColor = Color.Black;
+            //titleDropInFont.ShadowPosition = new Vector2(titleDropInFont.Position.X - 4, titleDropInFont.Position.Y + 4);
+            //titleDropInFont.ShadowColor = Color.Gray;
+
+            singlaPlayerBtn = new Button(Content.Load<Texture2D>("Buttons//1Player"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 707, 169), new Rectangle(0, 0, 707, 149));
+            singlaPlayerBtn.Origin = new Vector2(singlaPlayerBtn.Texture.Width / 2, 169);
+            singlaPlayerBtn.Position = new Vector2(960, 469 + singlaPlayerBtn.SourceRectangle.Value.Height / 2);
+
+
+            multiPlayerBtn = new Button(Content.Load<Texture2D>("Buttons//2Players"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 707, 169), new Rectangle(0, 0, 707, 149));
+            multiPlayerBtn.Origin = new Vector2(multiPlayerBtn.Texture.Width / 2, 169);
+            multiPlayerBtn.Position = new Vector2(960, 735 + multiPlayerBtn.SourceRectangle.Value.Height / 2);
+
 
             optionsBtn = new Button(Content.Load<Texture2D>("temp options button"), new Vector2(0, 0), Color.White);
             optionsBtn.SetCenterAsOrigin();
             optionsBtn.Position = new Vector2(_viewPort.Width / 2, multiPlayerBtn.Position.Y + optionsBtn.Origin.Y * 3);
 
+            _sprites.Add(background);
 
-            _sprites.Add(titleDropInFont);
+
+            //_sprites.Add(titleDropInFont);
             _sprites.Add(singlaPlayerBtn);
             _sprites.Add(multiPlayerBtn);
             _sprites.Add(optionsBtn);
@@ -84,7 +94,7 @@ namespace Pong.Screens
 
         public override void Reset()
         {
-            titleDropInFont.Reset();
+            //titleDropInFont.Reset();
             base.Reset();
         }
     }

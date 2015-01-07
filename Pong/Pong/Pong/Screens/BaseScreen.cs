@@ -18,10 +18,17 @@ namespace Pong.Screens
 
         protected Viewport _viewPort;
 
+        public Viewport ViewPort
+        {
+            set
+            {
+                _viewPort = value;
+            }
+        }
 
         public BaseScreen()
         {
-            _viewPort = new Viewport(0, 0, 800, 480);
+            _viewPort = new Viewport(0, 0, 1920, 1080);
             _sprites = new List<ISprite>();
         }
 
