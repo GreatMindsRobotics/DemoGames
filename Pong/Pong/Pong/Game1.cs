@@ -52,7 +52,7 @@ namespace Pong
         /// </summary>
         protected override void Initialize()
         {
-            graphics.ToggleFullScreen();
+            //graphics.ToggleFullScreen();
 
             screenState = ScreenState.Title;
 
@@ -119,7 +119,7 @@ namespace Pong
             ScreenManager.AddScreen(ScreenState.Error, errorScreen);
             ScreenManager.AddScreen(ScreenState.GameMode, gameModeScreen);
 
-            ScreenManager.Change(ScreenState.Title);
+            ScreenManager.Change(ScreenState.MainMenu);
         }
 
         /// <summary>

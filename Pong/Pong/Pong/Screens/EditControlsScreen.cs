@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Pong.Sprites;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Pong.CoreTypes;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Pong.CoreTypes;
+using FontEffectsLib;
+using FontEffectsLib.CoreTypes;
 using FontEffectsLib.FontTypes;
+using FontEffectsLib.SpriteTypes;
 using System.Xml.Linq;
+
 
 namespace Pong.Screens
 {
     class EditControlsScreen : BaseScreen
     {
-        DropInFont titleDropInFont;
+        //DropInFont titleDropInFont;
 
         FadingFont rightUpDisp;
         FadingFont rightDownDisp;
@@ -39,51 +43,56 @@ namespace Pong.Screens
         {
             state = ControlScreenState.SelectingControl;
 
-            titleDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts//JingJingTitle"), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), dropSpeed, "Controls", Color.White);
-            titleDropInFont.IsVisible = true;
-            titleDropInFont.SetCenterAsOrigin();
-            titleDropInFont.EnableShadow = false;
-            titleDropInFont.TintColor = Color.Black;
-            titleDropInFont.ShadowPosition = new Vector2(titleDropInFont.Position.X - 4, titleDropInFont.Position.Y + 4);
-            titleDropInFont.ShadowColor = Color.Gray;
+            GameSprite background = new GameSprite(Content.Load<Texture2D>("Background\\Keys"), Vector2.Zero, Color.White);
+            background.Scale = Global.Scale;
 
-            changeRightUpBtn = new Button(Content.Load<Texture2D>("temp right up button"), new Vector2(0, 0), Color.White);
-            changeRightUpBtn.SetCenterAsOrigin();
-            changeRightUpBtn.Position = new Vector2(_viewPort.Width / 2 + 200, _viewPort.Height / 2 - 100);
+            //titleDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts//JingJingTitle"), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), dropSpeed, "Controls", Color.White);
+            //titleDropInFont.IsVisible = true;
+            //titleDropInFont.SetCenterAsOrigin();
+            //titleDropInFont.EnableShadow = false;
+            //titleDropInFont.TintColor = Color.Black;
+            //titleDropInFont.ShadowPosition = new Vector2(titleDropInFont.Position.X - 4, titleDropInFont.Position.Y + 4);
+            //titleDropInFont.ShadowColor = Color.Gray;
 
-            changeRightDownBtn = new Button(Content.Load<Texture2D>("temp right down button"), new Vector2(0, 0), Color.White);
-            changeRightDownBtn.SetCenterAsOrigin();
-            changeRightDownBtn.Position = new Vector2(_viewPort.Width / 2 + 200, _viewPort.Height / 2 + 50);
+            changeRightUpBtn = new Button(Content.Load<Texture2D>("Buttons//Blank"), new Vector2(0, 0), Color.White, new Rectangle(0, 117, 404, 137), new Rectangle(0, 0, 404, 117));
+            changeRightUpBtn.Origin = new Vector2(changeRightUpBtn.Texture.Width / 2, 137);
+            changeRightUpBtn.Position = new Vector2(1267, 453 + changeRightUpBtn.SourceRectangle.Value.Height / 2);
 
-            changeLeftUpBtn = new Button(Content.Load<Texture2D>("temp left up button"), new Vector2(0, 0), Color.White);
-            changeLeftUpBtn.SetCenterAsOrigin();
-            changeLeftUpBtn.Position = new Vector2(_viewPort.Width / 2 - 200, _viewPort.Height / 2 - 100);
+            changeRightDownBtn = new Button(Content.Load<Texture2D>("Buttons//Blank"), new Vector2(0, 0), Color.White, new Rectangle(0, 117, 404, 137), new Rectangle(0, 0, 404, 117));
+            changeRightDownBtn.Origin = new Vector2(changeRightDownBtn.Texture.Width / 2, 137);
+            changeRightDownBtn.Position = new Vector2(1267, 718 + changeRightDownBtn.SourceRectangle.Value.Height / 2);
 
-            changeLeftDownBtn = new Button(Content.Load<Texture2D>("temp left down button"), new Vector2(0, 0), Color.White);
-            changeLeftDownBtn.SetCenterAsOrigin();
-            changeLeftDownBtn.Position = new Vector2(_viewPort.Width / 2 - 200, _viewPort.Height / 2 + 50);
+            changeLeftUpBtn = new Button(Content.Load<Texture2D>("Buttons//Blank"), new Vector2(0, 0), Color.White, new Rectangle(0, 117, 404, 137), new Rectangle(0, 0, 404, 117));
+            changeLeftUpBtn.Origin = new Vector2(changeLeftUpBtn.Texture.Width / 2, 137);
+            changeLeftUpBtn.Position = new Vector2(635, 453 + changeLeftUpBtn.SourceRectangle.Value.Height / 2);
 
-            rightUpDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), Vector2.Zero, 0.1f, 1.0f, 0.1f, 1.0f, Global.RightPlayer.UpKey.ToString(), Color.White, true);
+            changeLeftDownBtn = new Button(Content.Load<Texture2D>("Buttons//Blank"), new Vector2(0, 0), Color.White, new Rectangle(0, 117, 404, 137), new Rectangle(0, 0, 404, 117));
+            changeLeftDownBtn.Origin = new Vector2(changeLeftDownBtn.Texture.Width / 2, 137);
+            changeLeftDownBtn.Position = new Vector2(635, 718 + changeLeftDownBtn.SourceRectangle.Value.Height / 2);
+            
+            rightUpDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\BigOutage"), Vector2.Zero, 0.1f, 1.0f, 0.1f, 1.0f, Global.RightPlayer.UpKey.ToString(), Color.White, true);
             rightUpDisp.EnableShadow = false;
-            rightUpDisp.Position = new Vector2(changeRightUpBtn.Position.X - rightUpDisp.Size.X / 2, changeRightUpBtn.Bottom);
+            rightUpDisp.Position = new Vector2(changeRightUpBtn.Position.X - rightUpDisp.Size.X / 2, changeRightUpBtn.Bottom - 120);
 
-            rightDownDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), Vector2.Zero, 0.1f, 1.0f, 0.1f, 1.0f, Global.RightPlayer.DownKey.ToString(), Color.White, true);
+            rightDownDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\BigOutage"), Vector2.Zero, 0.1f, 1.0f, 0.1f, 1.0f, Global.RightPlayer.DownKey.ToString(), Color.White, true);
             rightDownDisp.EnableShadow = false;
-            rightDownDisp.Position = new Vector2(changeRightDownBtn.Position.X - rightDownDisp.Size.X / 2, changeRightDownBtn.Bottom);
+            rightDownDisp.Position = new Vector2(changeRightDownBtn.Position.X - rightDownDisp.Size.X / 2, changeRightDownBtn.Bottom - 120);
 
-            leftUpDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), Vector2.Zero, 0.1f, 1.0f, 0.1f, 1.0f, Global.LeftPlayer.UpKey.ToString(), Color.White, true);
+            leftUpDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\BigOutage"), Vector2.Zero, 0.1f, 1.0f, 0.1f, 1.0f, Global.LeftPlayer.UpKey.ToString(), Color.White, true);
             leftUpDisp.EnableShadow = false;
-            leftUpDisp.Position = new Vector2(changeLeftUpBtn.Position.X - leftUpDisp.Size.X / 2, changeLeftUpBtn.Bottom);
+            leftUpDisp.Position = new Vector2(changeLeftUpBtn.Position.X - leftUpDisp.Size.X / 2, changeLeftUpBtn.Bottom - 120);
 
-            leftDownDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), Vector2.Zero, 0.1f, 1.0f, 0.1f, 1.0f, Global.LeftPlayer.DownKey.ToString(), Color.White, true);
+            leftDownDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\BigOutage"), Vector2.Zero, 0.1f, 1.0f, 0.1f, 1.0f, Global.LeftPlayer.DownKey.ToString(), Color.White, true);
             leftDownDisp.EnableShadow = false;
-            leftDownDisp.Position = new Vector2(changeLeftDownBtn.Position.X - leftDownDisp.Size.X / 2, changeLeftDownBtn.Bottom);
+            leftDownDisp.Position = new Vector2(changeLeftDownBtn.Position.X - leftDownDisp.Size.X / 2, changeLeftDownBtn.Bottom - 120);
+            
+            backBtn = new Button(Content.Load<Texture2D>("Buttons//Back"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 159, 169), new Rectangle(0, 0, 159, 149));
+            backBtn.Origin = new Vector2(backBtn.Texture.Width / 2, 169);
+            backBtn.Position = new Vector2(177, 907 + backBtn.SourceRectangle.Value.Height / 2);
 
-            backBtn = new Button(Content.Load<Texture2D>("temp back button"), new Vector2(10, 10), Color.CornflowerBlue);
-            backBtn.SetCenterAsOrigin();
-            backBtn.Position = backBtn.Origin;
+            //_sprites.Add(titleDropInFont);
 
-            _sprites.Add(titleDropInFont);
+            _sprites.Add(background);
             _sprites.Add(changeRightUpBtn);
             _sprites.Add(changeRightDownBtn);
             _sprites.Add(changeLeftUpBtn);
@@ -137,7 +146,7 @@ namespace Pong.Screens
 
                         rightUpDisp.Text.Clear();
                         rightUpDisp.Text.Append(Global.RightPlayer.UpKey.ToString());
-                        rightUpDisp.Position = new Vector2(changeRightUpBtn.Position.X - rightUpDisp.Size.X / 2, changeRightUpBtn.Bottom);
+                        rightUpDisp.Position = new Vector2(changeRightUpBtn.Position.X - rightUpDisp.Size.X / 2, changeRightUpBtn.Bottom - 120);
                     }
                     if (buttonthatwaspressed == 2 && pressedKeys[0] != Global.RightPlayer.UpKey && pressedKeys[0] != Global.LeftPlayer.DownKey && pressedKeys[0] != Global.LeftPlayer.UpKey)
                     {
@@ -148,7 +157,7 @@ namespace Pong.Screens
 
                         rightDownDisp.Text.Clear();
                         rightDownDisp.Text.Append(Global.RightPlayer.DownKey.ToString());
-                        rightDownDisp.Position = new Vector2(changeRightDownBtn.Position.X - rightDownDisp.Size.X / 2, changeRightDownBtn.Bottom);
+                        rightDownDisp.Position = new Vector2(changeRightDownBtn.Position.X - rightDownDisp.Size.X / 2, changeRightDownBtn.Bottom - 120);
                     }
                     if (buttonthatwaspressed == 3 && pressedKeys[0] != Global.RightPlayer.DownKey && pressedKeys[0] != Global.LeftPlayer.DownKey && pressedKeys[0] != Global.RightPlayer.UpKey)
                     {
@@ -159,7 +168,7 @@ namespace Pong.Screens
 
                         leftUpDisp.Text.Clear();
                         leftUpDisp.Text.Append(Global.LeftPlayer.UpKey.ToString());
-                        leftUpDisp.Position = new Vector2(changeLeftUpBtn.Position.X - leftUpDisp.Size.X / 2, changeLeftUpBtn.Bottom);
+                        leftUpDisp.Position = new Vector2(changeLeftUpBtn.Position.X - leftUpDisp.Size.X / 2, changeLeftUpBtn.Bottom - 120);
                     }
                     if (buttonthatwaspressed == 4 && pressedKeys[0] != Global.RightPlayer.DownKey && pressedKeys[0] != Global.RightPlayer.UpKey && pressedKeys[0] != Global.LeftPlayer.UpKey)
                     {
@@ -170,7 +179,7 @@ namespace Pong.Screens
 
                         leftDownDisp.Text.Clear();
                         leftDownDisp.Text.Append(Global.LeftPlayer.DownKey.ToString());
-                        leftDownDisp.Position = new Vector2(changeLeftDownBtn.Position.X - leftDownDisp.Size.X / 2, changeLeftDownBtn.Bottom);
+                        leftDownDisp.Position = new Vector2(changeLeftDownBtn.Position.X - leftDownDisp.Size.X / 2, changeLeftDownBtn.Bottom - 120);
                     }
                 }
 
@@ -240,7 +249,8 @@ namespace Pong.Screens
             rightDownDisp.Reset();
             leftUpDisp.Reset();
             leftDownDisp.Reset();
-            titleDropInFont.Reset();
+            
+            //titleDropInFont.Reset();
             base.Reset();
         }
 

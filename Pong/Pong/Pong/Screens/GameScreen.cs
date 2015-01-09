@@ -56,17 +56,20 @@ namespace Pong.Screens
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
-            Global.LeftPlayer = new Paddle(Content.Load<Texture2D>("PaddleLeft"), new Vector2(0, _viewPort.Height / 2), Color.White);
-            Global.LeftPlayer.Scale = new Vector2(0.5f);
+            GameSprite background = new GameSprite(Content.Load<Texture2D>("Background\\Play"), Vector2.Zero, Color.White);
+            background.Scale = Global.Scale;
+
+            Global.LeftPlayer = new Paddle(Content.Load<Texture2D>("PaddleLeft"), new Vector2(30, _viewPort.Height / 2), Color.White);
+            //Global.LeftPlayer.Scale = new Vector2(0.5f);
             Global.LeftPlayer.SetCenterAsOrigin();
-            Global.LeftPlayer.Position = new Vector2(Global.LeftPlayer.Origin.X, _viewPort.Height / 2);
+            Global.LeftPlayer.Position = new Vector2(Global.LeftPlayer.Origin.X + 30, _viewPort.Height / 2);
             //leftPaddle.UpKey = Keys.W;
             //leftPaddle.DownKey = Keys.S;
 
             //Global.LeftPlayer = Global.LeftPlayer;
 
-            Global.RightPlayer = new Paddle(Content.Load<Texture2D>("PaddleRight"), new Vector2(_viewPort.Width - Global.LeftPlayer.Texture.Width / 2, _viewPort.Height / 2), Color.White);
-            Global.RightPlayer.Scale = new Vector2(0.5f);
+            Global.RightPlayer = new Paddle(Content.Load<Texture2D>("PaddleRight"), new Vector2(_viewPort.Width - Global.LeftPlayer.Texture.Width / 2 - 30, _viewPort.Height / 2), Color.White);
+            //Global.RightPlayer.Scale = new Vector2(0.5f);
             Global.RightPlayer.SetCenterAsOrigin();
             //rightPaddle.UpKey = Keys.Up;
             //rightPaddle.DownKey = Keys.Down;
@@ -86,12 +89,12 @@ namespace Pong.Screens
 
 
             ball = new Ball(Content.Load<Texture2D>("Ball"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
-            ball.Scale = new Vector2(0.5f);
+            //ball.Scale = new Vector2(0.5f);
             ball.SetCenterAsOrigin();
 
 
             arrow = new GameSprite(Content.Load<Texture2D>("ArrowRight"), new Vector2(0, 0), Color.CornflowerBlue);
-            arrow.Scale = new Vector2(0.5f);
+            //arrow.Scale = new Vector2(0.5f);
             arrow.IsVisible = false;
             arrow.Origin = new Vector2(-ball.Texture.Width / 2, arrow.Texture.Height / 2);
 
@@ -100,30 +103,32 @@ namespace Pong.Screens
             plusOne = new PlusOne(Content.Load<Texture2D>("Plus1"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.Red);
             plusOne.SlideCompleted += new FontEffectsLib.SpriteTypes.SlidingSprite.SlideCompletedState(plusOne_SlideCompleted);
 
-            leftScoreFont = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(10, 0), 0.1f, 1.0f, 0.01f, 1.0f, leftScore.ToString(), Color.White, false);
+            leftScoreFont = new FadingFont(Content.Load<SpriteFont>("Fonts\\JumboOutage"), new Vector2(_viewPort.Width/2 - 200, 15), 0.1f, 1.0f, 0.01f, 1.0f, leftScore.ToString(), Color.White, false);
             leftScoreFont.EnableShadow = false;
 
-            rightScoreFont = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(_viewPort.Width - 30, 0), 0.1f, 1.0f, 0.01f, 1.0f, rightScore.ToString(), Color.White, false);
+            rightScoreFont = new FadingFont(Content.Load<SpriteFont>("Fonts\\JumboOutage"), new Vector2(_viewPort.Width/2 + 50, 15), 0.1f, 1.0f, 0.01f, 1.0f, rightScore.ToString(), Color.White, false);
             rightScoreFont.EnableShadow = false;
 
-            player1Font = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(10, 50), 0.1f, 1.0f, 0.01f, 1.0f, string.Format("Player1"), Color.White, false);
-            player1Font.EnableShadow = false;
+            //player1Font = new FadingFont(Content.Load<SpriteFont>("Fonts\\Outage"), new Vector2(10, 50), 0.1f, 1.0f, 0.01f, 1.0f, string.Format("Player1"), Color.White, false);
+            //player1Font.EnableShadow = false;
 
-            player2Font = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(_viewPort.Width - 85, 50), 0.1f, 1.0f, 0.01f, 1.0f, string.Format("Player2"), Color.White, false);
-            player2Font.EnableShadow = false;
+            //player2Font = new FadingFont(Content.Load<SpriteFont>("Fonts\\Outage"), new Vector2(_viewPort.Width - 85, 50), 0.1f, 1.0f, 0.01f, 1.0f, string.Format("Player2"), Color.White, false);
+            //player2Font.EnableShadow = false;
 
-            infoFont = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(_viewPort.Width / 2, _viewPort.Height - 15), 0.1f, 1.0f, 0.01f, 1.0f, string.Format("Press Space to start"), Color.White, false);
+            infoFont = new FadingFont(Content.Load<SpriteFont>("Fonts\\Outage"), new Vector2(_viewPort.Width / 2, _viewPort.Height/2), 0.1f, 1.0f, 0.01f, 1.0f, string.Format("Press Space to start"), Color.LightGoldenrodYellow, false);
             infoFont.EnableShadow = false;
             infoFont.SetCenterAsOrigin();
 
+
+            _sprites.Add(background);
             _sprites.Add(Global.RightPlayer);
             _sprites.Add(Global.LeftPlayer);
             _sprites.Add(plusOne);
             _sprites.Add(arrow);
             _sprites.Add(leftScoreFont);
             _sprites.Add(rightScoreFont);
-            _sprites.Add(player1Font);
-            _sprites.Add(player2Font);
+            //_sprites.Add(player1Font);
+            //_sprites.Add(player2Font);
             _sprites.Add(infoFont);
             //_sprites.Add(numbers);
         }

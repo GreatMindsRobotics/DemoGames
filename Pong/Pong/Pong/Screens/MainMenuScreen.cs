@@ -18,7 +18,7 @@ namespace Pong.Screens
     {
         ScreenState screenState;
 
-        DropInFont titleDropInFont;
+        //DropInFont titleDropInFont;
 
         Vector2 dropSpeed = new Vector2(0, 45);
 
@@ -53,9 +53,9 @@ namespace Pong.Screens
             multiPlayerBtn.Position = new Vector2(960, 735 + multiPlayerBtn.SourceRectangle.Value.Height / 2);
 
 
-            optionsBtn = new Button(Content.Load<Texture2D>("temp options button"), new Vector2(0, 0), Color.White);
-            optionsBtn.SetCenterAsOrigin();
-            optionsBtn.Position = new Vector2(_viewPort.Width / 2, multiPlayerBtn.Position.Y + optionsBtn.Origin.Y * 3);
+            optionsBtn = new Button(Content.Load<Texture2D>("Buttons//Settings"), new Vector2(0, 0), Color.White, new Rectangle(0, 149,159, 169), new Rectangle(0, 0, 159, 149));
+            optionsBtn.Origin = new Vector2(optionsBtn.Texture.Width / 2, 169);
+            optionsBtn.Position = new Vector2(1743, 907 + optionsBtn.SourceRectangle.Value.Height / 2);
 
             _sprites.Add(background);
 
