@@ -70,11 +70,12 @@ namespace Pong.Screens
         {
             keyboard = Keyboard.GetState();
 
-            if(keyboard.IsKeyDown(Keys.Escape))
+            if (keyboard.IsKeyDown(Keys.Escape))
             {
-                ScreenManager.Back();
+                Global.Close = true;
             }
-            else if (singlaPlayerBtn.IsClicked)
+
+            if (singlaPlayerBtn.IsClicked)
             {
                 Global.Mode = Mode.SinglePlayer;
                 ScreenManager.Change(ScreenState.GameMode);

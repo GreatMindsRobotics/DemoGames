@@ -141,6 +141,11 @@ namespace Pong
 
             ScreenManager.Update(gameTime);
 
+            if (Global.Close)
+            {
+                Exit();
+            }
+
             base.Update(gameTime);
         }
 

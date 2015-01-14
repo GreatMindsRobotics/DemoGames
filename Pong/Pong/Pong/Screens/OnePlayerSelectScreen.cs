@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Pong.Sprites;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Pong.CoreTypes;
-using Pong.Screens;
 using FontEffectsLib;
 using FontEffectsLib.CoreTypes;
 using FontEffectsLib.FontTypes;
+using FontEffectsLib.SpriteTypes;
+
 namespace Pong.Screens
 {
     class OnePlayerSelectScreen : BaseScreen
     {
-        DropInFont titleDropInFont;
+        KeyboardState keyboard;
+        //DropInFont titleDropInFont;
         Vector2 dropSpeed = new Vector2(0, 45);
 
         Button easyBtn;
@@ -24,31 +27,35 @@ namespace Pong.Screens
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
-            titleDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), dropSpeed, "Difficulty", Color.CornflowerBlue);
-            titleDropInFont.IsVisible = true;
-            titleDropInFont.SetCenterAsOrigin();
-            titleDropInFont.EnableShadow = false;
-            titleDropInFont.TintColor = Color.Black;
-            titleDropInFont.ShadowPosition = new Vector2(titleDropInFont.Position.X - 4, titleDropInFont.Position.Y + 4);
-            titleDropInFont.ShadowColor = Color.Gray;
+            GameSprite background = new GameSprite(Content.Load<Texture2D>("Background\\MainMenu"), Vector2.Zero, Color.White);
+            background.Scale = Global.Scale;
 
-            easyBtn = new Button(Content.Load<Texture2D>("temp easy button"), new Vector2(0, 0), Color.White);
-            easyBtn.SetCenterAsOrigin();
-            easyBtn.Position = new Vector2(_viewPort.Width / 2, titleDropInFont.Position.Y + easyBtn.Origin.Y * 2.5f);
+            //titleDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), dropSpeed, "Difficulty", Color.CornflowerBlue);
+            //titleDropInFont.IsVisible = true;
+            //titleDropInFont.SetCenterAsOrigin();
+            //titleDropInFont.EnableShadow = false;
+            //titleDropInFont.TintColor = Color.Black;
+            //titleDropInFont.ShadowPosition = new Vector2(titleDropInFont.Position.X - 4, titleDropInFont.Position.Y + 4);
+            //titleDropInFont.ShadowColor = Color.Gray;
 
-            mediumBtn = new Button(Content.Load<Texture2D>("temp medium button"), new Vector2(0, 0), Color.White);
-            mediumBtn.SetCenterAsOrigin();
-            mediumBtn.Position = new Vector2(_viewPort.Width / 2, easyBtn.Position.Y + mediumBtn.Origin.Y * 3);
+            easyBtn = new Button(Content.Load<Texture2D>("Buttons//Easy"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 520, 169), new Rectangle(0, 0, 520, 149));
+            easyBtn.Origin = new Vector2(easyBtn.Texture.Width / 2, 169);
+            easyBtn.Position = new Vector2(960, 469 + easyBtn.SourceRectangle.Value.Height / 2);
 
-            hardBtn = new Button(Content.Load<Texture2D>("temp hard button"), new Vector2(0, 0), Color.White);
-            hardBtn.SetCenterAsOrigin();
-            hardBtn.Position = new Vector2(_viewPort.Width / 2, mediumBtn.Position.Y + hardBtn.Origin.Y * 3);
+            mediumBtn = new Button(Content.Load<Texture2D>("Buttons//Medium"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 520, 169), new Rectangle(0, 0, 520, 149));
+            mediumBtn.Origin = new Vector2(mediumBtn.Texture.Width / 2, 169);
+            mediumBtn.Position = new Vector2(960, 684 + mediumBtn.SourceRectangle.Value.Height / 2);
 
-            backBtn = new Button(Content.Load<Texture2D>("temp back button"), new Vector2(10, 10), Color.CornflowerBlue);
-            backBtn.SetCenterAsOrigin();
-            backBtn.Position = backBtn.Origin;
+            hardBtn = new Button(Content.Load<Texture2D>("Buttons//Hard"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 520, 169), new Rectangle(0, 0, 520, 149));
+            hardBtn.Origin = new Vector2(hardBtn.Texture.Width / 2, 169);
+            hardBtn.Position = new Vector2(960, 899 + hardBtn.SourceRectangle.Value.Height / 2);
 
-            _sprites.Add(titleDropInFont);
+
+            backBtn = new Button(Content.Load<Texture2D>("Buttons//Back"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 159, 169), new Rectangle(0, 0, 159, 149));
+            backBtn.Origin = new Vector2(backBtn.Texture.Width / 2, 169);
+            backBtn.Position = new Vector2(177, 907 + backBtn.SourceRectangle.Value.Height / 2);
+            _sprites.Add(background);
+            //_sprites.Add(titleDropInFont);
             _sprites.Add(easyBtn);
             _sprites.Add(mediumBtn);
             _sprites.Add(hardBtn);
@@ -57,6 +64,13 @@ namespace Pong.Screens
 
         public override void Update(GameTime gameTime)
         {
+            keyboard = Keyboard.GetState();
+
+            if (keyboard.IsKeyDown(Keys.Escape))
+            {
+                ScreenManager.Back();
+            }
+
             if (easyBtn.IsClicked)
             {
                 Global.Difficulty = Difficulty.Easy;
@@ -82,7 +96,7 @@ namespace Pong.Screens
 
         public override void Reset()
         {
-            titleDropInFont.Reset();
+            //titleDropInFont.Reset();
             base.Reset();
         }
     }

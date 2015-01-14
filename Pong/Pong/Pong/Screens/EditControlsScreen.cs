@@ -18,6 +18,8 @@ namespace Pong.Screens
 {
     class EditControlsScreen : BaseScreen
     {
+
+        KeyboardState keyboard;
         //DropInFont titleDropInFont;
 
         FadingFont rightUpDisp;
@@ -37,7 +39,6 @@ namespace Pong.Screens
 
         Vector2 dropSpeed = new Vector2(0, 45);
 
-        KeyboardState keyboard;
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
@@ -108,6 +109,12 @@ namespace Pong.Screens
         public override void Update(GameTime gameTime)
         {
             keyboard = Keyboard.GetState();
+
+            if (keyboard.IsKeyDown(Keys.Escape))
+            {
+                ScreenManager.Back();
+            }
+
             if (state == ControlScreenState.WaitingForKey)
             {
                 if (changeRightUpBtn.IsClicked && buttonthatwaspressed == 1)

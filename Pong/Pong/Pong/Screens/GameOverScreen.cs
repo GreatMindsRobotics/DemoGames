@@ -13,6 +13,8 @@ namespace Pong.Screens
 {
     class GameOverScreen : BaseScreen
     {
+        KeyboardState keyboard;
+
         FadingFont player1WinsFont;
         FadingFont player2WinsFont;
 
@@ -30,8 +32,10 @@ namespace Pong.Screens
             player2WinsFont.SetCenterAsOrigin();
             player2WinsFont.IsVisible = false;
 
-            mainMenuButton = new Button(Content.Load<Texture2D>("temp resume button"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2 + 50), Color.White);
-            mainMenuButton.SetCenterAsOrigin();
+
+            mainMenuButton = new Button(Content.Load<Texture2D>("Buttons//Menu"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 707, 169), new Rectangle(0, 0, 707, 149));
+            mainMenuButton.Origin = new Vector2(mainMenuButton.Texture.Width / 2, 169);
+            mainMenuButton.Position = new Vector2(960, 469 + mainMenuButton.SourceRectangle.Value.Height / 2);
 
             _sprites.Add(player1WinsFont);
             _sprites.Add(player2WinsFont);
@@ -40,6 +44,13 @@ namespace Pong.Screens
 
         public override void Update(GameTime gameTime)
         {
+            keyboard = Keyboard.GetState();
+
+            if (keyboard.IsKeyDown(Keys.Escape))
+            {
+                ScreenManager.Change(ScreenState.MainMenu);
+            }
+
 
             if (GameScreen.player1Won)
             {

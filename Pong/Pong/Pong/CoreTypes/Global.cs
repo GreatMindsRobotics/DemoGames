@@ -18,5 +18,8 @@ namespace Pong.CoreTypes
         public static GameMode GameMode;
 
         public static Vector2 Scale;
+
+        public static bool Reset = false;
+        public static bool Close = false;
     }
 }

@@ -16,6 +16,7 @@ namespace Pong.Screens
 {
     class PlayerSelectScreen : BaseScreen
     {
+
         DropInFont titleDropInFont;
 
         Vector2 dropSpeed = new Vector2(0, 45);
@@ -58,6 +59,11 @@ namespace Pong.Screens
         public override void Update(GameTime gameTime)
         {
             keyboard = Keyboard.GetState();
+
+            if (keyboard.IsKeyDown(Keys.Escape))
+            {
+                ScreenManager.Back();
+            }
 
             if(onePlayerBtn.IsClicked)
             {

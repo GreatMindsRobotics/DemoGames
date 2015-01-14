@@ -100,7 +100,7 @@ namespace Pong.Screens
 
 
             //numbers = new GameSprite(Content.Load<Texture2D>("Numbers"), new Vector2(0, 0), Color.CornflowerBlue);
-            plusOne = new PlusOne(Content.Load<Texture2D>("Plus1"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.Red);
+            plusOne = new PlusOne(Content.Load<Texture2D>("Plus1"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.AliceBlue);
             plusOne.SlideCompleted += new FontEffectsLib.SpriteTypes.SlidingSprite.SlideCompletedState(plusOne_SlideCompleted);
 
             leftScoreFont = new FadingFont(Content.Load<SpriteFont>("Fonts\\JumboOutage"), new Vector2(_viewPort.Width/2 - 200, 15), 0.1f, 1.0f, 0.01f, 1.0f, leftScore.ToString(), Color.White, false);
@@ -155,7 +155,8 @@ namespace Pong.Screens
 
             if (Global.GameMode == GameMode.Classical)
             {
-                ball.Position = new Vector2(_viewPort.Width / 2 - ball.Texture.Width * ball.Scale.X / 2, _viewPort.Height / 2 - ball.Texture.Height * ball.Scale.Y / 2);
+                //ball.Position = new Vector2(_viewPort.Width / 2 - ball.Texture.Width * ball.Scale.X / 2, _viewPort.Height / 2 - ball.Texture.Height * ball.Scale.Y / 2);
+                ball.Position = new Vector2(_viewPort.Width / 2, _viewPort.Height / 2);
             }
             else if (Global.GameMode == GameMode.PingPong)
             {
@@ -203,6 +204,14 @@ namespace Pong.Screens
         {
             keyboard = Keyboard.GetState();
             arrow.Rotation += rotationspeed;
+
+
+            if (Global.Reset)
+            {
+                reset();
+                Global.Reset = false;
+            }
+
 
             if (ball.BallState == BallState.Rested)
             {
@@ -538,6 +547,33 @@ namespace Pong.Screens
 
             plusOne.Update(gameTime);
             base.Update(gameTime);
+        }
+
+        private void reset()
+        {
+            swichCount = 0;
+
+            leftScore = 0;
+            rightScore = 0;
+            stuckToLeftPaddle = true;
+            ball.BallState = BallState.Rested;
+            ball.SpeedX = 0;
+            ball.SpeedY = 0;
+            if (Global.GameMode == GameMode.PingPong)
+            {
+                ball.Position = new Vector2(Global.LeftPlayer.Right + ball.Texture.Width * ball.Scale.X / 2 + 5, Global.LeftPlayer.Top + Global.LeftPlayer.Texture.Height * ball.Scale.Y / 2);
+            }
+            else
+            {
+                ball.Position = new Vector2(_viewPort.Width / 2, _viewPort.Height / 2);
+            }
+            leftScoreFont.Text.Clear();
+            leftScoreFont.Text.Append(leftScore);
+            rightScoreFont.Text.Clear();
+            rightScoreFont.Text.Append(rightScore);
+            Global.LeftPlayer.Position = new Vector2(Global.LeftPlayer.Origin.X + 30, _viewPort.Height / 2);
+            Global.RightPlayer.Position = new Vector2(_viewPort.Width - Global.RightPlayer.Texture.Width / 2 - 30, _viewPort.Height / 2);
+
         }
 
         public override void Draw(SpriteBatch spriteBatch)
