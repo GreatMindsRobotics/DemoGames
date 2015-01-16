@@ -19,21 +19,20 @@ namespace Pong.Screens
     class EditControlsScreen : BaseScreen
     {
 
-        KeyboardState keyboard;
         //DropInFont titleDropInFont;
 
-        FadingFont rightUpDisp;
-        FadingFont rightDownDisp;
-        FadingFont leftUpDisp;
-        FadingFont leftDownDisp;
+        //FadingFont rightUpDisp;
+        //FadingFont rightDownDisp;
+        //FadingFont leftUpDisp;
+        //FadingFont leftDownDisp;
 
         ControlScreenState state;
         int buttonthatwaspressed = 0;
 
-        Button changeRightUpBtn;
-        Button changeRightDownBtn;
-        Button changeLeftUpBtn;
-        Button changeLeftDownBtn;
+        TextButton changeRightUpBtn;
+        TextButton changeRightDownBtn;
+        TextButton changeLeftUpBtn;
+        TextButton changeLeftDownBtn;
 
         Button backBtn;
 
@@ -55,26 +54,27 @@ namespace Pong.Screens
             //titleDropInFont.ShadowPosition = new Vector2(titleDropInFont.Position.X - 4, titleDropInFont.Position.Y + 4);
             //titleDropInFont.ShadowColor = Color.Gray;
 
-            changeRightUpBtn = new Button(Content.Load<Texture2D>("Buttons//Blank"), new Vector2(0, 0), Color.White, new Rectangle(0, 117, 404, 137), new Rectangle(0, 0, 404, 117));
+            changeRightUpBtn = new TextButton(Content.Load<Texture2D>("Buttons//Blank"), new Vector2(0, 0), Color.White, Content.Load<SpriteFont>("Fonts\\BigOutage"), Color.White, Global.RightPlayer.UpKey.ToString(), new Rectangle(0, 117, 404, 137), new Rectangle(0, 0, 404, 117));
             changeRightUpBtn.Origin = new Vector2(changeRightUpBtn.Texture.Width / 2, 137);
             changeRightUpBtn.Position = new Vector2(1267, 453 + changeRightUpBtn.SourceRectangle.Value.Height / 2);
 
-            changeRightDownBtn = new Button(Content.Load<Texture2D>("Buttons//Blank"), new Vector2(0, 0), Color.White, new Rectangle(0, 117, 404, 137), new Rectangle(0, 0, 404, 117));
+            changeRightDownBtn = new TextButton(Content.Load<Texture2D>("Buttons//Blank"), new Vector2(0, 0), Color.White, Content.Load<SpriteFont>("Fonts\\BigOutage"), Color.White, Global.RightPlayer.DownKey.ToString(), new Rectangle(0, 117, 404, 137), new Rectangle(0, 0, 404, 117));
             changeRightDownBtn.Origin = new Vector2(changeRightDownBtn.Texture.Width / 2, 137);
             changeRightDownBtn.Position = new Vector2(1267, 718 + changeRightDownBtn.SourceRectangle.Value.Height / 2);
 
-            changeLeftUpBtn = new Button(Content.Load<Texture2D>("Buttons//Blank"), new Vector2(0, 0), Color.White, new Rectangle(0, 117, 404, 137), new Rectangle(0, 0, 404, 117));
+            changeLeftUpBtn = new TextButton(Content.Load<Texture2D>("Buttons//Blank"), new Vector2(0, 0), Color.White, Content.Load<SpriteFont>("Fonts\\BigOutage"), Color.White, Global.LeftPlayer.UpKey.ToString(), new Rectangle(0, 117, 404, 137), new Rectangle(0, 0, 404, 117));
             changeLeftUpBtn.Origin = new Vector2(changeLeftUpBtn.Texture.Width / 2, 137);
             changeLeftUpBtn.Position = new Vector2(635, 453 + changeLeftUpBtn.SourceRectangle.Value.Height / 2);
 
-            changeLeftDownBtn = new Button(Content.Load<Texture2D>("Buttons//Blank"), new Vector2(0, 0), Color.White, new Rectangle(0, 117, 404, 137), new Rectangle(0, 0, 404, 117));
+            changeLeftDownBtn = new TextButton(Content.Load<Texture2D>("Buttons//Blank"), new Vector2(0, 0), Color.White, Content.Load<SpriteFont>("Fonts\\BigOutage"), Color.White, Global.LeftPlayer.DownKey.ToString(), new Rectangle(0, 117, 404, 137), new Rectangle(0, 0, 404, 117));
             changeLeftDownBtn.Origin = new Vector2(changeLeftDownBtn.Texture.Width / 2, 137);
             changeLeftDownBtn.Position = new Vector2(635, 718 + changeLeftDownBtn.SourceRectangle.Value.Height / 2);
             
-            rightUpDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\BigOutage"), Vector2.Zero, 0.1f, 1.0f, 0.1f, 1.0f, Global.RightPlayer.UpKey.ToString(), Color.White, true);
+            /*rightUpDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\BigOutage"), Vector2.Zero, 0.1f, 1.0f, 0.1f, 1.0f, Global.RightPlayer.UpKey.ToString(), Color.White, true);
             rightUpDisp.EnableShadow = false;
             rightUpDisp.Position = new Vector2(changeRightUpBtn.Position.X - rightUpDisp.Size.X / 2, changeRightUpBtn.Bottom - 120);
-
+            */
+            /*
             rightDownDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\BigOutage"), Vector2.Zero, 0.1f, 1.0f, 0.1f, 1.0f, Global.RightPlayer.DownKey.ToString(), Color.White, true);
             rightDownDisp.EnableShadow = false;
             rightDownDisp.Position = new Vector2(changeRightDownBtn.Position.X - rightDownDisp.Size.X / 2, changeRightDownBtn.Bottom - 120);
@@ -86,7 +86,7 @@ namespace Pong.Screens
             leftDownDisp = new FadingFont(Content.Load<SpriteFont>("Fonts\\BigOutage"), Vector2.Zero, 0.1f, 1.0f, 0.1f, 1.0f, Global.LeftPlayer.DownKey.ToString(), Color.White, true);
             leftDownDisp.EnableShadow = false;
             leftDownDisp.Position = new Vector2(changeLeftDownBtn.Position.X - leftDownDisp.Size.X / 2, changeLeftDownBtn.Bottom - 120);
-            
+            */
             backBtn = new Button(Content.Load<Texture2D>("Buttons//Back"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 159, 169), new Rectangle(0, 0, 159, 149));
             backBtn.Origin = new Vector2(backBtn.Texture.Width / 2, 169);
             backBtn.Position = new Vector2(177, 907 + backBtn.SourceRectangle.Value.Height / 2);
@@ -98,19 +98,19 @@ namespace Pong.Screens
             _sprites.Add(changeRightDownBtn);
             _sprites.Add(changeLeftUpBtn);
             _sprites.Add(changeLeftDownBtn);
-            _sprites.Add(rightUpDisp);
-            _sprites.Add(rightDownDisp);
-            _sprites.Add(leftUpDisp);
-            _sprites.Add(leftDownDisp);
+            //_sprites.Add(rightUpDisp);
+            //_sprites.Add(rightDownDisp);
+            //_sprites.Add(leftUpDisp);
+            //_sprites.Add(leftDownDisp);
 
             _sprites.Add(backBtn);
         }
 
         public override void Update(GameTime gameTime)
         {
-            keyboard = Keyboard.GetState();
 
-            if (keyboard.IsKeyDown(Keys.Escape))
+
+            if (InputManager.JustPressed(Keys.Escape))
             {
                 ScreenManager.Back();
             }
@@ -119,74 +119,81 @@ namespace Pong.Screens
             {
                 if (changeRightUpBtn.IsClicked && buttonthatwaspressed == 1)
                 {
-                    rightUpDisp.TintColor = Color.White;
-
+                    //rightUpDisp.TintColor = Color.White;
+                    changeRightUpBtn.FontColor = Color.White;
                     state = ControlScreenState.SelectingControl;
                 }
                 if (changeRightDownBtn.IsClicked && buttonthatwaspressed == 2)
                 {
-                    rightDownDisp.TintColor = Color.White;
-
+                    //rightDownDisp.TintColor = Color.White;
+                    changeRightDownBtn.FontColor = Color.White;
                     state = ControlScreenState.SelectingControl;
                 }
                 if (changeLeftUpBtn.IsClicked && buttonthatwaspressed == 3)
                 {
-                    leftUpDisp.TintColor = Color.White;
-
+                    //leftUpDisp.TintColor = Color.White;
+                    changeLeftUpBtn.FontColor = Color.White;
                     state = ControlScreenState.SelectingControl;
                 }
                 if (changeLeftDownBtn.IsClicked && buttonthatwaspressed == 4)
                 {
-                    leftDownDisp.TintColor = Color.White;
-
+                    //leftDownDisp.TintColor = Color.White;
+                    changeLeftDownBtn.FontColor = Color.White;
                     state = ControlScreenState.SelectingControl;
                 }
-                Keys[] pressedKeys = keyboard.GetPressedKeys();
+
+                Keys[] pressedKeys = InputManager.PressedKeys;
+
                 if (pressedKeys.Length > 0)
                 {
                     if (buttonthatwaspressed == 1 && pressedKeys[0] != Global.RightPlayer.DownKey && pressedKeys[0] != Global.LeftPlayer.DownKey && pressedKeys[0] != Global.LeftPlayer.UpKey)
                     {
-                        rightUpDisp.TintColor = Color.White;
-
+                        //rightUpDisp.TintColor = Color.White;
+                        changeRightUpBtn.FontColor = Color.White;
                         Global.RightPlayer.UpKey = pressedKeys[0];
                         state = ControlScreenState.SelectingControl;
 
-                        rightUpDisp.Text.Clear();
+
+                        changeRightUpBtn.Text = Global.RightPlayer.UpKey.ToString();
+                        /*rightUpDisp.Text.Clear();
                         rightUpDisp.Text.Append(Global.RightPlayer.UpKey.ToString());
-                        rightUpDisp.Position = new Vector2(changeRightUpBtn.Position.X - rightUpDisp.Size.X / 2, changeRightUpBtn.Bottom - 120);
+                        rightUpDisp.Position = new Vector2(changeRightUpBtn.Position.X - rightUpDisp.Size.X / 2, changeRightUpBtn.Bottom - 120);*/
                     }
                     if (buttonthatwaspressed == 2 && pressedKeys[0] != Global.RightPlayer.UpKey && pressedKeys[0] != Global.LeftPlayer.DownKey && pressedKeys[0] != Global.LeftPlayer.UpKey)
                     {
-                        rightDownDisp.TintColor = Color.White;
-
+                        //rightDownDisp.TintColor = Color.White;
+                        changeRightDownBtn.FontColor = Color.White;
                         Global.RightPlayer.DownKey = pressedKeys[0];
                         state = ControlScreenState.SelectingControl;
 
-                        rightDownDisp.Text.Clear();
-                        rightDownDisp.Text.Append(Global.RightPlayer.DownKey.ToString());
-                        rightDownDisp.Position = new Vector2(changeRightDownBtn.Position.X - rightDownDisp.Size.X / 2, changeRightDownBtn.Bottom - 120);
+                        changeRightDownBtn.Text = Global.RightPlayer.DownKey.ToString();
+                        //rightDownDisp.Text.Clear();
+                        //rightDownDisp.Text.Append(Global.RightPlayer.DownKey.ToString());
+                        //rightDownDisp.Position = new Vector2(changeRightDownBtn.Position.X - rightDownDisp.Size.X / 2, changeRightDownBtn.Bottom - 120);
                     }
                     if (buttonthatwaspressed == 3 && pressedKeys[0] != Global.RightPlayer.DownKey && pressedKeys[0] != Global.LeftPlayer.DownKey && pressedKeys[0] != Global.RightPlayer.UpKey)
                     {
-                        leftUpDisp.TintColor = Color.White;
-
+                        //leftUpDisp.TintColor = Color.White;
+                        changeLeftUpBtn.FontColor = Color.White;
                         Global.LeftPlayer.UpKey = pressedKeys[0];
                         state = ControlScreenState.SelectingControl;
 
-                        leftUpDisp.Text.Clear();
-                        leftUpDisp.Text.Append(Global.LeftPlayer.UpKey.ToString());
-                        leftUpDisp.Position = new Vector2(changeLeftUpBtn.Position.X - leftUpDisp.Size.X / 2, changeLeftUpBtn.Bottom - 120);
+                        changeLeftUpBtn.Text = Global.LeftPlayer.UpKey.ToString();
+                        //leftUpDisp.Text.Clear();
+                        //leftUpDisp.Text.Append(Global.LeftPlayer.UpKey.ToString());
+                        //leftUpDisp.Position = new Vector2(changeLeftUpBtn.Position.X - leftUpDisp.Size.X / 2, changeLeftUpBtn.Bottom - 120);
                     }
                     if (buttonthatwaspressed == 4 && pressedKeys[0] != Global.RightPlayer.DownKey && pressedKeys[0] != Global.RightPlayer.UpKey && pressedKeys[0] != Global.LeftPlayer.UpKey)
                     {
-                        leftDownDisp.TintColor = Color.White;
-
+                        //leftDownDisp.TintColor = Color.White;
+                        changeLeftDownBtn.FontColor = Color.White;
                         Global.LeftPlayer.DownKey = pressedKeys[0];
                         state = ControlScreenState.SelectingControl;
 
-                        leftDownDisp.Text.Clear();
-                        leftDownDisp.Text.Append(Global.LeftPlayer.DownKey.ToString());
-                        leftDownDisp.Position = new Vector2(changeLeftDownBtn.Position.X - leftDownDisp.Size.X / 2, changeLeftDownBtn.Bottom - 120);
+                        changeLeftDownBtn.Text = Global.LeftPlayer.DownKey.ToString();
+                        //leftDownDisp.Text.Clear();
+                        //leftDownDisp.Text.Append(Global.LeftPlayer.DownKey.ToString());
+                        //leftDownDisp.Position = new Vector2(changeLeftDownBtn.Position.X - leftDownDisp.Size.X / 2, changeLeftDownBtn.Bottom - 120);
                     }
                 }
 
@@ -195,29 +202,29 @@ namespace Pong.Screens
             {
                 if (changeRightUpBtn.IsClicked)
                 {        
-                    rightUpDisp.TintColor = Color.Yellow;
-
+                    //rightUpDisp.TintColor = Color.Yellow;
+                    changeRightUpBtn.FontColor = Color.Yellow;
                     state = ControlScreenState.WaitingForKey;
                     buttonthatwaspressed = 1;
                 }
                 else if (changeRightDownBtn.IsClicked)
                 {
-                    rightDownDisp.TintColor = Color.Yellow;
-
+                    //rightDownDisp.TintColor = Color.Yellow;
+                    changeRightDownBtn.FontColor = Color.Yellow;
                     state = ControlScreenState.WaitingForKey;
                     buttonthatwaspressed = 2;
                 }
                 else if (changeLeftUpBtn.IsClicked)
                 {
-                    leftUpDisp.TintColor = Color.Yellow;
-
+                    //leftUpDisp.TintColor = Color.Yellow;
+                    changeLeftUpBtn.FontColor = Color.Yellow;
                     state = ControlScreenState.WaitingForKey;
                     buttonthatwaspressed = 3;
                 }
                 else if (changeLeftDownBtn.IsClicked)
                 {
-                    leftDownDisp.TintColor = Color.Yellow;
-
+                    //leftDownDisp.TintColor = Color.Yellow;
+                    changeLeftDownBtn.FontColor = Color.Yellow;
                     state = ControlScreenState.WaitingForKey;
                     buttonthatwaspressed = 4;
                 }
@@ -252,10 +259,14 @@ namespace Pong.Screens
 
         public override void Reset()
         {
-            rightUpDisp.Reset();
-            rightDownDisp.Reset();
-            leftUpDisp.Reset();
-            leftDownDisp.Reset();
+            //rightUpDisp.Reset();
+            changeRightUpBtn.Reset();
+            //rightDownDisp.Reset();
+            changeRightDownBtn.Reset();
+            //leftUpDisp.Reset();
+            changeLeftUpBtn.Reset();
+            //leftDownDisp.Reset();
+            changeLeftDownBtn.Reset();
             
             //titleDropInFont.Reset();
             base.Reset();

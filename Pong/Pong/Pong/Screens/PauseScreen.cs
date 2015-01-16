@@ -24,8 +24,6 @@ namespace Pong.Screens
         Button mainMenuButton;
         Button optionsButton;
 
-        KeyboardState keyboard;
-
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
 
@@ -61,9 +59,7 @@ namespace Pong.Screens
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            keyboard = Keyboard.GetState();
-
-            if (keyboard.IsKeyDown(Keys.Escape))
+            if (InputManager.JustPressed(Keys.Escape))
             {
                 ScreenManager.Back();
             }

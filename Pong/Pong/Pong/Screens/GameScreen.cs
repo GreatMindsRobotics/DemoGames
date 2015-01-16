@@ -30,7 +30,6 @@ namespace Pong.Screens
 
         FadingFont infoFont;
 
-        KeyboardState keyboard;
 
         Random rnd = new Random();
 
@@ -202,7 +201,6 @@ namespace Pong.Screens
 
         public override void Update(GameTime gameTime)
         {
-            keyboard = Keyboard.GetState();
             arrow.Rotation += rotationspeed;
 
 
@@ -251,12 +249,12 @@ namespace Pong.Screens
                 //System.Diagnostics.Debugger.Break();
             }
 
-            if (keyboard.IsKeyDown(Keys.Escape))
+            if (InputManager.JustPressed(Keys.Escape))
             {
                 ScreenManager.Change(ScreenState.Pause);
             }
 
-            if (keyboard.IsKeyDown(Keys.Space))
+            if (InputManager.JustPressed(Keys.Space))
             {
                 new DebugTypes.PathMapper(Vector2.Zero, new Vector2(20, 30), _viewPort.Bounds, DebugTypes.PathMapper.BoundingBoxSide.Right).Update(gameTime);
 
@@ -414,12 +412,12 @@ namespace Pong.Screens
             {
                 case Mode.SinglePlayer:
                     //Rightpaddle Movement
-                    if (keyboard.IsKeyDown(Global.RightPlayer.UpKey) && Global.RightPlayer.Position.Y - Global.RightPlayer.Origin.Y > 0)
+                    if (InputManager.IsDown(Global.RightPlayer.UpKey) && Global.RightPlayer.Position.Y - Global.RightPlayer.Origin.Y > 0)
                     {
                         Global.RightPlayer.VectorY -= paddleSpeed;
                     }
 
-                    if (keyboard.IsKeyDown(Global.RightPlayer.DownKey) && Global.RightPlayer.Bottom < _viewPort.Height)
+                    if (InputManager.IsDown(Global.RightPlayer.DownKey) && Global.RightPlayer.Bottom < _viewPort.Height)
                     {
                         Global.RightPlayer.VectorY += paddleSpeed;
                     }
@@ -453,23 +451,23 @@ namespace Pong.Screens
                     else
                     {
                         //Rightpaddle Movement
-                        if (keyboard.IsKeyDown(Global.RightPlayer.UpKey) && Global.RightPlayer.Top > 0)
+                        if (InputManager.IsDown(Global.RightPlayer.UpKey) && Global.RightPlayer.Top > 0)
                         {
                             Global.RightPlayer.VectorY -= paddleSpeed;
                         }
 
-                        if (keyboard.IsKeyDown(Global.RightPlayer.DownKey) && Global.RightPlayer.Bottom < _viewPort.Height)
+                        if (InputManager.IsDown(Global.RightPlayer.DownKey) && Global.RightPlayer.Bottom < _viewPort.Height)
                         {
                             Global.RightPlayer.VectorY += paddleSpeed;
                         }
 
                         //Leftpaddle Movement
-                        if (keyboard.IsKeyDown(Global.LeftPlayer.UpKey) && Global.LeftPlayer.Top > 0)
+                        if (InputManager.IsDown(Global.LeftPlayer.UpKey) && Global.LeftPlayer.Top > 0)
                         {
                             Global.LeftPlayer.VectorY -= paddleSpeed;
                         }
 
-                        if (keyboard.IsKeyDown(Global.LeftPlayer.DownKey) && Global.LeftPlayer.Bottom < _viewPort.Height)
+                        if (InputManager.IsDown(Global.LeftPlayer.DownKey) && Global.LeftPlayer.Bottom < _viewPort.Height)
                         {
                             Global.LeftPlayer.VectorY += paddleSpeed;
                         }

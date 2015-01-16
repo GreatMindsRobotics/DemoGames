@@ -97,6 +97,7 @@ namespace Pong.Sprites
             }
         }
 
+
         private Rectangle[] _rectangles;
 
         public Button(Texture2D image, Vector2 location, Color tint) :
@@ -140,7 +141,13 @@ namespace Pong.Sprites
                         isPressed = true;
                         SourceRectangle = _rectangles[1];
                     }
-                    else
+                    else if(mouse.LeftButton == ButtonState.Released && ls.LeftButton == ButtonState.Pressed)
+                    {
+                        Mouse.SetPosition(mouse.X, mouse.Y - _rectangles[0].Height + _rectangles[1].Height);
+                        isPressed = false;
+                        SourceRectangle = _rectangles[0];
+                    }
+                    else 
                     {
                         isPressed = false;
                         SourceRectangle = _rectangles[0];

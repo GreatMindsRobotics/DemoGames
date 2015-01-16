@@ -13,7 +13,6 @@ namespace Pong.Screens
 {
     class GameOverScreen : BaseScreen
     {
-        KeyboardState keyboard;
 
         FadingFont player1WinsFont;
         FadingFont player2WinsFont;
@@ -44,9 +43,7 @@ namespace Pong.Screens
 
         public override void Update(GameTime gameTime)
         {
-            keyboard = Keyboard.GetState();
-
-            if (keyboard.IsKeyDown(Keys.Escape))
+            if (InputManager.JustPressed(Keys.Escape))
             {
                 ScreenManager.Change(ScreenState.MainMenu);
             }
