@@ -39,6 +39,7 @@ namespace Pong.Screens
 
         public static bool player1Won = false;
 
+
         bool leftSideScored = false;
 
         bool stuckToLeftPaddle = true;
@@ -49,6 +50,7 @@ namespace Pong.Screens
 
         int swichCount = 0;
 
+        int hitBall;
         int ballDirection;
         int randx;
         int randy;
@@ -353,8 +355,9 @@ namespace Pong.Screens
                         ball.Speed = new Vector2((float)Math.Cos(arrow.Rotation), (float)Math.Sin(arrow.Rotation));
                         //make it a regular speed, but storing the direction as well
                         ball.Speed.Normalize();
+                        speedofBall = ball.Speed;
                         //making it a bit faster
-                        ball.Speed *= 4;
+                        ball.Speed *= 6;
                     }
                     else
                     {
@@ -365,7 +368,6 @@ namespace Pong.Screens
                 }
                 predictionSpeed = ball.Speed;
                 BounceCount = 0;
-                speedofBall = ball.Speed / 4;
                 predictionPath = new List<Vector2>();
                 debug();
 
@@ -521,35 +523,88 @@ namespace Pong.Screens
             {
                 case Mode.SinglePlayer:
                     //Rightpaddle Movement
-                    if (InputManager.IsDown(Global.RightPlayer.UpKey) && Global.RightPlayer.Position.Y - Global.RightPlayer.Origin.Y > 0)
+                    if (InputManager.IsDown(Global.LeftPlayer.UpKey) && Global.LeftPlayer.Top > 0)
                     {
-                        Global.RightPlayer.VectorY -= paddleSpeed;
+                        Global.LeftPlayer.VectorY -= Math.Abs(paddleSpeed);
                     }
 
-                    if (InputManager.IsDown(Global.RightPlayer.DownKey) && Global.RightPlayer.Bottom < _viewPort.Height)
+                    if (InputManager.IsDown(Global.LeftPlayer.DownKey) && Global.LeftPlayer.Bottom < _viewPort.Height)
                     {
-                        Global.RightPlayer.VectorY += paddleSpeed;
+                        Global.LeftPlayer.VectorY += Math.Abs(paddleSpeed);
                     }
 
                     switch (Global.Difficulty)
                     {
                         case Difficulty.Easy:
-                            ScreenManager.Change(ScreenState.Error);
+                            //ScreenManager.Change(ScreenState.Error);
                             //TODO Add Easy AI
                             break;
                         case Difficulty.Medium:
-                            ScreenManager.Change(ScreenState.Error);
+                            //ScreenManager.Change(ScreenState.Error);
                             //TODO Add Medium AI
                             break;
                         case Difficulty.Hard:
-                            ScreenManager.Change(ScreenState.Error);
+                            //ScreenManager.Change(ScreenState.Error);
                             //TODO Add Hrd AI
                             break;
                         default:
                             break;
                     }
 
+
+
+                    if (Global.Difficulty == Difficulty.Easy)
+                    {
+                        if (Global.RightPlayer.Bottom >= _viewPort.Height || Global.RightPlayer.Top <= 0)
+                        {
+                            paddleSpeed *= -1;
+                        }
+
+                        Global.RightPlayer.VectorY += paddleSpeed;
+                    }
+
+                    if (Global.Difficulty == Difficulty.Medium || Global.Difficulty == Difficulty.Hard)
+                    {
+                        
+                        switch (hitBall)
+                        {
+                            case 0:
+
+                                if (Global.RightPlayer.Bottom >= _viewPort.Height || Global.RightPlayer.Top <= 0)
+                                {
+                                     paddleSpeed *= -1;
+                                }
+                                Global.RightPlayer.VectorY += paddleSpeed;
+                                break;
+
+                            case 1:
+                                if (Math.Abs(predictionPosition.Y - Global.RightPlayer.VectorY) > 70)
+                                {
+                                    if (predictionPosition.Y > Global.RightPlayer.VectorY && Global.RightPlayer.Bottom < _viewPort.Height)
+                                    {
+                                        Global.RightPlayer.VectorY += Math.Abs(paddleSpeed);
+                                    }
+                                    else if (predictionPosition.Y < Global.RightPlayer.VectorY && Global.RightPlayer.Top > 0)
+                                    {
+                                        Global.RightPlayer.VectorY -= Math.Abs(paddleSpeed);
+                                    }
+                                }
+
+                                break;
+
+
+                            default:
+                                break;
+                        }
+                    }
+
+                  
+
+
+
                     break;
+
+
                 case Mode.MultiPlayer:
 
                     if (Global.isOnline)
@@ -642,7 +697,27 @@ namespace Pong.Screens
                 //Checking if ball hit leftPaddle
                 if (ball.Left < Global.LeftPlayer.Right && ball.Bottom > Global.LeftPlayer.Top && ball.Top < Global.LeftPlayer.Bottom)
                 {
+
                     //ball intersected with leftPaddle!!! Is it traveling to the left? If so, inverse direction; otherwise, leave it alone
+                    //generate based on difficulty
+                    if (Global.Difficulty == Difficulty.Medium)
+                    {
+                        hitBall = rnd.Next(0, 2);
+                    }
+                    else if (Global.Difficulty == Difficulty.Hard)
+                    {
+                        int temp = rnd.Next(0, 10);
+                        if (temp >= 1)
+                        {
+                            temp = 1;
+                        }
+                        else 
+                        {
+                            temp = 0;
+                        }
+
+                        hitBall = temp;
+                    }
                     if (ball.SpeedX < 0)
                     {
 
@@ -744,12 +819,15 @@ namespace Pong.Screens
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
-            foreach (Vector2 pos in predictionPath)
-            {
-                spriteBatch.Draw(pixel, pos, null, Color.Turquoise, 0f, new Vector2(.5f), new Vector2(4), SpriteEffects.None, 0);
-            }
 
-            spriteBatch.Draw(pixel, predictionPosition, null, Color.Turquoise, 0f, new Vector2(.5f), new Vector2(40), SpriteEffects.None, 0);
+            /*
+                foreach (Vector2 pos in predictionPath)
+                {
+                    spriteBatch.Draw(pixel, pos, null, Color.Turquoise, 0f, new Vector2(.5f), new Vector2(4), SpriteEffects.None, 0);
+                }
+
+                spriteBatch.Draw(pixel, predictionPosition, null, Color.Turquoise, 0f, new Vector2(.5f), new Vector2(40), SpriteEffects.None, 0);
+            */
             spriteBatch.DrawString(infoFont.Font, predictionSpeed.ToString() + "\n" + ball.Speed + "\n" + BounceCount, Vector2.Zero, Color.Black);
             ball.Draw(spriteBatch);
         }
