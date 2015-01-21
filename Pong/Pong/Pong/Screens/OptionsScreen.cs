@@ -20,6 +20,8 @@ namespace Pong.Screens
         DropInFont titleDropInFont;
         Vector2 dropSpeed = new Vector2(0, 45);
 
+        FadingFont inputFont;
+
         Button editContBtn;
 
         Button backBtn;
@@ -42,12 +44,18 @@ namespace Pong.Screens
             editContBtn.Origin = new Vector2(editContBtn.Texture.Width / 2, 169);
             editContBtn.Position = new Vector2(960, 469 + editContBtn.SourceRectangle.Value.Height / 2);
 
+            inputFont = new FadingFont(Content.Load<SpriteFont>("Fonts\\Outage"), new Vector2(840, 600), 0.1f, 1.0f, 0.01f, 1.0f, "", Color.White, false);
+            inputFont.SetCenterAsOrigin();
+            inputFont.EnableShadow = false;
+
+
             backBtn = new Button(Content.Load<Texture2D>("Buttons//Back"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 159, 169), new Rectangle(0, 0, 159, 149));
             backBtn.Origin = new Vector2(backBtn.Texture.Width / 2, 169);
             backBtn.Position = new Vector2(177, 907 + backBtn.SourceRectangle.Value.Height / 2);
 
 
             _sprites.Add(background);
+            _sprites.Add(inputFont);
             //_sprites.Add(titleDropInFont);
             _sprites.Add(editContBtn);
             _sprites.Add(backBtn);
@@ -67,6 +75,18 @@ namespace Pong.Screens
             else if (backBtn.IsClicked)
             {
                 ScreenManager.Back();
+            }
+
+            if (Global.UsingKeyboard)
+            {
+                inputFont.Text.Clear();
+                inputFont.Text.Append("Using Keyboard");
+
+            }
+            else
+            {
+                inputFont.Text.Clear();
+                inputFont.Text.Append("Using Gamepad");
             }
 
             base.Update(gameTime);

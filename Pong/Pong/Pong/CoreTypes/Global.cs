@@ -19,6 +19,8 @@ namespace Pong.CoreTypes
 
         public static Vector2 Scale;
 
+        public static bool UsingKeyboard = false;
+
         public static bool Reset = false;
         public static bool Close = false;
     }

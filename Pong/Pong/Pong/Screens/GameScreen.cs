@@ -598,8 +598,29 @@ namespace Pong.Screens
                         }
                     }
 
-                  
+                    if (Global.GameMode == GameMode.PingPong && !stuckToLeftPaddle && ball.BallState == BallState.Rested)
+                    {
+                        new DebugTypes.PathMapper(Vector2.Zero, new Vector2(20, 30), _viewPort.Bounds, DebugTypes.PathMapper.BoundingBoxSide.Right).Update(gameTime);
 
+                        arrow.IsVisible = false;
+                        infoFont.Text.Clear();
+                        infoFont.Text.Append("Press Esc to pause");
+
+                        //using trigonometry to read the current rotation in degrees and have it spit out a vector2 to use for the speed.
+                        ball.Speed = new Vector2((float)Math.Cos(arrow.Rotation), (float)Math.Sin(arrow.Rotation));
+                        //make it a regular speed, but storing the direction as well
+                        ball.Speed.Normalize();
+                        speedofBall = ball.Speed;
+                        //making it a bit faster
+                        ball.Speed *= 6;
+                          
+                        predictionSpeed = ball.Speed;
+                        BounceCount = 0;
+                        predictionPath = new List<Vector2>();
+                        debug();
+
+                        ball.BallState = BallState.Moving;
+                    }
 
 
                     break;
