@@ -27,6 +27,8 @@ namespace Pong.Screens
 
         //GameSprite numbers;
 
+        GamePadState gs;
+
         FadingFont leftScoreFont;
         FadingFont rightScoreFont;
 
@@ -82,6 +84,7 @@ namespace Pong.Screens
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
+
             GameSprite background = new GameSprite(Content.Load<Texture2D>("Background\\Play"), Vector2.Zero, Color.White);
             background.Scale = Global.Scale;
 
@@ -115,7 +118,6 @@ namespace Pong.Screens
             Global.LeftPlayer.DownKey = (Keys)int.Parse(player1.Element(XName.Get("Down")).Value);
             Global.RightPlayer.UpKey = (Keys)int.Parse(player2.Element(XName.Get("Up")).Value);
             Global.RightPlayer.DownKey = (Keys)int.Parse(player2.Element(XName.Get("Down")).Value);
-
 
             ball = new Ball(Content.Load<Texture2D>("Ball"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
             //ball.Scale = new Vector2(0.5f);
@@ -248,10 +250,13 @@ namespace Pong.Screens
 
         public override void Update(GameTime gameTime)
         {
+
+            if (!Global.UsingKeyboard)
+            {
+                GamePadState controller = GamePad.GetState(PlayerIndex.One);
+            }
+
             arrow.Rotation += rotationspeed;
-
-
-
 
             if (Global.Reset)
             {
@@ -523,6 +528,7 @@ namespace Pong.Screens
             {
                 case Mode.SinglePlayer:
                     //Rightpaddle Movement
+
                     if (InputManager.IsDown(Global.LeftPlayer.UpKey) && Global.LeftPlayer.Top > 0)
                     {
                         Global.LeftPlayer.VectorY -= Math.Abs(paddleSpeed);
@@ -555,48 +561,124 @@ namespace Pong.Screens
 
                     if (Global.Difficulty == Difficulty.Easy)
                     {
-                        if (Global.RightPlayer.Bottom >= _viewPort.Height || Global.RightPlayer.Top <= 0)
+                        if (BounceCount > 0)
                         {
-                            paddleSpeed *= -1;
+                            if (Global.RightPlayer.Bottom >= _viewPort.Height || Global.RightPlayer.Top <= 0)
+                            {
+                                paddleSpeed *= -1;
+                            }
+                        }
+                        else
+                        {
+                            if (Global.RightPlayer.Top + Global.RightPlayer.Origin.Y + 20 < predictionPosition.Y && Global.RightPlayer.Bottom < _viewPort.Height)
+                            {
+                                paddleSpeed = Math.Abs(paddleSpeed);
+                            }
+                            else if (Global.RightPlayer.Top + Global.RightPlayer.Origin.Y - 20 > predictionPosition.Y && Global.RightPlayer.Top > 0)
+                            {
+                                paddleSpeed = -Math.Abs(paddleSpeed);
+                            }
+                            else
+                            {
+                                Global.RightPlayer.VectorY -= paddleSpeed;
+                            }
                         }
 
                         Global.RightPlayer.VectorY += paddleSpeed;
                     }
-
-                    if (Global.Difficulty == Difficulty.Medium || Global.Difficulty == Difficulty.Hard)
+                    if (Global.Difficulty == Difficulty.Easy)
                     {
-                        
-                        switch (hitBall)
+                        if (ball.SpeedX > 0)
                         {
-                            case 0:
-
+                            if (BounceCount > 0)
+                            {
                                 if (Global.RightPlayer.Bottom >= _viewPort.Height || Global.RightPlayer.Top <= 0)
                                 {
-                                     paddleSpeed *= -1;
+                                    paddleSpeed *= -1;
                                 }
-                                Global.RightPlayer.VectorY += paddleSpeed;
-                                break;
-
-                            case 1:
-                                if (Math.Abs(predictionPosition.Y - Global.RightPlayer.VectorY) > 70)
+                            }
+                            else
+                            {
+                                if (Global.RightPlayer.Top + Global.RightPlayer.Origin.Y + 20 < predictionPosition.Y && Global.RightPlayer.Bottom < _viewPort.Height)
                                 {
-                                    if (predictionPosition.Y > Global.RightPlayer.VectorY && Global.RightPlayer.Bottom < _viewPort.Height)
-                                    {
-                                        Global.RightPlayer.VectorY += Math.Abs(paddleSpeed);
-                                    }
-                                    else if (predictionPosition.Y < Global.RightPlayer.VectorY && Global.RightPlayer.Top > 0)
-                                    {
-                                        Global.RightPlayer.VectorY -= Math.Abs(paddleSpeed);
-                                    }
+                                    paddleSpeed = Math.Abs(paddleSpeed);
                                 }
+                                else if (Global.RightPlayer.Top + Global.RightPlayer.Origin.Y - 20 > predictionPosition.Y && Global.RightPlayer.Top > 0)
+                                {
+                                    paddleSpeed = -Math.Abs(paddleSpeed);
+                                }
+                                else
+                                {
+                                    Global.RightPlayer.VectorY -= paddleSpeed;
+                                }
+                            }
 
-                                break;
-
-
-                            default:
-                                break;
+                            Global.RightPlayer.VectorY += paddleSpeed;
                         }
                     }
+
+                    else if (Global.Difficulty == Difficulty.Medium)
+                    {
+                        if (ball.SpeedX > 0)
+                        {
+                            if (BounceCount > 1)
+                            {
+                                if (Global.RightPlayer.Bottom >= _viewPort.Height || Global.RightPlayer.Top <= 0)
+                                {
+                                    paddleSpeed *= -1;
+                                }
+                            }
+                            else
+                            {
+                                if (Global.RightPlayer.Top + Global.RightPlayer.Origin.Y + 20 < predictionPosition.Y && Global.RightPlayer.Bottom < _viewPort.Height)
+                                {
+                                    paddleSpeed = Math.Abs(paddleSpeed);
+                                }
+                                else if (Global.RightPlayer.Top + Global.RightPlayer.Origin.Y - 20 > predictionPosition.Y && Global.RightPlayer.Top > 0)
+                                {
+                                    paddleSpeed = -Math.Abs(paddleSpeed);
+                                }
+                                else
+                                {
+                                    Global.RightPlayer.VectorY -= paddleSpeed;
+                                }
+                            }
+
+                            Global.RightPlayer.VectorY += paddleSpeed;
+                        }
+                    }
+
+                    else if (Global.Difficulty == Difficulty.Hard)
+                    {
+                        if (ball.SpeedX > 0)
+                        {
+                            if (BounceCount > 2)
+                            {
+                                if (Global.RightPlayer.Bottom >= _viewPort.Height || Global.RightPlayer.Top <= 0)
+                                {
+                                    paddleSpeed *= -1;
+                                }
+                            }
+                            else
+                            {
+                                if (Global.RightPlayer.Top + Global.RightPlayer.Origin.Y + 20 < predictionPosition.Y && Global.RightPlayer.Bottom < _viewPort.Height)
+                                {
+                                    paddleSpeed = Math.Abs(paddleSpeed);
+                                }
+                                else if (Global.RightPlayer.Top + Global.RightPlayer.Origin.Y - 20 > predictionPosition.Y && Global.RightPlayer.Top > 0)
+                                {
+                                    paddleSpeed = -Math.Abs(paddleSpeed);
+                                }
+                                else
+                                {
+                                    Global.RightPlayer.VectorY -= paddleSpeed * 1.25f;
+                                }
+                            }
+                            Global.RightPlayer.VectorY += paddleSpeed * 1.25f;
+                        }
+                    }
+
+
 
                     if (Global.GameMode == GameMode.PingPong && !stuckToLeftPaddle && ball.BallState == BallState.Rested)
                     {
@@ -613,7 +695,7 @@ namespace Pong.Screens
                         speedofBall = ball.Speed;
                         //making it a bit faster
                         ball.Speed *= 6;
-                          
+
                         predictionSpeed = ball.Speed;
                         BounceCount = 0;
                         predictionPath = new List<Vector2>();
@@ -707,7 +789,7 @@ namespace Pong.Screens
                         ball.SpeedY -= (Global.RightPlayer.Position.Y - ball.Position.Y) / 10;
                         ball.SpeedY = MathHelper.Clamp(ball.SpeedY, -5, 5);
                     }
-                    BounceCount = 0; 
+                    BounceCount = 0;
                     speed = ball.Speed;
                     speed.Normalize();
                     speedofBall = speed;
@@ -732,7 +814,7 @@ namespace Pong.Screens
                         {
                             temp = 1;
                         }
-                        else 
+                        else
                         {
                             temp = 0;
                         }
@@ -774,8 +856,8 @@ namespace Pong.Screens
                 predictionSpeed.X *= -1.05f;
                 predictionSpeed.Y *= 1.05f;
                 if (Global.GameMode == GameMode.PingPong)
-                { 
-                    predictionSpeed.Y -= (Global.RightPlayer.VectorY - predictionPosition.Y ) / 10;
+                {
+                    predictionSpeed.Y -= (Global.RightPlayer.VectorY - predictionPosition.Y) / 10;
                     predictionSpeed.Y = MathHelper.Clamp(predictionSpeed.Y, -5, 5);
                 }
             }
@@ -788,7 +870,7 @@ namespace Pong.Screens
                     predictionSpeed.Y -= (Global.LeftPlayer.VectorY - predictionPosition.Y) / 10;
                     predictionSpeed.Y = MathHelper.Clamp(predictionSpeed.Y, -5, 5);
                 }
-                    
+
             }
             plusOne.Update(gameTime);
             base.Update(gameTime);
