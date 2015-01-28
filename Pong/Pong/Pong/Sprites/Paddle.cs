@@ -13,6 +13,7 @@ namespace Pong.Sprites
     {
         public Keys UpKey { get; set; }
         public Keys DownKey { get; set; }
+        public Buttons UpButton { get; set; }
 
         public float Left
         {

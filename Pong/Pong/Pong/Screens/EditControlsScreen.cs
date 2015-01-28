@@ -238,9 +238,19 @@ namespace Pong.Screens
 
                 XDocument optionsXml = XDocument.Load(@"XML\Options.xml");
 
-                XElement player1 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Player")).ToList()[0];
-                XElement player2 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Player")).ToList()[1];
+                XElement player1;
+                XElement player2;
 
+                if(Global.UsingKeyboard)
+                {
+                    player1 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Keyboard")).Elements(XName.Get("Player")).ToList()[0];
+                    player2 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Keyboard")).Elements(XName.Get("Player")).ToList()[1];
+                }
+                else 
+                {
+                    player1 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("GamePad")).Elements(XName.Get("Player")).ToList()[0];
+                    player2 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("GamePad")).Elements(XName.Get("Player")).ToList()[1];
+                }
                 player1.Element(XName.Get("Up")).Value = Convert.ToInt32(Global.LeftPlayer.UpKey).ToString();
                 player1.Element(XName.Get("Down")).Value = Convert.ToInt32(Global.LeftPlayer.DownKey).ToString();
                 player2.Element(XName.Get("Up")).Value = Convert.ToInt32(Global.RightPlayer.UpKey).ToString();

@@ -140,7 +140,7 @@ namespace Pong
         {
             InputManager.Update();
             ScreenManager.Update(gameTime);
-
+            //GamePad.SetVibration(PlayerIndex.One, 1, 1);
             if (Global.Close)
             {
                 Exit();

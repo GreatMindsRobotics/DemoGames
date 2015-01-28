@@ -111,8 +111,8 @@ namespace Pong.Screens
             XDocument optionsXml = XDocument.Load(@"XML\Options.xml");
 
             //Ben's dumb work around because he hasn't worked with xdoc enough
-            XElement player1 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Player")).ToList()[0];
-            XElement player2 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Player")).ToList()[1];
+            XElement player1 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Keyboard")).Elements(XName.Get("Player")).ToList()[0];
+            XElement player2 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Keyboard")).Elements(XName.Get("Player")).ToList()[1];
 
             Global.LeftPlayer.UpKey = (Keys)int.Parse(player1.Element(XName.Get("Up")).Value);
             Global.LeftPlayer.DownKey = (Keys)int.Parse(player1.Element(XName.Get("Down")).Value);
