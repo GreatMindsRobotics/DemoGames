@@ -143,7 +143,7 @@ namespace Pong.Screens
                 }
 
                 Keys[] pressedKeys = InputManager.PressedKeys;
-
+            
                 if (pressedKeys.Length > 0)
                 {
                     if (buttonthatwaspressed == 1 && pressedKeys[0] != Global.RightPlayer.DownKey && pressedKeys[0] != Global.LeftPlayer.DownKey && pressedKeys[0] != Global.LeftPlayer.UpKey)
@@ -251,11 +251,11 @@ namespace Pong.Screens
                     player1 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("GamePad")).Elements(XName.Get("Player")).ToList()[0];
                     player2 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("GamePad")).Elements(XName.Get("Player")).ToList()[1];
                 }
+
                 player1.Element(XName.Get("Up")).Value = Convert.ToInt32(Global.LeftPlayer.UpKey).ToString();
                 player1.Element(XName.Get("Down")).Value = Convert.ToInt32(Global.LeftPlayer.DownKey).ToString();
                 player2.Element(XName.Get("Up")).Value = Convert.ToInt32(Global.RightPlayer.UpKey).ToString();
                 player2.Element(XName.Get("Down")).Value = Convert.ToInt32(Global.RightPlayer.DownKey).ToString();
-
 
                 optionsXml.Save(@"XML\Options.xml");
                 ScreenManager.Back();

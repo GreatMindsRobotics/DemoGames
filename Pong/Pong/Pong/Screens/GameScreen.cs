@@ -542,142 +542,94 @@ namespace Pong.Screens
                     switch (Global.Difficulty)
                     {
                         case Difficulty.Easy:
-                            //ScreenManager.Change(ScreenState.Error);
-                            //TODO Add Easy AI
+                            if (ball.SpeedX > 0)
+                            {
+                                if (BounceCount > 0)
+                                {
+                                    if (Global.RightPlayer.Bottom >= _viewPort.Height || Global.RightPlayer.Top <= 0)
+                                    {
+                                        paddleSpeed *= -1;
+                                    }
+                                }
+                                else
+                                {
+                                    if (Global.RightPlayer.Top + Global.RightPlayer.Origin.Y + 20 < predictionPosition.Y && Global.RightPlayer.Bottom < _viewPort.Height)
+                                    {
+                                        paddleSpeed = Math.Abs(paddleSpeed);
+                                    }
+                                    else if (Global.RightPlayer.Top + Global.RightPlayer.Origin.Y - 20 > predictionPosition.Y && Global.RightPlayer.Top > 0)
+                                    {
+                                        paddleSpeed = -Math.Abs(paddleSpeed);
+                                    }
+                                    else
+                                    {
+                                        Global.RightPlayer.VectorY -= paddleSpeed;
+                                    }
+                                }
+
+                                Global.RightPlayer.VectorY += paddleSpeed;
+                            }
                             break;
                         case Difficulty.Medium:
-                            //ScreenManager.Change(ScreenState.Error);
-                            //TODO Add Medium AI
+                            if (ball.SpeedX > 0)
+                            {
+                                if (BounceCount > 1)
+                                {
+                                    if (Global.RightPlayer.Bottom >= _viewPort.Height || Global.RightPlayer.Top <= 0)
+                                    {
+                                        paddleSpeed *= -1;
+                                    }
+                                }
+                                else
+                                {
+                                    if (Global.RightPlayer.Top + Global.RightPlayer.Origin.Y + 20 < predictionPosition.Y && Global.RightPlayer.Bottom < _viewPort.Height)
+                                    {
+                                        paddleSpeed = Math.Abs(paddleSpeed);
+                                    }
+                                    else if (Global.RightPlayer.Top + Global.RightPlayer.Origin.Y - 20 > predictionPosition.Y && Global.RightPlayer.Top > 0)
+                                    {
+                                        paddleSpeed = -Math.Abs(paddleSpeed);
+                                    }
+                                    else
+                                    {
+                                        Global.RightPlayer.VectorY -= paddleSpeed;
+                                    }
+                                }
+
+                                Global.RightPlayer.VectorY += paddleSpeed;
+                            }
                             break;
                         case Difficulty.Hard:
-                            //ScreenManager.Change(ScreenState.Error);
-                            //TODO Add Hrd AI
+                            if (ball.SpeedX > 0)
+                            {
+                                if (BounceCount > 2)
+                                {
+                                    if (Global.RightPlayer.Bottom >= _viewPort.Height || Global.RightPlayer.Top <= 0)
+                                    {
+                                        paddleSpeed *= -1;
+                                    }
+                                }
+                                else
+                                {
+                                    if (Global.RightPlayer.Top + Global.RightPlayer.Origin.Y + 20 < predictionPosition.Y && Global.RightPlayer.Bottom < _viewPort.Height)
+                                    {
+                                        paddleSpeed = Math.Abs(paddleSpeed);
+                                    }
+                                    else if (Global.RightPlayer.Top + Global.RightPlayer.Origin.Y - 20 > predictionPosition.Y && Global.RightPlayer.Top > 0)
+                                    {
+                                        paddleSpeed = -Math.Abs(paddleSpeed);
+                                    }
+                                    else
+                                    {
+                                        Global.RightPlayer.VectorY -= paddleSpeed * 1.25f;
+                                    }
+                                }
+                                Global.RightPlayer.VectorY += paddleSpeed * 1.25f;
+                            }
                             break;
                         default:
                             break;
                     }
-
-
-
-                    if (Global.Difficulty == Difficulty.Easy)
-                    {
-                        if (BounceCount > 0)
-                        {
-                            if (Global.RightPlayer.Bottom >= _viewPort.Height || Global.RightPlayer.Top <= 0)
-                            {
-                                paddleSpeed *= -1;
-                            }
-                        }
-                        else
-                        {
-                            if (Global.RightPlayer.Top + Global.RightPlayer.Origin.Y + 20 < predictionPosition.Y && Global.RightPlayer.Bottom < _viewPort.Height)
-                            {
-                                paddleSpeed = Math.Abs(paddleSpeed);
-                            }
-                            else if (Global.RightPlayer.Top + Global.RightPlayer.Origin.Y - 20 > predictionPosition.Y && Global.RightPlayer.Top > 0)
-                            {
-                                paddleSpeed = -Math.Abs(paddleSpeed);
-                            }
-                            else
-                            {
-                                Global.RightPlayer.VectorY -= paddleSpeed;
-                            }
-                        }
-
-                        Global.RightPlayer.VectorY += paddleSpeed;
-                    }
-                    if (Global.Difficulty == Difficulty.Easy)
-                    {
-                        if (ball.SpeedX > 0)
-                        {
-                            if (BounceCount > 0)
-                            {
-                                if (Global.RightPlayer.Bottom >= _viewPort.Height || Global.RightPlayer.Top <= 0)
-                                {
-                                    paddleSpeed *= -1;
-                                }
-                            }
-                            else
-                            {
-                                if (Global.RightPlayer.Top + Global.RightPlayer.Origin.Y + 20 < predictionPosition.Y && Global.RightPlayer.Bottom < _viewPort.Height)
-                                {
-                                    paddleSpeed = Math.Abs(paddleSpeed);
-                                }
-                                else if (Global.RightPlayer.Top + Global.RightPlayer.Origin.Y - 20 > predictionPosition.Y && Global.RightPlayer.Top > 0)
-                                {
-                                    paddleSpeed = -Math.Abs(paddleSpeed);
-                                }
-                                else
-                                {
-                                    Global.RightPlayer.VectorY -= paddleSpeed;
-                                }
-                            }
-
-                            Global.RightPlayer.VectorY += paddleSpeed;
-                        }
-                    }
-
-                    else if (Global.Difficulty == Difficulty.Medium)
-                    {
-                        if (ball.SpeedX > 0)
-                        {
-                            if (BounceCount > 1)
-                            {
-                                if (Global.RightPlayer.Bottom >= _viewPort.Height || Global.RightPlayer.Top <= 0)
-                                {
-                                    paddleSpeed *= -1;
-                                }
-                            }
-                            else
-                            {
-                                if (Global.RightPlayer.Top + Global.RightPlayer.Origin.Y + 20 < predictionPosition.Y && Global.RightPlayer.Bottom < _viewPort.Height)
-                                {
-                                    paddleSpeed = Math.Abs(paddleSpeed);
-                                }
-                                else if (Global.RightPlayer.Top + Global.RightPlayer.Origin.Y - 20 > predictionPosition.Y && Global.RightPlayer.Top > 0)
-                                {
-                                    paddleSpeed = -Math.Abs(paddleSpeed);
-                                }
-                                else
-                                {
-                                    Global.RightPlayer.VectorY -= paddleSpeed;
-                                }
-                            }
-
-                            Global.RightPlayer.VectorY += paddleSpeed;
-                        }
-                    }
-
-                    else if (Global.Difficulty == Difficulty.Hard)
-                    {
-                        if (ball.SpeedX > 0)
-                        {
-                            if (BounceCount > 2)
-                            {
-                                if (Global.RightPlayer.Bottom >= _viewPort.Height || Global.RightPlayer.Top <= 0)
-                                {
-                                    paddleSpeed *= -1;
-                                }
-                            }
-                            else
-                            {
-                                if (Global.RightPlayer.Top + Global.RightPlayer.Origin.Y + 20 < predictionPosition.Y && Global.RightPlayer.Bottom < _viewPort.Height)
-                                {
-                                    paddleSpeed = Math.Abs(paddleSpeed);
-                                }
-                                else if (Global.RightPlayer.Top + Global.RightPlayer.Origin.Y - 20 > predictionPosition.Y && Global.RightPlayer.Top > 0)
-                                {
-                                    paddleSpeed = -Math.Abs(paddleSpeed);
-                                }
-                                else
-                                {
-                                    Global.RightPlayer.VectorY -= paddleSpeed * 1.25f;
-                                }
-                            }
-                            Global.RightPlayer.VectorY += paddleSpeed * 1.25f;
-                        }
-                    }
-
 
 
                     if (Global.GameMode == GameMode.PingPong && !stuckToLeftPaddle && ball.BallState == BallState.Rested)

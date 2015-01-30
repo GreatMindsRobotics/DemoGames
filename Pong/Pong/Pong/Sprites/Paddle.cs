@@ -13,7 +13,8 @@ namespace Pong.Sprites
     {
         public Keys UpKey { get; set; }
         public Keys DownKey { get; set; }
-        public Buttons UpButton { get; set; }
+        public GamePadMapper.GamePadButtons UpButton { get; set; }
+        public GamePadMapper.GamePadButtons DownButton { get; set; }
 
         public float Left
         {
@@ -78,6 +79,9 @@ namespace Pong.Sprites
         public Paddle(Texture2D image, Vector2 location, Color tint):
             base(image, location, tint)
         {
+            /*UpButton = GamePadMapper.GamePadButtons.LeftTrigger;
+            GamePadMapper mapper = new GamePadMapper(PlayerIndex.One);
+            mapper.IsButtonDown(UpButton);*/
         }
 
         public override void Update(GameTime gameTime)

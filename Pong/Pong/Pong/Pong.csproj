@@ -78,6 +78,7 @@
     <Compile Include="CoreTypes\Global.cs" />
     <Compile Include="CoreTypes\InputManager.cs" />
     <Compile Include="DebugTypes\PathMapper.cs" />
+    <Compile Include="CoreTypes\GamePadMapper.cs" />
     <Compile Include="Screens\EditControlsScreen.cs" />
     <Compile Include="Screens\ErrorScreen.cs" />
     <Compile Include="Screens\GameModeScreen.cs" />
