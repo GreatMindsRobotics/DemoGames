@@ -19,8 +19,12 @@ namespace Pong.Screens
 
         Button mainMenuButton;
 
+        GamePadMapper gamePad;
+
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
+            gamePad = new GamePadMapper(PlayerIndex.One);
+
             player1WinsFont = new FadingFont(Content.Load<SpriteFont>("Fonts\\SpriteFont1"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2 - 100), 0.1f, 1.0f, 0.01f, 1.0f, string.Format("Player 1 Wins"), Color.White, false);
             player1WinsFont.EnableShadow = false;
             player1WinsFont.SetCenterAsOrigin();
@@ -43,26 +47,33 @@ namespace Pong.Screens
 
         public override void Update(GameTime gameTime)
         {
-            if (InputManager.JustPressed(Keys.Escape))
-            {
-                ScreenManager.Change(ScreenState.MainMenu);
-            }
 
-
-            if (GameScreen.player1Won)
+            if (Global.UsingKeyboard)
             {
-                player1WinsFont.IsVisible = true;
+                if (InputManager.JustPressed(Keys.Escape))
+                {
+                    ScreenManager.Change(ScreenState.MainMenu);
+                }
+                if (GameScreen.player1Won)
+                {
+                    player1WinsFont.IsVisible = true;
+                }
+                else
+                {
+                    player2WinsFont.IsVisible = true;
+                }
+                if (mainMenuButton.IsClicked)
+                {
+                    ScreenManager.Change(ScreenState.MainMenu);
+                }
             }
-            else
+            else 
             {
-                player2WinsFont.IsVisible = true;
+                if (InputManager.PressedKeysPlayer1.Back)
+                {
+                    ScreenManager.Back();
+                }
             }
-
-            if(mainMenuButton.IsClicked)
-            {
-                ScreenManager.Change(ScreenState.MainMenu);
-            }
-
             base.Update(gameTime);
         }
 

@@ -36,11 +36,15 @@ namespace Pong.Screens
 
         Button backBtn;
 
+        GamePadMapper gamePad;
+
         Vector2 dropSpeed = new Vector2(0, 45);
 
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
+            gamePad = new GamePadMapper(PlayerIndex.One);
+
             state = ControlScreenState.SelectingControl;
 
             GameSprite background = new GameSprite(Content.Load<Texture2D>("Background\\Keys"), Vector2.Zero, Color.White);
@@ -108,11 +112,19 @@ namespace Pong.Screens
 
         public override void Update(GameTime gameTime)
         {
-
-
-            if (InputManager.JustPressed(Keys.Escape))
+            if (Global.UsingKeyboard)
             {
-                ScreenManager.Back();
+                if (InputManager.JustPressed(Keys.Escape))
+                {
+                    ScreenManager.Back();
+                }
+            }
+            else
+            {
+                if (InputManager.PressedKeysPlayer1.Back)
+                {
+                    ScreenManager.Back();
+                }
             }
 
             if (state == ControlScreenState.WaitingForKey)
@@ -143,6 +155,12 @@ namespace Pong.Screens
                 }
 
                 Keys[] pressedKeys = InputManager.PressedKeys;
+
+
+                //if (pressedButtons.Length > 0)
+                //{
+
+                //}
             
                 if (pressedKeys.Length > 0)
                 {
@@ -152,7 +170,6 @@ namespace Pong.Screens
                         changeRightUpBtn.FontColor = Color.White;
                         Global.RightPlayer.UpKey = pressedKeys[0];
                         state = ControlScreenState.SelectingControl;
-
 
                         changeRightUpBtn.Text = Global.RightPlayer.UpKey.ToString();
                         /*rightUpDisp.Text.Clear();

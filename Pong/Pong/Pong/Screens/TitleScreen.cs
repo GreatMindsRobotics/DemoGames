@@ -32,8 +32,12 @@ namespace Pong.Screens
 
         KeyboardState keyboard;
 
+        GamePadMapper gamePad;
+
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
+            gamePad = new GamePadMapper(PlayerIndex.One);
+
             ScreenState screenState;
 
             //TODO Change Button so it says "Start"

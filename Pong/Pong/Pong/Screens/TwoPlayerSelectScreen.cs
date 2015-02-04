@@ -25,8 +25,11 @@ namespace Pong.Screens
         Button localBtn;
         Button backBtn;
 
+        GamePadMapper gamePad;
+
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
+            gamePad = new GamePadMapper(PlayerIndex.One);
 
             GameSprite background = new GameSprite(Content.Load<Texture2D>("Background\\2Players"), Vector2.Zero, Color.White);
             background.Scale = Global.Scale;
@@ -58,30 +61,100 @@ namespace Pong.Screens
             _sprites.Add(onlineBtn);
             _sprites.Add(localBtn);
             _sprites.Add(backBtn);
+
+            if (!Global.UsingKeyboard)
+            {
+                onlineBtn.IsPressed = true;
+            }
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (InputManager.JustPressed(Keys.Escape))
-            {
-                ScreenManager.Back();
-            }
 
-            if (onlineBtn.IsClicked)
+            if (Global.UsingKeyboard)
             {
-                Global.isOnline = true;
-                ScreenManager.Change(ScreenState.Error);
-            }
-            else if (localBtn.IsClicked)
-            {
-                Global.isOnline = false;
-                ScreenManager.Change(ScreenState.GameMode);
-            }
-            else if (backBtn.IsClicked)
-            {
-                ScreenManager.Back();
-            }
+                if (InputManager.JustPressed(Keys.Escape))
+                {
+                    ScreenManager.Back();
+                }
 
+                if (onlineBtn.IsClicked)
+                {
+                    Global.isOnline = true;
+                    ScreenManager.Change(ScreenState.Error);
+                }
+                else if (localBtn.IsClicked)
+                {
+                    Global.isOnline = false;
+                    ScreenManager.Change(ScreenState.GameMode);
+                }
+                else if (backBtn.IsClicked)
+                {
+                    ScreenManager.Back();
+                }
+            }
+            else 
+            {
+                if (InputManager.PressedKeysPlayer1.Back)
+                {
+                    ScreenManager.Back();
+                }
+
+                if (InputManager.PressedKeysPlayer1.DPadDown)
+                {
+                    if (onlineBtn.IsPressed)
+                    {
+                        onlineBtn.IsPressed = false;
+                        localBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.PressedKeysPlayer1.DPadUp)
+                {
+                    if (localBtn.IsPressed)
+                    {
+                        localBtn.IsPressed = false;
+                        onlineBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.PressedKeysPlayer1.DPadLeft)
+                {
+                    if (onlineBtn.IsPressed)
+                    {
+                        onlineBtn.IsPressed = false;
+                        backBtn.IsPressed = true;
+                    }
+                    else if (localBtn.IsPressed)
+                    {
+                        localBtn.IsPressed = false;
+                        backBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.PressedKeysPlayer1.DPadRight)
+                {
+                    if (backBtn.IsPressed)
+                    {
+                        backBtn.IsPressed = false;
+                        onlineBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.PressedKeysPlayer1.A)
+                {
+                    if (onlineBtn.IsPressed)
+                    {
+                        Global.Mode = Mode.SinglePlayer;
+                        ScreenManager.Change(ScreenState.GameMode);
+                    }
+                    else if (localBtn.IsPressed)
+                    {
+                        Global.Mode = Mode.MultiPlayer;
+                        ScreenManager.Change(ScreenState.TwoPlayerSelect);
+                    }
+                    else if (backBtn.IsPressed)
+                    {
+                        ScreenManager.Change(ScreenState.Options);
+                    }
+                }
+            }
             base.Update(gameTime);
         }
 

@@ -26,9 +26,12 @@ namespace Pong.Screens
 
         Button backBtn;
 
+        GamePadMapper gamePad;
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
+            gamePad = new GamePadMapper(PlayerIndex.One);
+
             titleDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), dropSpeed, "Game Mode", Color.CornflowerBlue);
             titleDropInFont.IsVisible = true;
             titleDropInFont.SetCenterAsOrigin();
@@ -57,24 +60,34 @@ namespace Pong.Screens
 
         public override void Update(GameTime gameTime)
         {
-            if (InputManager.JustPressed(Keys.Escape))
-            {
-                ScreenManager.Back();
-            }
 
-            if(onePlayerBtn.IsClicked)
+            if (Global.UsingKeyboard)
             {
-                Global.Mode = Mode.SinglePlayer;
-                ScreenManager.Change(ScreenState.OnePlayerSelect);
+                if (InputManager.JustPressed(Keys.Escape))
+                {
+                    ScreenManager.Back();
+                }
+                if (onePlayerBtn.IsClicked)
+                {
+                    Global.Mode = Mode.SinglePlayer;
+                    ScreenManager.Change(ScreenState.OnePlayerSelect);
+                }
+                else if (twoPlayersBtn.IsClicked)
+                {
+                    Global.Mode = Mode.MultiPlayer;
+                    ScreenManager.Change(ScreenState.TwoPlayerSelect);
+                }
+                else if (backBtn.IsClicked)
+                {
+                    ScreenManager.Back();
+                }
             }
-            else if (twoPlayersBtn.IsClicked)
+            else 
             {
-                Global.Mode = Mode.MultiPlayer;
-                ScreenManager.Change(ScreenState.TwoPlayerSelect);
-            }
-            else if (backBtn.IsClicked)
-            {
-                ScreenManager.Back();
+                if (InputManager.PressedKeysPlayer1.Back)
+                {
+                    ScreenManager.Back();
+                }
             }
             base.Update(gameTime);
         }

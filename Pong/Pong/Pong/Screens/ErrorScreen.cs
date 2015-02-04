@@ -25,8 +25,11 @@ namespace Pong.Screens
 
         Button backButton;
 
+        GamePadMapper gamePad;
+
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
+            gamePad = new GamePadMapper(PlayerIndex.One);
 
             GameSprite background = new GameSprite(Content.Load<Texture2D>("Background\\Error"), Vector2.Zero, Color.White);
             background.Scale = Global.Scale;
@@ -56,16 +59,25 @@ namespace Pong.Screens
 
         public override void Update(GameTime gameTime)
         {
-            if (InputManager.JustPressed(Keys.Escape))
-            {
-                ScreenManager.Back();
-            }
 
-            if(backButton.IsClicked)
+            if (Global.UsingKeyboard)
             {
-                ScreenManager.Change(ScreenState.MainMenu);
+                if (InputManager.JustPressed(Keys.Escape))
+                {
+                    ScreenManager.Back();
+                }
+                if (backButton.IsClicked)
+                {
+                    ScreenManager.Change(ScreenState.MainMenu);
+                }
             }
-
+            else
+            {
+                if (InputManager.PressedKeysPlayer1.Back)
+                {
+                    ScreenManager.Back();
+                }
+            }
             base.Update(gameTime);
         }
 

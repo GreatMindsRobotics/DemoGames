@@ -22,13 +22,16 @@ namespace Pong.Screens
 
         Vector2 dropSpeed = new Vector2(0, 45);
 
-        Button singlaPlayerBtn;
+        Button singlePlayerBtn;
         Button multiPlayerBtn;
         Button optionsBtn;
 
+        GamePadMapper gamePad;
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
+
+            gamePad = new GamePadMapper(PlayerIndex.One);
 
             GameSprite background = new GameSprite(Content.Load<Texture2D>("Background\\MainMenu"), Vector2.Zero, Color.White);
             background.Scale = Global.Scale;
@@ -42,17 +45,16 @@ namespace Pong.Screens
             //titleDropInFont.ShadowPosition = new Vector2(titleDropInFont.Position.X - 4, titleDropInFont.Position.Y + 4);
             //titleDropInFont.ShadowColor = Color.Gray;
 
-            singlaPlayerBtn = new Button(Content.Load<Texture2D>("Buttons//1Player"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 707, 169), new Rectangle(0, 0, 707, 149));
-            singlaPlayerBtn.Origin = new Vector2(singlaPlayerBtn.Texture.Width / 2, 169);
-            singlaPlayerBtn.Position = new Vector2(960, 469 + singlaPlayerBtn.SourceRectangle.Value.Height / 2);
-
+            singlePlayerBtn = new Button(Content.Load<Texture2D>("Buttons//1Player"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 707, 169), new Rectangle(0, 0, 707, 149));
+            singlePlayerBtn.Origin = new Vector2(singlePlayerBtn.Texture.Width / 2, 169);
+            singlePlayerBtn.Position = new Vector2(960, 469 + singlePlayerBtn.SourceRectangle.Value.Height / 2);
 
             multiPlayerBtn = new Button(Content.Load<Texture2D>("Buttons//2Players"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 707, 169), new Rectangle(0, 0, 707, 149));
             multiPlayerBtn.Origin = new Vector2(multiPlayerBtn.Texture.Width / 2, 169);
             multiPlayerBtn.Position = new Vector2(960, 735 + multiPlayerBtn.SourceRectangle.Value.Height / 2);
 
 
-            optionsBtn = new Button(Content.Load<Texture2D>("Buttons//Settings"), new Vector2(0, 0), Color.White, new Rectangle(0, 149,159, 169), new Rectangle(0, 0, 159, 149));
+            optionsBtn = new Button(Content.Load<Texture2D>("Buttons//Settings"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 159, 169), new Rectangle(0, 0, 159, 149));
             optionsBtn.Origin = new Vector2(optionsBtn.Texture.Width / 2, 169);
             optionsBtn.Position = new Vector2(1743, 907 + optionsBtn.SourceRectangle.Value.Height / 2);
 
@@ -60,33 +62,102 @@ namespace Pong.Screens
 
 
             //_sprites.Add(titleDropInFont);
-            _sprites.Add(singlaPlayerBtn);
+            _sprites.Add(singlePlayerBtn);
             _sprites.Add(multiPlayerBtn);
             _sprites.Add(optionsBtn);
+
+            if (!Global.UsingKeyboard)
+            {
+                singlePlayerBtn.IsPressed = true;
+            }
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (InputManager.JustPressed(Keys.Escape))
-            {
-                Global.Close = true;
-            }
 
-            if (singlaPlayerBtn.IsClicked)
+            if (Global.UsingKeyboard)
             {
-                Global.Mode = Mode.SinglePlayer;
-                ScreenManager.Change(ScreenState.GameMode);
+                if (InputManager.JustPressed(Keys.Escape))
+                {
+                    Global.Close = true;
+                }
+                if (singlePlayerBtn.IsClicked)
+                {
+                    Global.Mode = Mode.SinglePlayer;
+                    ScreenManager.Change(ScreenState.GameMode);
+                }
+                else if (multiPlayerBtn.IsClicked)
+                {
+                    Global.Mode = Mode.MultiPlayer;
+                    ScreenManager.Change(ScreenState.TwoPlayerSelect);
+                }
+                else if (optionsBtn.IsClicked)
+                {
+                    ScreenManager.Change(ScreenState.Options);
+                }
             }
-            else if (multiPlayerBtn.IsClicked)
-            {
-                Global.Mode = Mode.MultiPlayer;
-                ScreenManager.Change(ScreenState.TwoPlayerSelect);
-            }
-            else if (optionsBtn.IsClicked)
-            {
-                ScreenManager.Change(ScreenState.Options);
-            }
+            else
+            { 
+                if (InputManager.PressedKeysPlayer1.Back)
+                {
+                    Global.Close = true;
+                }
 
+                if (InputManager.PressedKeysPlayer1.DPadDown)
+                {
+                    if (singlePlayerBtn.IsPressed)
+                    {
+                        singlePlayerBtn.IsPressed = false;
+                        multiPlayerBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.PressedKeysPlayer1.DPadUp)
+                {
+                    if (multiPlayerBtn.IsPressed)
+                    {
+                        multiPlayerBtn.IsPressed = false;
+                        singlePlayerBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.PressedKeysPlayer1.DPadRight)
+                {
+                    if (singlePlayerBtn.IsPressed)
+                    {
+                        singlePlayerBtn.IsPressed = false;
+                        optionsBtn.IsPressed = true;
+                    }
+                    else if (multiPlayerBtn.IsPressed)
+                    {
+                        multiPlayerBtn.IsPressed = false;
+                        optionsBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.PressedKeysPlayer1.DPadLeft)
+                {
+                    if (optionsBtn.IsPressed)
+                    {
+                        optionsBtn.IsPressed = false;
+                        singlePlayerBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.PressedKeysPlayer1.A)
+                {
+                    if (singlePlayerBtn.IsPressed)
+                    {
+                        Global.Mode = Mode.SinglePlayer;
+                        ScreenManager.Change(ScreenState.GameMode);
+                    }
+                    else if (multiPlayerBtn.IsPressed)
+                    {
+                        Global.Mode = Mode.MultiPlayer;
+                        ScreenManager.Change(ScreenState.TwoPlayerSelect);
+                    }
+                    else if (optionsBtn.IsPressed)
+                    {
+                        ScreenManager.Change(ScreenState.Options);
+                    }
+                }
+            }
             base.Update(gameTime);
         }
 

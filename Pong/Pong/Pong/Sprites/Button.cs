@@ -6,6 +6,7 @@ using FontEffectsLib.SpriteTypes;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Pong.CoreTypes;
 
 namespace Pong.Sprites
 {
@@ -18,6 +19,22 @@ namespace Pong.Sprites
             get
             {
                 return isClicked;
+            }
+        }
+
+        public bool IsPressed
+        {
+            get
+            {
+                return isPressed;
+            }
+            set
+            {
+                isPressed = value;
+
+                SourceRectangle = _rectangles[isPressed ? 1 : 0];
+                _origin.Y = SourceRectangle.Value.Height;
+
             }
         }
 
@@ -121,58 +138,60 @@ namespace Pong.Sprites
 
         public override void Update(GameTime gameTime)
         {
-            MouseState mouse = Mouse.GetState();
-            
-            
-
-            if (_rectangles != null)
+            if (Global.UsingKeyboard)
             {
+                MouseState mouse = Mouse.GetState();
 
-                _origin.Y = SourceRectangle.Value.Height;
-
-                if (mouse.X > Left && mouse.X < Right && mouse.Y > Top && mouse.Y < Bottom)
+                if (_rectangles != null)
                 {
-                    if (mouse.LeftButton == ButtonState.Pressed)
+
+                    _origin.Y = SourceRectangle.Value.Height;
+
+                    if (mouse.X > Left && mouse.X < Right && mouse.Y > Top && mouse.Y < Bottom)
                     {
-                        if (!isPressed)
+                        if (mouse.LeftButton == ButtonState.Pressed)
                         {
-                            Mouse.SetPosition(mouse.X, mouse.Y + _rectangles[0].Height - _rectangles[1].Height);
+                            if (!isPressed)
+                            {
+                                Mouse.SetPosition(mouse.X, mouse.Y + _rectangles[0].Height - _rectangles[1].Height);
+                            }
+                            isPressed = true;
+                            SourceRectangle = _rectangles[1];
                         }
-                        isPressed = true;
-                        SourceRectangle = _rectangles[1];
+                        else if (mouse.LeftButton == ButtonState.Released && ls.LeftButton == ButtonState.Pressed)
+                        {
+                            Mouse.SetPosition(mouse.X, mouse.Y - _rectangles[0].Height + _rectangles[1].Height);
+                            isPressed = false;
+                            SourceRectangle = _rectangles[0];
+                        }
+                        else
+                        {
+                            isPressed = false;
+                            SourceRectangle = _rectangles[0];
+                        }
                     }
-                    else if(mouse.LeftButton == ButtonState.Released && ls.LeftButton == ButtonState.Pressed)
+                    else
                     {
-                        Mouse.SetPosition(mouse.X, mouse.Y - _rectangles[0].Height + _rectangles[1].Height);
                         isPressed = false;
                         SourceRectangle = _rectangles[0];
                     }
-                    else 
-                    {
-                        isPressed = false;
-                        SourceRectangle = _rectangles[0];
-                    }
+                }
+
+
+                if (mouse.X > Left && mouse.X < Right && mouse.Y > Top && mouse.Y < Bottom && mouse.LeftButton == ButtonState.Released && ls.LeftButton == ButtonState.Pressed)
+                {
+                    isClicked = true;
                 }
                 else
                 {
-                    isPressed = false;
-                    SourceRectangle = _rectangles[0];
+                    isClicked = false;
                 }
-            }
 
-
-            if (mouse.X > Left && mouse.X < Right && mouse.Y > Top && mouse.Y < Bottom && mouse.LeftButton == ButtonState.Released && ls.LeftButton == ButtonState.Pressed)
-            {
-                isClicked = true;
+                ls = mouse;
             }
-            else
-            {
-                isClicked = false;
-            }
-
-            ls = mouse;
             base.Update(gameTime);
         }
+        
 
     }
 }

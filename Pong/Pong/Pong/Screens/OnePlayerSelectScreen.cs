@@ -25,8 +25,12 @@ namespace Pong.Screens
         Button hardBtn;
         Button backBtn;
 
+        GamePadMapper gamePad;
+
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
+            gamePad = new GamePadMapper(PlayerIndex.One);
+
             GameSprite background = new GameSprite(Content.Load<Texture2D>("Background\\MainMenu"), Vector2.Zero, Color.White);
             background.Scale = Global.Scale;
 
@@ -64,31 +68,41 @@ namespace Pong.Screens
 
         public override void Update(GameTime gameTime)
         {
-            if (InputManager.JustPressed(Keys.Escape))
-            {
-                ScreenManager.Back();
-            }
 
-            if (easyBtn.IsClicked)
+            if (Global.UsingKeyboard)
             {
-                Global.Difficulty = Difficulty.Easy;
-                ScreenManager.Change(ScreenState.Game);
-            }
-            else if (mediumBtn.IsClicked)
-            {
-                Global.Difficulty = Difficulty.Medium;
-                ScreenManager.Change(ScreenState.Game);
-            }
-            else if (hardBtn.IsClicked)
-            {
-                Global.Difficulty = Difficulty.Hard;
-                ScreenManager.Change(ScreenState.Game);
-            }
-            else if (backBtn.IsClicked)
-            {
-                ScreenManager.Back();
-            }
+                if (InputManager.JustPressed(Keys.Escape))
+                {
+                    ScreenManager.Back();
+                }
 
+                if (easyBtn.IsClicked)
+                {
+                    Global.Difficulty = Difficulty.Easy;
+                    ScreenManager.Change(ScreenState.Game);
+                }
+                else if (mediumBtn.IsClicked)
+                {
+                    Global.Difficulty = Difficulty.Medium;
+                    ScreenManager.Change(ScreenState.Game);
+                }
+                else if (hardBtn.IsClicked)
+                {
+                    Global.Difficulty = Difficulty.Hard;
+                    ScreenManager.Change(ScreenState.Game);
+                }
+                else if (backBtn.IsClicked)
+                {
+                    ScreenManager.Back();
+                }
+            }
+            else
+            {
+                if (InputManager.PressedKeysPlayer1.Back)
+                {
+                    ScreenManager.Back();
+                }
+            }
             base.Update(gameTime);
         }
 
