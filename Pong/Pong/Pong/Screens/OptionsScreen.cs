@@ -63,6 +63,11 @@ namespace Pong.Screens
             //_sprites.Add(titleDropInFont);
             _sprites.Add(editContBtn);
             _sprites.Add(backBtn);
+
+            if (!Global.UsingKeyboard)
+            {
+                editContBtn.IsPressed = true;
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -92,9 +97,37 @@ namespace Pong.Screens
             {
                 inputFont.Text.Clear();
                 inputFont.Text.Append("Using Gamepad");
-                if (InputManager.PressedKeysPlayer1.Back)
+                if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.Back))
                 {
                     ScreenManager.Back();
+                }
+
+                if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadLeft))
+                {
+                    if (editContBtn.IsPressed)
+                    {
+                        editContBtn.IsPressed = false;
+                        backBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadRight))
+                {
+                    if (backBtn.IsPressed)
+                    {
+                        backBtn.IsPressed = false;
+                        editContBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.A))
+                {
+                    if (editContBtn.IsPressed)
+                    {
+                        ScreenManager.Change(ScreenState.EditControls);
+                    }
+                    else if (backBtn.IsPressed)
+                    {
+                        ScreenManager.Back();
+                    }
                 }
             }
 

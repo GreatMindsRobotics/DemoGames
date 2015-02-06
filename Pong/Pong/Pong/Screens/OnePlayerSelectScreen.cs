@@ -64,6 +64,11 @@ namespace Pong.Screens
             _sprites.Add(mediumBtn);
             _sprites.Add(hardBtn);
             _sprites.Add(backBtn);
+
+            if (!Global.UsingKeyboard)
+            {
+                easyBtn.IsPressed = true;
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -98,9 +103,84 @@ namespace Pong.Screens
             }
             else
             {
-                if (InputManager.PressedKeysPlayer1.Back)
+                if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.Back))
                 {
                     ScreenManager.Back();
+                }
+
+                if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadDown))
+                {
+                    if (easyBtn.IsPressed)
+                    {
+                        easyBtn.IsPressed = false;
+                        mediumBtn.IsPressed = true;
+                    }
+                    else if (mediumBtn.IsPressed)
+                    {
+                        mediumBtn.IsPressed = false;
+                        hardBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadUp))
+                {
+                    if (mediumBtn.IsPressed)
+                    {
+                        mediumBtn.IsPressed = false;
+                        easyBtn.IsPressed = true;
+                    }
+                    else if (hardBtn.IsPressed)
+                    {
+                        hardBtn.IsPressed = false;
+                        mediumBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadLeft))
+                {
+                    if (easyBtn.IsPressed)
+                    {
+                        easyBtn.IsPressed = false;
+                        backBtn.IsPressed = true;
+                    }
+                    else if (mediumBtn.IsPressed)
+                    {
+                        mediumBtn.IsPressed = false;
+                        backBtn.IsPressed = true;
+                    }
+                    else if (hardBtn.IsPressed)
+                    {
+                        hardBtn.IsPressed = false;
+                        backBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadRight))
+                {
+                    if (backBtn.IsPressed)
+                    {
+                        backBtn.IsPressed = false;
+                        easyBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.A))
+                {
+                    if (easyBtn.IsPressed)
+                    {
+                        Global.Difficulty = Difficulty.Easy;
+                        ScreenManager.Change(ScreenState.Game);
+                    }
+                    else if (mediumBtn.IsPressed)
+                    {
+                        Global.Difficulty = Difficulty.Medium;
+                        ScreenManager.Change(ScreenState.Game);
+                    }
+                    else if (hardBtn.IsPressed)
+                    {
+                        Global.Difficulty = Difficulty.Hard;
+                        ScreenManager.Change(ScreenState.Game);
+                    }
+                    else if (backBtn.IsPressed)
+                    {
+                        ScreenManager.Back();
+                    }
                 }
             }
             base.Update(gameTime);

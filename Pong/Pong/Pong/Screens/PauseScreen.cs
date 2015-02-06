@@ -85,9 +85,64 @@ namespace Pong.Screens
             }
             else 
             {
-                if (InputManager.PressedKeysPlayer1.Back)
+                if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.Back))
                 {
-                    ScreenManager.Back();
+                    Global.Close = true;
+                }
+
+                if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadDown))
+                {
+                    if (resumeBtn.IsPressed)
+                    {
+                        resumeBtn.IsPressed = false;
+                        mainMenuButton.IsPressed = true;
+                    }
+                }
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadUp))
+                {
+                    if (mainMenuButton.IsPressed)
+                    {
+                        mainMenuButton.IsPressed = false;
+                        resumeBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadRight))
+                {
+                    if (resumeBtn.IsPressed)
+                    {
+                        resumeBtn.IsPressed = false;
+                        optionsButton.IsPressed = true;
+                    }
+                    else if (mainMenuButton.IsPressed)
+                    {
+                        mainMenuButton.IsPressed = false;
+                        optionsButton.IsPressed = true;
+                    }
+                }
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadLeft))
+                {
+                    if (optionsButton.IsPressed)
+                    {
+                        optionsButton.IsPressed = false;
+                        resumeBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.A))
+                {
+                    if (resumeBtn.IsPressed)
+                    {
+                        Global.Mode = Mode.SinglePlayer;
+                        ScreenManager.Change(ScreenState.GameMode);
+                    }
+                    else if (mainMenuButton.IsPressed)
+                    {
+                        Global.Mode = Mode.MultiPlayer;
+                        ScreenManager.Change(ScreenState.TwoPlayerSelect);
+                    }
+                    else if (optionsButton.IsPressed)
+                    {
+                        ScreenManager.Change(ScreenState.Options);
+                    }
                 }
             }
             base.Update(gameTime);

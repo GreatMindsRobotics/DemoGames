@@ -97,13 +97,13 @@ namespace Pong.Screens
                 }
             }
             else
-            { 
-                if (InputManager.PressedKeysPlayer1.Back)
+            {
+                if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.Back))
                 {
                     Global.Close = true;
                 }
 
-                if (InputManager.PressedKeysPlayer1.DPadDown)
+                if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadDown))
                 {
                     if (singlePlayerBtn.IsPressed)
                     {
@@ -111,7 +111,7 @@ namespace Pong.Screens
                         multiPlayerBtn.IsPressed = true;
                     }
                 }
-                else if (InputManager.PressedKeysPlayer1.DPadUp)
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadUp))
                 {
                     if (multiPlayerBtn.IsPressed)
                     {
@@ -119,7 +119,7 @@ namespace Pong.Screens
                         singlePlayerBtn.IsPressed = true;
                     }
                 }
-                else if (InputManager.PressedKeysPlayer1.DPadRight)
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One,GamePadMapper.GamePadButtons.DPadRight))
                 {
                     if (singlePlayerBtn.IsPressed)
                     {
@@ -132,7 +132,7 @@ namespace Pong.Screens
                         optionsBtn.IsPressed = true;
                     }
                 }
-                else if (InputManager.PressedKeysPlayer1.DPadLeft)
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadLeft))
                 {
                     if (optionsBtn.IsPressed)
                     {
@@ -140,7 +140,7 @@ namespace Pong.Screens
                         singlePlayerBtn.IsPressed = true;
                     }
                 }
-                else if (InputManager.PressedKeysPlayer1.A)
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One,GamePadMapper.GamePadButtons.A))
                 {
                     if (singlePlayerBtn.IsPressed)
                     {

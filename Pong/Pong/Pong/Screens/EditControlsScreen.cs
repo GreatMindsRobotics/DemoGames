@@ -108,6 +108,11 @@ namespace Pong.Screens
             //_sprites.Add(leftDownDisp);
 
             _sprites.Add(backBtn);
+
+            if (!Global.UsingKeyboard)
+            {
+                changeLeftUpBtn.IsPressed = true;
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -121,9 +126,100 @@ namespace Pong.Screens
             }
             else
             {
-                if (InputManager.PressedKeysPlayer1.Back)
+                if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.Back))
                 {
                     ScreenManager.Back();
+                }
+
+                if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadDown))
+                {
+                    if (changeLeftUpBtn.IsPressed)
+                    {
+                        changeLeftUpBtn.IsPressed = false;
+                        changeLeftDownBtn.IsPressed = true;
+                    }
+                    else if (changeRightUpBtn.IsPressed)
+                    {
+                        changeRightUpBtn.IsPressed = false;
+                        changeRightDownBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadUp))
+                {
+                    if (changeLeftDownBtn.IsPressed)
+                    {
+                        changeLeftDownBtn.IsPressed = false;
+                        changeLeftUpBtn.IsPressed = true;
+                    }
+                    else if (changeRightDownBtn.IsPressed)
+                    {
+                        changeRightDownBtn.IsPressed = false;
+                        changeRightUpBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadLeft))
+                {
+                    if (changeLeftUpBtn.IsPressed)
+                    {
+                        changeLeftUpBtn.IsPressed = false;
+                        backBtn.IsPressed = true;
+                    }
+                    else if (changeLeftDownBtn.IsPressed)
+                    {
+                        changeLeftDownBtn.IsPressed = false;
+                        backBtn.IsPressed = true;
+                    }
+                    else if (changeRightDownBtn.IsPressed)
+                    {
+                        changeRightDownBtn.IsPressed = false;
+                        changeLeftDownBtn.IsPressed = true;
+                    }
+                    else if (changeRightUpBtn.IsPressed)
+                    {
+                        changeRightUpBtn.IsPressed = false;
+                        changeLeftUpBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadRight))
+                {
+                    if (backBtn.IsPressed)
+                    {
+                        backBtn.IsPressed = false;
+                        changeLeftUpBtn.IsPressed = true;
+                    }
+                    else if (changeLeftDownBtn.IsPressed)
+                    {
+                        changeLeftDownBtn.IsPressed = false;
+                        changeRightDownBtn.IsPressed = true;
+                    }
+                    else if (changeLeftUpBtn.IsPressed)
+                    {
+                        changeLeftUpBtn.IsPressed = false;
+                        changeRightUpBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.A))
+                {
+                    if (changeLeftUpBtn.IsPressed)
+                    {
+                       
+                    }
+                    else if (changeLeftDownBtn.IsPressed)
+                    {
+                        
+                    }
+                    else if (changeRightUpBtn.IsPressed)
+                    {
+
+                    }
+                    else if (changeRightDownBtn.IsPressed)
+                    {
+
+                    }
+                    else if (backBtn.IsPressed)
+                    {
+                        ScreenManager.Back();
+                    }
                 }
             }
 

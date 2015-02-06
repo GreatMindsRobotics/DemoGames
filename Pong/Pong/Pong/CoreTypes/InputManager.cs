@@ -13,6 +13,19 @@ namespace Pong.CoreTypes
         static GamePadMapper player1Pad = new GamePadMapper(Microsoft.Xna.Framework.PlayerIndex.One);
         static GamePadMapper player2Pad = new GamePadMapper(Microsoft.Xna.Framework.PlayerIndex.Two);
 
+        public static bool IsGamepadButtonTapped(Microsoft.Xna.Framework.PlayerIndex player, GamePadMapper.GamePadButtons button)
+        {
+            if (player == Microsoft.Xna.Framework.PlayerIndex.One)
+            {
+                return player1Pad.IsButtonTapped(button);
+            }
+            else if(player == Microsoft.Xna.Framework.PlayerIndex.Two)
+            {
+                return player2Pad.IsButtonTapped(button);
+            }
+            return false;
+        }
+
         public static GamePadMapper PressedKeysPlayer1
         {
             get

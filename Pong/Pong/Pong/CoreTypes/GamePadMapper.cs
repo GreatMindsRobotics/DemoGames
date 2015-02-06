@@ -12,6 +12,10 @@ namespace Pong
 
         private GamePadState _gamePad;
 
+
+
+        private GamePadState _lastGamePad;
+
         private PlayerIndex _player;
 
 
@@ -178,6 +182,8 @@ namespace Pong
 
         public void Update()
         {
+            _lastGamePad = _gamePad;
+
             _gamePad = GamePad.GetState(_player);
         }
 
@@ -223,6 +229,99 @@ namespace Pong
                 }
             }
             return buttonsPressed.ToArray();
+        }
+
+        public bool IsButtonTapped(GamePadButtons button)
+        {
+            if (button == GamePadButtons.A)
+            {
+                return A && _lastGamePad.Buttons.A != ButtonState.Pressed;
+            }
+            if (button == GamePadButtons.B)
+            {
+                return B && _lastGamePad.Buttons.B != ButtonState.Pressed;
+            }
+            if (button == GamePadButtons.X)
+            {
+                return X && _lastGamePad.Buttons.X != ButtonState.Pressed;
+            }
+            if (button == GamePadButtons.Y)
+            {
+                return Y && _lastGamePad.Buttons.Y != ButtonState.Pressed;
+            }
+            if (button == GamePadButtons.LeftJoyUp)
+            {
+                return LeftJoyUp && _lastGamePad.ThumbSticks.Left.Y <= 0;
+            }
+            if (button == GamePadButtons.LeftJoyDown)
+            {
+                return LeftJoyDown && _lastGamePad.ThumbSticks.Left.Y >= 0;
+            }
+            if (button == GamePadButtons.LeftJoyLeft)
+            {
+                return LeftJoyLeft && _lastGamePad.ThumbSticks.Left.X >= 0; ;
+            }
+            if (button == GamePadButtons.LeftJoyRight)
+            {
+                return LeftJoyRight && _lastGamePad.ThumbSticks.Left.X <= 0; ;
+            }
+            if (button == GamePadButtons.RightJoyUp)
+            {
+                return RightJoyUp && _lastGamePad.ThumbSticks.Right.Y <= 0;
+            }
+            if (button == GamePadButtons.RightJoyDown)
+            {
+                return RightJoyDown && _lastGamePad.ThumbSticks.Right.Y >= 0;
+            }
+            if (button == GamePadButtons.RightJoyLeft)
+            {
+                return RightJoyLeft && _lastGamePad.ThumbSticks.Right.X >= 0;
+            }
+            if (button == GamePadButtons.RightJoyRight)
+            {
+                return RightJoyRight && _lastGamePad.ThumbSticks.Right.X <= 0;
+            }
+            if (button == GamePadButtons.DPadUp)
+            {
+                return DPadUp && _lastGamePad.DPad.Up != ButtonState.Pressed;
+            }
+            if (button == GamePadButtons.DPadDown)
+            {
+                return DPadDown && _lastGamePad.DPad.Down != ButtonState.Pressed;
+            }
+            if (button == GamePadButtons.DPadLeft)
+            {
+                return DPadLeft && _lastGamePad.DPad.Left != ButtonState.Pressed;
+            }
+            if (button == GamePadButtons.DPadRight)
+            {
+                return DPadRight && _lastGamePad.DPad.Right != ButtonState.Pressed;
+            }
+            if (button == GamePadButtons.LeftTrigger)
+            {
+                return LeftTrigger && _lastGamePad.Triggers.Left == 0;
+            }
+            if (button == GamePadButtons.RightTrigger)
+            {
+                return RightTrigger && _lastGamePad.Triggers.Right == 0;
+            }
+            if (button == GamePadButtons.LeftBumper)
+            {
+                return LeftBumper && _lastGamePad.Buttons.LeftShoulder != ButtonState.Pressed;
+            }
+            if (button == GamePadButtons.RightBumper)
+            {
+                return RightBumper && _lastGamePad.Buttons.RightShoulder != ButtonState.Pressed;
+            }
+            if (button == GamePadButtons.Back)
+            {
+                return Back && _lastGamePad.Buttons.Back != ButtonState.Pressed;
+            }
+            if (button == GamePadButtons.Start)
+            {
+                return Start && _lastGamePad.Buttons.Start != ButtonState.Pressed;
+            }
+            return false;
         }
 
         public bool IsButtonDown(GamePadButtons button)

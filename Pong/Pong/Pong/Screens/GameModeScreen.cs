@@ -59,6 +59,11 @@ namespace Pong.Screens
             _sprites.Add(classicalBtn);
             _sprites.Add(pingPongBtn);
             _sprites.Add(backBtn);
+
+            if (!Global.UsingKeyboard)
+            {
+                classicalBtn.IsPressed = true;
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -73,9 +78,79 @@ namespace Pong.Screens
             }
             else 
             {
-                if (InputManager.PressedKeysPlayer1.Back)
+                if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.Back))
                 {
                     ScreenManager.Back();
+                }
+
+                if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadDown))
+                {
+                    if (classicalBtn.IsPressed)
+                    {
+                        classicalBtn.IsPressed = false;
+                        pingPongBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadUp))
+                {
+                    if (pingPongBtn.IsPressed)
+                    {
+                        pingPongBtn.IsPressed = false;
+                        classicalBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadLeft))
+                {
+                    if (classicalBtn.IsPressed)
+                    {
+                        classicalBtn.IsPressed = false;
+                        backBtn.IsPressed = true;
+                    }
+                    else if (pingPongBtn.IsPressed)
+                    {
+                        pingPongBtn.IsPressed = false;
+                        backBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadRight))
+                {
+                    if (backBtn.IsPressed)
+                    {
+                        backBtn.IsPressed = false;
+                        classicalBtn.IsPressed = true;
+                    }
+                }
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.A))
+                {
+                    if (classicalBtn.IsPressed)
+                    {
+                        Global.GameMode = GameMode.Classical;
+                        if (Global.Mode == Mode.SinglePlayer)
+                        {
+                            ScreenManager.Change(ScreenState.OnePlayerSelect);
+                        }
+                        else
+                        {
+                            ScreenManager.Change(ScreenState.Game);
+                        }
+                    }
+                    else if (pingPongBtn.IsPressed)
+                    {
+                        Global.GameMode = GameMode.PingPong;
+                        ScreenManager.Change(ScreenState.TwoPlayerSelect);
+                        if (Global.Mode == Mode.SinglePlayer)
+                        {
+                            ScreenManager.Change(ScreenState.OnePlayerSelect);
+                        }
+                        else
+                        {
+                            ScreenManager.Change(ScreenState.Game);
+                        }
+                    }
+                    else if (backBtn.IsPressed)
+                    {
+                        ScreenManager.Back();
+                    }
                 }
             }
 

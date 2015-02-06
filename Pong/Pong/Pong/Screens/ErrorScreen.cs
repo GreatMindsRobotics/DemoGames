@@ -73,7 +73,7 @@ namespace Pong.Screens
             }
             else
             {
-                if (InputManager.PressedKeysPlayer1.Back)
+                if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.Back))
                 {
                     ScreenManager.Back();
                 }

@@ -43,6 +43,11 @@ namespace Pong.Screens
             _sprites.Add(player1WinsFont);
             _sprites.Add(player2WinsFont);
             _sprites.Add(mainMenuButton);
+
+            if (!Global.UsingKeyboard)
+            {
+                mainMenuButton.IsPressed = true;
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -69,10 +74,16 @@ namespace Pong.Screens
             }
             else 
             {
-                if (InputManager.PressedKeysPlayer1.Back)
+                if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.Back))
                 {
                     ScreenManager.Back();
                 }
+
+                if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.A))
+                {
+                    ScreenManager.Change(ScreenState.MainMenu);
+                }
+
             }
             base.Update(gameTime);
         }

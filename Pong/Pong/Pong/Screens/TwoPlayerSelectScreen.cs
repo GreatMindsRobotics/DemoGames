@@ -95,12 +95,12 @@ namespace Pong.Screens
             }
             else 
             {
-                if (InputManager.PressedKeysPlayer1.Back)
+                if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.Back))
                 {
                     ScreenManager.Back();
                 }
 
-                if (InputManager.PressedKeysPlayer1.DPadDown)
+                if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadDown))
                 {
                     if (onlineBtn.IsPressed)
                     {
@@ -108,7 +108,7 @@ namespace Pong.Screens
                         localBtn.IsPressed = true;
                     }
                 }
-                else if (InputManager.PressedKeysPlayer1.DPadUp)
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One,GamePadMapper.GamePadButtons.DPadUp))
                 {
                     if (localBtn.IsPressed)
                     {
@@ -116,7 +116,7 @@ namespace Pong.Screens
                         onlineBtn.IsPressed = true;
                     }
                 }
-                else if (InputManager.PressedKeysPlayer1.DPadLeft)
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadLeft))
                 {
                     if (onlineBtn.IsPressed)
                     {
@@ -129,7 +129,7 @@ namespace Pong.Screens
                         backBtn.IsPressed = true;
                     }
                 }
-                else if (InputManager.PressedKeysPlayer1.DPadRight)
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadRight))
                 {
                     if (backBtn.IsPressed)
                     {
@@ -137,21 +137,21 @@ namespace Pong.Screens
                         onlineBtn.IsPressed = true;
                     }
                 }
-                else if (InputManager.PressedKeysPlayer1.A)
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.A))
                 {
                     if (onlineBtn.IsPressed)
                     {
-                        Global.Mode = Mode.SinglePlayer;
+                        Global.isOnline = true;
                         ScreenManager.Change(ScreenState.GameMode);
                     }
                     else if (localBtn.IsPressed)
                     {
-                        Global.Mode = Mode.MultiPlayer;
-                        ScreenManager.Change(ScreenState.TwoPlayerSelect);
+                        Global.isOnline = false;
+                        ScreenManager.Change(ScreenState.GameMode);
                     }
                     else if (backBtn.IsPressed)
                     {
-                        ScreenManager.Change(ScreenState.Options);
+                        ScreenManager.Back();
                     }
                 }
             }
