@@ -33,6 +33,15 @@ namespace Pong.CoreTypes
                 return player1Pad;
             }
         }
+
+        public static GamePadMapper.GamePadButtons[] PressedKeysArrayPlayer1
+        {
+            get
+            {
+                return player1Pad.GetPressedButtons();
+            }
+        }
+        
         public static GamePadMapper.GamePadButtons[] PressedKeysPlayer2
         {
             get

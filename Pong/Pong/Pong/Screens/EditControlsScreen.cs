@@ -202,19 +202,36 @@ namespace Pong.Screens
                 {
                     if (changeLeftUpBtn.IsPressed)
                     {
-                       
+                        changeLeftUpBtn.FontColor = Color.Yellow;
+                        state = ControlScreenState.WaitingForKey;
+                        buttonthatwaspressed = 3;
                     }
                     else if (changeLeftDownBtn.IsPressed)
                     {
-                        
+                        changeLeftDownBtn.FontColor = Color.Yellow;
+                        state = ControlScreenState.WaitingForKey;
+                        buttonthatwaspressed = 4;   
                     }
                     else if (changeRightUpBtn.IsPressed)
                     {
-
+                        changeRightUpBtn.FontColor = Color.Yellow;
+                        state = ControlScreenState.WaitingForKey;
+                        buttonthatwaspressed = 1;
                     }
                     else if (changeRightDownBtn.IsPressed)
                     {
+                        changeRightDownBtn.FontColor = Color.Yellow;
+                        state = ControlScreenState.WaitingForKey;
+                        buttonthatwaspressed = 2;
+                    }
+                    else if (backBtn.IsPressed && state == ControlScreenState.WaitingForKey)
+                    {
+                        changeRightUpBtn.FontColor = Color.White;
+                        changeRightDownBtn.FontColor = Color.White;
+                        changeLeftUpBtn.FontColor = Color.White;
+                        changeLeftDownBtn.FontColor = Color.White;
 
+                        state = ControlScreenState.SelectingControl;
                     }
                     else if (backBtn.IsPressed)
                     {
@@ -251,13 +268,61 @@ namespace Pong.Screens
                 }
 
                 Keys[] pressedKeys = InputManager.PressedKeys;
+                GamePadMapper.GamePadButtons[] pressedButtons = InputManager.PressedKeysArrayPlayer1;
 
 
-                //if (pressedButtons.Length > 0)
-                //{
+                if (pressedButtons.Length > 0)
+                {
+                    if (buttonthatwaspressed == 1 && pressedKeys[0] != Global.RightPlayer.DownKey && pressedKeys[0] != Global.LeftPlayer.DownKey && pressedKeys[0] != Global.LeftPlayer.UpKey)
+                    {
+                        //rightUpDisp.TintColor = Color.White;
+                        changeRightUpBtn.FontColor = Color.White;
+                        Global.RightPlayer.UpKey = pressedKeys[0];
+                        state = ControlScreenState.SelectingControl;
 
-                //}
-            
+                        changeRightUpBtn.Text = Global.RightPlayer.UpKey.ToString();
+                        /*rightUpDisp.Text.Clear();
+                        rightUpDisp.Text.Append(Global.RightPlayer.UpKey.ToString());
+                        rightUpDisp.Position = new Vector2(changeRightUpBtn.Position.X - rightUpDisp.Size.X / 2, changeRightUpBtn.Bottom - 120);*/
+                    }
+                    if (buttonthatwaspressed == 2 && pressedKeys[0] != Global.RightPlayer.UpKey && pressedKeys[0] != Global.LeftPlayer.DownKey && pressedKeys[0] != Global.LeftPlayer.UpKey)
+                    {
+                        //rightDownDisp.TintColor = Color.White;
+                        changeRightDownBtn.FontColor = Color.White;
+                        Global.RightPlayer.DownKey = pressedKeys[0];
+                        state = ControlScreenState.SelectingControl;
+
+                        changeRightDownBtn.Text = Global.RightPlayer.DownKey.ToString();
+                        //rightDownDisp.Text.Clear();
+                        //rightDownDisp.Text.Append(Global.RightPlayer.DownKey.ToString());
+                        //rightDownDisp.Position = new Vector2(changeRightDownBtn.Position.X - rightDownDisp.Size.X / 2, changeRightDownBtn.Bottom - 120);
+                    }
+                    if (buttonthatwaspressed == 3 && pressedKeys[0] != Global.RightPlayer.DownKey && pressedKeys[0] != Global.LeftPlayer.DownKey && pressedKeys[0] != Global.RightPlayer.UpKey)
+                    {
+                        //leftUpDisp.TintColor = Color.White;
+                        changeLeftUpBtn.FontColor = Color.White;
+                        Global.LeftPlayer.UpKey = pressedKeys[0];
+                        state = ControlScreenState.SelectingControl;
+
+                        changeLeftUpBtn.Text = Global.LeftPlayer.UpKey.ToString();
+                        //leftUpDisp.Text.Clear();
+                        //leftUpDisp.Text.Append(Global.LeftPlayer.UpKey.ToString());
+                        //leftUpDisp.Position = new Vector2(changeLeftUpBtn.Position.X - leftUpDisp.Size.X / 2, changeLeftUpBtn.Bottom - 120);
+                    }
+                    if (buttonthatwaspressed == 4 && pressedKeys[0] != Global.RightPlayer.DownKey && pressedKeys[0] != Global.RightPlayer.UpKey && pressedKeys[0] != Global.LeftPlayer.UpKey)
+                    {
+                        //leftDownDisp.TintColor = Color.White;
+                        changeLeftDownBtn.FontColor = Color.White;
+                        Global.LeftPlayer.DownKey = pressedKeys[0];
+                        state = ControlScreenState.SelectingControl;
+
+                        changeLeftDownBtn.Text = Global.LeftPlayer.DownKey.ToString();
+                        //leftDownDisp.Text.Clear();
+                        //leftDownDisp.Text.Append(Global.LeftPlayer.DownKey.ToString());
+                        //leftDownDisp.Position = new Vector2(changeLeftDownBtn.Position.X - leftDownDisp.Size.X / 2, changeLeftDownBtn.Bottom - 120);
+                    }
+                }
+
                 if (pressedKeys.Length > 0)
                 {
                     if (buttonthatwaspressed == 1 && pressedKeys[0] != Global.RightPlayer.DownKey && pressedKeys[0] != Global.LeftPlayer.DownKey && pressedKeys[0] != Global.LeftPlayer.UpKey)

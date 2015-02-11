@@ -20,6 +20,10 @@ namespace Pong.Sprites
             {
                 return isClicked;
             }
+            set
+            {
+                isClicked = value;
+            }
         }
 
         public bool IsPressed

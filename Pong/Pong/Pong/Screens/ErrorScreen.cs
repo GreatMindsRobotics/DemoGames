@@ -55,6 +55,11 @@ namespace Pong.Screens
             //_sprites.Add(errorInfoFadingFont);
             _sprites.Add(background);
             _sprites.Add(backButton);
+
+            if (!Global.UsingKeyboard)
+            {
+               backButton.IsPressed = true;
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -76,6 +81,13 @@ namespace Pong.Screens
                 if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.Back))
                 {
                     ScreenManager.Back();
+                }
+                if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.A))
+                {
+                    if (backButton.IsPressed)
+                    {
+                        ScreenManager.Change(ScreenState.MainMenu);
+                    }
                 }
             }
             base.Update(gameTime);
