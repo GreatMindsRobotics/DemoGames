@@ -58,6 +58,12 @@ namespace Pong.Screens
             //_sprites.Add(titleDropInFont);
             _sprites.Add(mainMenuButton);
             _sprites.Add(optionsButton);
+
+
+            if (!Global.UsingKeyboard)
+            {
+                resumeBtn.IsPressed = true;
+            }
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
@@ -131,13 +137,11 @@ namespace Pong.Screens
                 {
                     if (resumeBtn.IsPressed)
                     {
-                        Global.Mode = Mode.SinglePlayer;
-                        ScreenManager.Change(ScreenState.GameMode);
+                        ScreenManager.Change(ScreenState.Game);
                     }
                     else if (mainMenuButton.IsPressed)
                     {
-                        Global.Mode = Mode.MultiPlayer;
-                        ScreenManager.Change(ScreenState.TwoPlayerSelect);
+                        ScreenManager.Change(ScreenState.MainMenu);
                     }
                     else if (optionsButton.IsPressed)
                     {

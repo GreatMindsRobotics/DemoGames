@@ -111,14 +111,26 @@ namespace Pong.Screens
             XDocument optionsXml = XDocument.Load(@"XML\Options.xml");
 
             //Ben's dumb work around because he hasn't worked with xdoc enough
-            XElement player1 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Keyboard")).Elements(XName.Get("Player")).ToList()[0];
-            XElement player2 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Keyboard")).Elements(XName.Get("Player")).ToList()[1];
+            if (Global.UsingKeyboard)
+            {
+                XElement player1 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Keyboard")).Elements(XName.Get("Player")).ToList()[0];
+                XElement player2 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Keyboard")).Elements(XName.Get("Player")).ToList()[1];
 
-            Global.LeftPlayer.UpKey = (Keys)int.Parse(player1.Element(XName.Get("Up")).Value);
-            Global.LeftPlayer.DownKey = (Keys)int.Parse(player1.Element(XName.Get("Down")).Value);
-            Global.RightPlayer.UpKey = (Keys)int.Parse(player2.Element(XName.Get("Up")).Value);
-            Global.RightPlayer.DownKey = (Keys)int.Parse(player2.Element(XName.Get("Down")).Value);
+                Global.LeftPlayer.UpKey = (Keys)int.Parse(player1.Element(XName.Get("Up")).Value);
+                Global.LeftPlayer.DownKey = (Keys)int.Parse(player1.Element(XName.Get("Down")).Value);
+                Global.RightPlayer.UpKey = (Keys)int.Parse(player2.Element(XName.Get("Up")).Value);
+                Global.RightPlayer.DownKey = (Keys)int.Parse(player2.Element(XName.Get("Down")).Value);
+            }
+            else
+            {
+                XElement player1 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("GamePad")).Elements(XName.Get("Player")).ToList()[0];
+                XElement player2 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("GamePad")).Elements(XName.Get("Player")).ToList()[1];
 
+                Global.LeftPlayer.UpButton = (GamePadMapper.GamePadButtons)int.Parse(player1.Element(XName.Get("Up")).Value);
+                Global.LeftPlayer.DownButton = (GamePadMapper.GamePadButtons)int.Parse(player1.Element(XName.Get("Down")).Value);
+                Global.RightPlayer.UpButton = (GamePadMapper.GamePadButtons)int.Parse(player2.Element(XName.Get("Up")).Value);
+                Global.RightPlayer.DownButton = (GamePadMapper.GamePadButtons)int.Parse(player2.Element(XName.Get("Down")).Value);            
+            }
             ball = new Ball(Content.Load<Texture2D>("Ball"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
             //ball.Scale = new Vector2(0.5f);
             ball.SetCenterAsOrigin();
@@ -528,17 +540,30 @@ namespace Pong.Screens
             {
                 case Mode.SinglePlayer:
                     //Rightpaddle Movement
-
-                    if (InputManager.IsDown(Global.LeftPlayer.UpKey) && Global.LeftPlayer.Top > 0)
+                    if (Global.UsingKeyboard)
                     {
-                        Global.LeftPlayer.VectorY -= Math.Abs(paddleSpeed);
-                    }
+                        if (InputManager.IsDown(Global.LeftPlayer.UpKey) && Global.LeftPlayer.Top > 0)
+                        {
+                            Global.LeftPlayer.VectorY -= Math.Abs(paddleSpeed);
+                        }
 
-                    if (InputManager.IsDown(Global.LeftPlayer.DownKey) && Global.LeftPlayer.Bottom < _viewPort.Height)
+                        if (InputManager.IsDown(Global.LeftPlayer.DownKey) && Global.LeftPlayer.Bottom < _viewPort.Height)
+                        {
+                            Global.LeftPlayer.VectorY += Math.Abs(paddleSpeed);
+                        }
+                    }
+                    else
                     {
-                        Global.LeftPlayer.VectorY += Math.Abs(paddleSpeed);
-                    }
+                        if (InputManager.PressedKeysPlayer1.GetPressedButtons().Contains(Global.LeftPlayer.UpButton) && Global.LeftPlayer.Top > 0)
+                        {
+                            Global.LeftPlayer.VectorY -= Math.Abs(paddleSpeed);
+                        }
 
+                        //if (InputManager.IsDown(Global.LeftPlayer.DownButton) && Global.LeftPlayer.Bottom < _viewPort.Height)
+                        {
+                        //    Global.LeftPlayer.VectorY += Math.Abs(paddleSpeed);
+                        }
+                    }
                     switch (Global.Difficulty)
                     {
                         case Difficulty.Easy:
