@@ -158,10 +158,16 @@ namespace Pong.Screens
             //player2Font = new FadingFont(Content.Load<SpriteFont>("Fonts\\Outage"), new Vector2(_viewPort.Width - 85, 50), 0.1f, 1.0f, 0.01f, 1.0f, string.Format("Player2"), Color.White, false);
             //player2Font.EnableShadow = false;
 
-            infoFont = new FadingFont(Content.Load<SpriteFont>("Fonts\\Outage"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), 0.1f, 1.0f, 0.01f, 1.0f, string.Format("Press Space to start"), Color.LightGoldenrodYellow, false);
+            if (Global.UsingKeyboard)
+            {
+                infoFont = new FadingFont(Content.Load<SpriteFont>("Fonts\\Outage"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), 0.1f, 1.0f, 0.01f, 1.0f, string.Format("Press Space to start"), Color.LightGoldenrodYellow, false);
+            }
+            else
+            {
+                infoFont = new FadingFont(Content.Load<SpriteFont>("Fonts\\Outage"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), 0.1f, 1.0f, 0.01f, 1.0f, string.Format("Press A to start"), Color.LightGoldenrodYellow, false);
+            }
             infoFont.EnableShadow = false;
             infoFont.SetCenterAsOrigin();
-
 
             _sprites.Add(background);
             _sprites.Add(Global.RightPlayer);
@@ -350,47 +356,126 @@ namespace Pong.Screens
             {
                 //System.Diagnostics.Debugger.Break();
             }
-
-            if (InputManager.JustPressed(Keys.Escape))
+            if (Global.UsingKeyboard)
             {
-                ScreenManager.Change(ScreenState.Pause);
-            }
-
-            if (InputManager.JustPressed(Keys.Space))
-            {
-                new DebugTypes.PathMapper(Vector2.Zero, new Vector2(20, 30), _viewPort.Bounds, DebugTypes.PathMapper.BoundingBoxSide.Right).Update(gameTime);
-
-                arrow.IsVisible = false;
-                infoFont.Text.Clear();
-                infoFont.Text.Append("Press Esc to pause");
-
-                if (ball.BallState == BallState.Rested)
+                if (InputManager.JustPressed(Keys.Escape))
                 {
-                    if (Global.GameMode == GameMode.PingPong)
-                    {
-                        //using trigonometry to read the current rotation in degrees and have it spit out a vector2 to use for the speed.
-                        ball.Speed = new Vector2((float)Math.Cos(arrow.Rotation), (float)Math.Sin(arrow.Rotation));
-                        //make it a regular speed, but storing the direction as well
-                        ball.Speed.Normalize();
-                        speedofBall = ball.Speed;
-                        //making it a bit faster
-                        ball.Speed *= 6;
-                    }
-                    else
-                    {
-
-                        ball.SpeedX = randx;
-                        ball.SpeedY = randy;
-                    }
+                    ScreenManager.Change(ScreenState.Pause);
                 }
-                predictionSpeed = ball.Speed;
-                BounceCount = 0;
-                predictionPath = new List<Vector2>();
-                debug();
 
-                ball.BallState = BallState.Moving;
+                if (InputManager.JustPressed(Keys.Space))
+                {
+                    new DebugTypes.PathMapper(Vector2.Zero, new Vector2(20, 30), _viewPort.Bounds, DebugTypes.PathMapper.BoundingBoxSide.Right).Update(gameTime);
+
+                    arrow.IsVisible = false;
+                    infoFont.Text.Clear();
+                    infoFont.Text.Append("Press Esc to pause");
+
+                    if (ball.BallState == BallState.Rested)
+                    {
+                        if (Global.GameMode == GameMode.PingPong)
+                        {
+                            //using trigonometry to read the current rotation in degrees and have it spit out a vector2 to use for the speed.
+                            ball.Speed = new Vector2((float)Math.Cos(arrow.Rotation), (float)Math.Sin(arrow.Rotation));
+                            //make it a regular speed, but storing the direction as well
+                            ball.Speed.Normalize();
+                            speedofBall = ball.Speed;
+                            //making it a bit faster
+                            ball.Speed *= 6;
+                        }
+                        else
+                        {
+
+                            ball.SpeedX = randx;
+                            ball.SpeedY = randy;
+                        }
+                    }
+                    predictionSpeed = ball.Speed;
+                    BounceCount = 0;
+                    predictionPath = new List<Vector2>();
+                    debug();
+
+                    ball.BallState = BallState.Moving;
+                }
             }
+            else 
+            {
+                if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.Back))
+                {
+                    ScreenManager.Change(ScreenState.Pause);
+                }
 
+                if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.A) && (Global.Mode == Mode.SinglePlayer || Global.GameMode == GameMode.Classical || (Global.GameMode == GameMode.PingPong && stuckToLeftPaddle)))
+                {
+                    new DebugTypes.PathMapper(Vector2.Zero, new Vector2(20, 30), _viewPort.Bounds, DebugTypes.PathMapper.BoundingBoxSide.Right).Update(gameTime);
+
+                    arrow.IsVisible = false;
+                    infoFont.Text.Clear();
+                    infoFont.Text.Append("Press Back to pause");
+
+                    if (ball.BallState == BallState.Rested)
+                    {
+                        if (Global.GameMode == GameMode.PingPong)
+                        {
+                            //using trigonometry to read the current rotation in degrees and have it spit out a vector2 to use for the speed.
+                            ball.Speed = new Vector2((float)Math.Cos(arrow.Rotation), (float)Math.Sin(arrow.Rotation));
+                            //make it a regular speed, but storing the direction as well
+                            ball.Speed.Normalize();
+                            speedofBall = ball.Speed;
+                            //making it a bit faster
+                            ball.Speed *= 6;
+                        }
+                        else
+                        {
+
+                            ball.SpeedX = randx;
+                            ball.SpeedY = randy;
+                        }
+                    }
+                    predictionSpeed = ball.Speed;
+                    BounceCount = 0;
+                    predictionPath = new List<Vector2>();
+                    debug();
+
+                    ball.BallState = BallState.Moving;
+                }
+                if (InputManager.IsGamepadButtonTapped(PlayerIndex.Two, GamePadMapper.GamePadButtons.A) && (Global.GameMode == GameMode.Classical || (Global.GameMode == GameMode.PingPong && !stuckToLeftPaddle)))
+                {
+                    new DebugTypes.PathMapper(Vector2.Zero, new Vector2(20, 30), _viewPort.Bounds, DebugTypes.PathMapper.BoundingBoxSide.Right).Update(gameTime);
+
+                    arrow.IsVisible = false;
+                    infoFont.Text.Clear();
+                    infoFont.Text.Append("Press Back to pause");
+
+                    if (ball.BallState == BallState.Rested)
+                    {
+                        if (Global.GameMode == GameMode.PingPong)
+                        {
+                            //using trigonometry to read the current rotation in degrees and have it spit out a vector2 to use for the speed.
+                            ball.Speed = new Vector2((float)Math.Cos(arrow.Rotation), (float)Math.Sin(arrow.Rotation));
+                            //make it a regular speed, but storing the direction as well
+                            ball.Speed.Normalize();
+                            speedofBall = ball.Speed;
+                            //making it a bit faster
+                            ball.Speed *= 6;
+                        }
+                        else
+                        {
+
+                            ball.SpeedX = randx;
+                            ball.SpeedY = randy;
+                        }
+                    }
+                    predictionSpeed = ball.Speed;
+                    BounceCount = 0;
+                    predictionPath = new List<Vector2>();
+                    debug();
+
+                    ball.BallState = BallState.Moving;
+                }
+
+
+            }
             if (ball.BallState == BallState.Moving)
             {
                 if (ball.Bottom >= _viewPort.Height)
@@ -424,8 +509,14 @@ namespace Pong.Screens
                     }
 
                     infoFont.Text.Clear();
-                    infoFont.Text.Append("Press Space to start");
-
+                    if (Global.UsingKeyboard)
+                    {
+                        infoFont.Text.Append("Press Space to start");
+                    }
+                    else
+                    {
+                        infoFont.Text.Append("Press A to start");
+                    }
                     ball.Speed = Vector2.Zero;
                     ball.TintColor = Color.Red;
 
@@ -471,7 +562,14 @@ namespace Pong.Screens
                     }
 
                     infoFont.Text.Clear();
-                    infoFont.Text.Append("Press Space to start");
+                    if (Global.UsingKeyboard)
+                    {
+                        infoFont.Text.Append("Press Space to start");
+                    }
+                    else
+                    {
+                        infoFont.Text.Append("Press A to start");
+                    }
 
                     ball.Speed = Vector2.Zero;
                     ball.TintColor = Color.Red;
@@ -559,9 +657,9 @@ namespace Pong.Screens
                             Global.LeftPlayer.VectorY -= Math.Abs(paddleSpeed);
                         }
 
-                        //if (InputManager.IsDown(Global.LeftPlayer.DownButton) && Global.LeftPlayer.Bottom < _viewPort.Height)
+                        if (InputManager.PressedKeysPlayer1.GetPressedButtons().Contains(Global.LeftPlayer.DownButton) && Global.LeftPlayer.Bottom < _viewPort.Height)
                         {
-                        //    Global.LeftPlayer.VectorY += Math.Abs(paddleSpeed);
+                            Global.LeftPlayer.VectorY += Math.Abs(paddleSpeed);
                         }
                     }
                     switch (Global.Difficulty)
@@ -695,25 +793,50 @@ namespace Pong.Screens
                     else
                     {
                         //Rightpaddle Movement
-                        if (InputManager.IsDown(Global.RightPlayer.UpKey) && Global.RightPlayer.Top > 0)
-                        {
-                            Global.RightPlayer.VectorY -= paddleSpeed;
-                        }
 
-                        if (InputManager.IsDown(Global.RightPlayer.DownKey) && Global.RightPlayer.Bottom < _viewPort.Height)
+                        if (Global.UsingKeyboard)
                         {
-                            Global.RightPlayer.VectorY += paddleSpeed;
-                        }
+                            if (InputManager.IsDown(Global.LeftPlayer.UpKey) && Global.LeftPlayer.Top > 0)
+                            {
+                                Global.LeftPlayer.VectorY -= Math.Abs(paddleSpeed);
+                            }
 
-                        //Leftpaddle Movement
-                        if (InputManager.IsDown(Global.LeftPlayer.UpKey) && Global.LeftPlayer.Top > 0)
-                        {
-                            Global.LeftPlayer.VectorY -= paddleSpeed;
-                        }
+                            if (InputManager.IsDown(Global.LeftPlayer.DownKey) && Global.LeftPlayer.Bottom < _viewPort.Height)
+                            {
+                                Global.LeftPlayer.VectorY += Math.Abs(paddleSpeed);
+                            }
 
-                        if (InputManager.IsDown(Global.LeftPlayer.DownKey) && Global.LeftPlayer.Bottom < _viewPort.Height)
+                            if (InputManager.IsDown(Global.RightPlayer.UpKey) && Global.RightPlayer.Top > 0)
+                            {
+                                Global.RightPlayer.VectorY -= paddleSpeed;
+                            }
+
+                            if (InputManager.IsDown(Global.RightPlayer.DownKey) && Global.RightPlayer.Bottom < _viewPort.Height)
+                            {
+                                Global.RightPlayer.VectorY += paddleSpeed;
+                            }
+                        }
+                        else //if (!Global.UsingKeyboard && InputManager.IsPlayer1Connected)
                         {
-                            Global.LeftPlayer.VectorY += paddleSpeed;
+                            if (InputManager.PressedKeysPlayer1.GetPressedButtons().Contains(Global.LeftPlayer.UpButton) && Global.LeftPlayer.Top > 0)
+                            {
+                                Global.LeftPlayer.VectorY -= Math.Abs(paddleSpeed);
+                            }
+
+                            if (InputManager.PressedKeysPlayer1.GetPressedButtons().Contains(Global.LeftPlayer.DownButton) && Global.LeftPlayer.Bottom < _viewPort.Height)
+                            {
+                                Global.LeftPlayer.VectorY += Math.Abs(paddleSpeed);
+                            }
+
+                            if (InputManager.PressedKeysPlayer2.GetPressedButtons().Contains(Global.RightPlayer.UpButton) && Global.RightPlayer.Top > 0)
+                            {
+                                Global.RightPlayer.VectorY -= Math.Abs(paddleSpeed);
+                            }
+
+                            if (InputManager.PressedKeysPlayer2.GetPressedButtons().Contains(Global.RightPlayer.DownButton) && Global.RightPlayer.Bottom < _viewPort.Height)
+                            {
+                                Global.RightPlayer.VectorY += Math.Abs(paddleSpeed);
+                            }
                         }
                     }
 

@@ -75,7 +75,7 @@ namespace Pong.Screens
                 changeLeftDownBtn.Origin = new Vector2(changeLeftDownBtn.Texture.Width / 2, 137);
                 changeLeftDownBtn.Position = new Vector2(635, 718 + changeLeftDownBtn.SourceRectangle.Value.Height / 2);
             }
-            else 
+            else
             {
                 changeRightUpBtn = new TextButton(Content.Load<Texture2D>("Buttons//Blank"), new Vector2(0, 0), Color.White, Content.Load<SpriteFont>("Fonts\\BigOutage"), Color.White, Global.RightPlayer.UpButton.ToString(), new Rectangle(0, 117, 404, 137), new Rectangle(0, 0, 404, 117));
                 changeRightUpBtn.Origin = new Vector2(changeRightUpBtn.Texture.Width / 2, 137);
@@ -147,6 +147,20 @@ namespace Pong.Screens
             {
                 if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.Back))
                 {
+                    XDocument optionsXml = XDocument.Load(@"XML\Options.xml");
+
+                    XElement player1;
+                    XElement player2;
+
+                    player1 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("GamePad")).Elements(XName.Get("Player")).ToList()[0];
+                    player2 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("GamePad")).Elements(XName.Get("Player")).ToList()[1];
+
+                    player1.Element(XName.Get("Up")).Value = Convert.ToInt32(Global.LeftPlayer.UpButton).ToString();
+                    player1.Element(XName.Get("Down")).Value = Convert.ToInt32(Global.LeftPlayer.DownButton).ToString();
+                    player2.Element(XName.Get("Up")).Value = Convert.ToInt32(Global.RightPlayer.UpButton).ToString();
+                    player2.Element(XName.Get("Down")).Value = Convert.ToInt32(Global.RightPlayer.DownButton).ToString();
+
+                    optionsXml.Save(@"XML\Options.xml");
                     ScreenManager.Back();
                 }
 
@@ -229,7 +243,7 @@ namespace Pong.Screens
                     {
                         changeLeftDownBtn.FontColor = Color.Yellow;
                         state = ControlScreenState.WaitingForKey;
-                        buttonthatwaspressed = 4;   
+                        buttonthatwaspressed = 4;
                     }
                     else if (changeRightUpBtn.IsPressed)
                     {
@@ -254,6 +268,20 @@ namespace Pong.Screens
                     }
                     else if (backBtn.IsPressed)
                     {
+                        XDocument optionsXml = XDocument.Load(@"XML\Options.xml");
+
+                        XElement player1;
+                        XElement player2;
+
+                        player1 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("GamePad")).Elements(XName.Get("Player")).ToList()[0];
+                        player2 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("GamePad")).Elements(XName.Get("Player")).ToList()[1];
+
+                        player1.Element(XName.Get("Up")).Value = Convert.ToInt32(Global.LeftPlayer.UpButton).ToString();
+                        player1.Element(XName.Get("Down")).Value = Convert.ToInt32(Global.LeftPlayer.DownButton).ToString();
+                        player2.Element(XName.Get("Up")).Value = Convert.ToInt32(Global.RightPlayer.UpButton).ToString();
+                        player2.Element(XName.Get("Down")).Value = Convert.ToInt32(Global.RightPlayer.DownButton).ToString();
+
+                        optionsXml.Save(@"XML\Options.xml");
                         ScreenManager.Back();
                     }
                 }
@@ -281,19 +309,19 @@ namespace Pong.Screens
                     changeLeftUpBtn.FontColor = Color.White;
                     state = ControlScreenState.SelectingControl;
                 }
-                 if (changeLeftDownBtn.IsClicked && buttonthatwaspressed == 4)
+                if (changeLeftDownBtn.IsClicked && buttonthatwaspressed == 4)
                 {
                     //leftDownDisp.TintColor = Color.White;
                     changeLeftDownBtn.FontColor = Color.White;
                     state = ControlScreenState.SelectingControl;
                 }
 
-                
+
 
 
                 else if (pressedButtons.Length > 0)
                 {
-                    if (buttonthatwaspressed == 1 && pressedButtons[0] != Global.RightPlayer.DownButton && pressedButtons[0] != Global.LeftPlayer.DownButton && pressedButtons[0] != Global.LeftPlayer.UpButton && pressedButtons[0] != GamePadMapper.GamePadButtons.A)
+                    if (buttonthatwaspressed == 1 && pressedButtons[0] != Global.RightPlayer.DownButton && pressedButtons[0] != GamePadMapper.GamePadButtons.A)
                     {
                         //rightUpDisp.TintColor = Color.White;
                         changeRightUpBtn.FontColor = Color.White;
@@ -305,7 +333,7 @@ namespace Pong.Screens
                         rightUpDisp.Text.Append(Global.RightPlayer.UpKey.ToString());
                         rightUpDisp.Position = new Vector2(changeRightUpBtn.Position.X - rightUpDisp.Size.X / 2, changeRightUpBtn.Bottom - 120);*/
                     }
-                    if (buttonthatwaspressed == 2 && pressedButtons[0] != Global.RightPlayer.UpButton && pressedButtons[0] != Global.LeftPlayer.DownButton && pressedButtons[0] != Global.LeftPlayer.UpButton && pressedButtons[0] != GamePadMapper.GamePadButtons.A)
+                    if (buttonthatwaspressed == 2 && pressedButtons[0] != Global.RightPlayer.UpButton && pressedButtons[0] != GamePadMapper.GamePadButtons.A)
                     {
                         //rightDownDisp.TintColor = Color.White;
                         changeRightDownBtn.FontColor = Color.White;
@@ -317,7 +345,7 @@ namespace Pong.Screens
                         //rightDownDisp.Text.Append(Global.RightPlayer.DownKey.ToString());
                         //rightDownDisp.Position = new Vector2(changeRightDownBtn.Position.X - rightDownDisp.Size.X / 2, changeRightDownBtn.Bottom - 120);
                     }
-                    if (buttonthatwaspressed == 3 && pressedButtons[0] != Global.RightPlayer.DownButton && pressedButtons[0] != Global.LeftPlayer.DownButton && pressedButtons[0] != Global.RightPlayer.UpButton && pressedButtons[0] != GamePadMapper.GamePadButtons.A)
+                    if (buttonthatwaspressed == 3 &&  pressedButtons[0] != Global.LeftPlayer.DownButton && pressedButtons[0] != GamePadMapper.GamePadButtons.A)
                     {
                         //leftUpDisp.TintColor = Color.White;
                         changeLeftUpBtn.FontColor = Color.White;
@@ -329,7 +357,7 @@ namespace Pong.Screens
                         //leftUpDisp.Text.Append(Global.LeftPlayer.UpKey.ToString());
                         //leftUpDisp.Position = new Vector2(changeLeftUpBtn.Position.X - leftUpDisp.Size.X / 2, changeLeftUpBtn.Bottom - 120);
                     }
-                    if (buttonthatwaspressed == 4 && pressedButtons[0] != Global.RightPlayer.DownButton && pressedButtons[0] != Global.RightPlayer.UpButton && pressedButtons[0] != Global.LeftPlayer.UpButton && pressedButtons[0] != GamePadMapper.GamePadButtons.A)
+                    if (buttonthatwaspressed == 4 && pressedButtons[0] != Global.LeftPlayer.UpButton && pressedButtons[0] != GamePadMapper.GamePadButtons.A)
                     {
                         //leftDownDisp.TintColor = Color.White;
                         changeLeftDownBtn.FontColor = Color.White;
@@ -399,7 +427,7 @@ namespace Pong.Screens
             else if (state == ControlScreenState.SelectingControl)
             {
                 if (changeRightUpBtn.IsClicked)
-                {        
+                {
                     //rightUpDisp.TintColor = Color.Yellow;
                     changeRightUpBtn.FontColor = Color.Yellow;
                     state = ControlScreenState.WaitingForKey;
@@ -431,7 +459,7 @@ namespace Pong.Screens
             if (backBtn.IsClicked)
             {
                 //set the keys to the document
-   
+
 
 
                 XDocument optionsXml = XDocument.Load(@"XML\Options.xml");
@@ -439,16 +467,8 @@ namespace Pong.Screens
                 XElement player1;
                 XElement player2;
 
-                if(Global.UsingKeyboard)
-                {
-                    player1 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Keyboard")).Elements(XName.Get("Player")).ToList()[0];
-                    player2 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Keyboard")).Elements(XName.Get("Player")).ToList()[1];
-                }
-                else 
-                {
-                    player1 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("GamePad")).Elements(XName.Get("Player")).ToList()[0];
-                    player2 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("GamePad")).Elements(XName.Get("Player")).ToList()[1];
-                }
+                player1 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Keyboard")).Elements(XName.Get("Player")).ToList()[0];
+                player2 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Keyboard")).Elements(XName.Get("Player")).ToList()[1];
 
                 player1.Element(XName.Get("Up")).Value = Convert.ToInt32(Global.LeftPlayer.UpKey).ToString();
                 player1.Element(XName.Get("Down")).Value = Convert.ToInt32(Global.LeftPlayer.DownKey).ToString();
@@ -475,7 +495,7 @@ namespace Pong.Screens
             changeLeftUpBtn.Reset();
             //leftDownDisp.Reset();
             changeLeftDownBtn.Reset();
-            
+
             //titleDropInFont.Reset();
             base.Reset();
         }

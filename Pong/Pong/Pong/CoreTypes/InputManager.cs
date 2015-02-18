@@ -10,9 +10,40 @@ namespace Pong.CoreTypes
     {
         static KeyboardState keyboard;
         static KeyboardState lastkeyboard;
+        static GamePadState player1State =  GamePad.GetState(Microsoft.Xna.Framework.PlayerIndex.One);
+        static GamePadState player2State = GamePad.GetState(Microsoft.Xna.Framework.PlayerIndex.Two);
         static GamePadMapper player1Pad = new GamePadMapper(Microsoft.Xna.Framework.PlayerIndex.One);
         static GamePadMapper player2Pad = new GamePadMapper(Microsoft.Xna.Framework.PlayerIndex.Two);
 
+        //public bool IsPlayer1Connected
+        //{
+        //    get
+        //    {
+        //        if (player1State.IsConnected)
+        //        {
+        //            return true;
+        //        }
+        //        else
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //}
+
+        //public bool IsPlayer2Connected
+        //{
+        //    get
+        //    {
+        //        if (player2State.IsConnected)
+        //        {
+        //            return true;
+        //        }
+        //        else
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //}
         public static bool IsGamepadButtonTapped(Microsoft.Xna.Framework.PlayerIndex player, GamePadMapper.GamePadButtons button)
         {
             if (player == Microsoft.Xna.Framework.PlayerIndex.One)
@@ -41,8 +72,16 @@ namespace Pong.CoreTypes
                 return player1Pad.GetPressedButtons();
             }
         }
+
+        public static GamePadMapper PressedKeysPlayer2
+        {
+            get
+            {
+                return player2Pad;
+            }
+        }
         
-        public static GamePadMapper.GamePadButtons[] PressedKeysPlayer2
+        public static GamePadMapper.GamePadButtons[] PressedKeysArrayPlayer2
         {
             get
             {
