@@ -18,6 +18,13 @@ namespace Pong
 
         private PlayerIndex _player;
 
+        public bool IsConnected
+        {
+            get
+            {
+                return _gamePad.IsConnected;
+            }
+        }
 
         public bool A
         {

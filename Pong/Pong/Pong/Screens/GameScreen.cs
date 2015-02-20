@@ -36,11 +36,13 @@ namespace Pong.Screens
         FadingFont player2Font;
 
         FadingFont infoFont;
+        FadingFont errorFont;
 
         Random rnd = new Random();
 
         public static bool player1Won = false;
 
+        bool controllerDisconnected = false;
 
         bool leftSideScored = false;
 
@@ -129,7 +131,7 @@ namespace Pong.Screens
                 Global.LeftPlayer.UpButton = (GamePadMapper.GamePadButtons)int.Parse(player1.Element(XName.Get("Up")).Value);
                 Global.LeftPlayer.DownButton = (GamePadMapper.GamePadButtons)int.Parse(player1.Element(XName.Get("Down")).Value);
                 Global.RightPlayer.UpButton = (GamePadMapper.GamePadButtons)int.Parse(player2.Element(XName.Get("Up")).Value);
-                Global.RightPlayer.DownButton = (GamePadMapper.GamePadButtons)int.Parse(player2.Element(XName.Get("Down")).Value);            
+                Global.RightPlayer.DownButton = (GamePadMapper.GamePadButtons)int.Parse(player2.Element(XName.Get("Down")).Value);
             }
             ball = new Ball(Content.Load<Texture2D>("Ball"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
             //ball.Scale = new Vector2(0.5f);
@@ -169,6 +171,12 @@ namespace Pong.Screens
             infoFont.EnableShadow = false;
             infoFont.SetCenterAsOrigin();
 
+
+            errorFont = new FadingFont(Content.Load<SpriteFont>("Fonts\\Outage"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2 + 100), 0.1f, 1.0f, 0.01f, 1.0f, string.Format(""), Color.LightGoldenrodYellow, false);
+            errorFont.EnableShadow = false;
+            errorFont.SetCenterAsOrigin();
+            errorFont.IsVisible = true;
+
             _sprites.Add(background);
             _sprites.Add(Global.RightPlayer);
             _sprites.Add(Global.LeftPlayer);
@@ -176,10 +184,9 @@ namespace Pong.Screens
             _sprites.Add(arrow);
             _sprites.Add(leftScoreFont);
             _sprites.Add(rightScoreFont);
-            //_sprites.Add(player1Font);
-            //_sprites.Add(player2Font);
             _sprites.Add(infoFont);
-            //_sprites.Add(numbers);
+            _sprites.Add(errorFont);
+
 
             ballDirection = rnd.Next(0, 2);
             switch (ballDirection)
@@ -398,7 +405,7 @@ namespace Pong.Screens
                     ball.BallState = BallState.Moving;
                 }
             }
-            else 
+            else
             {
                 if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.Back))
                 {
@@ -473,6 +480,25 @@ namespace Pong.Screens
 
                     ball.BallState = BallState.Moving;
                 }
+
+
+            }
+
+            if (!Global.UsingKeyboard)
+            {
+                ball.IsPaused = controllerDisconnected;
+
+
+#if XBOX
+                if (controllerDisconnected)
+                {
+
+                }
+                else
+                {
+
+                }
+#endif 
 
 
             }
@@ -634,9 +660,13 @@ namespace Pong.Screens
             //}
             ////...
 
+
+
             switch (Global.Mode)
             {
                 case Mode.SinglePlayer:
+
+
                     //Rightpaddle Movement
                     if (Global.UsingKeyboard)
                     {
@@ -652,12 +682,25 @@ namespace Pong.Screens
                     }
                     else
                     {
-                        if (InputManager.PressedKeysPlayer1.GetPressedButtons().Contains(Global.LeftPlayer.UpButton) && Global.LeftPlayer.Top > 0)
+                        if (!InputManager.PressedKeysPlayer1.IsConnected)
+                        {
+                            errorFont.Text.Clear();
+                            errorFont.Text.Append("Controller is disconected");
+                            errorFont.SetCenterAsOrigin();
+                            controllerDisconnected = true;
+                        }
+                        else
+                        {
+                            errorFont.Text.Clear();
+                            controllerDisconnected = false;
+                        }
+
+                        if (InputManager.PressedKeysPlayer1.GetPressedButtons().Contains(Global.LeftPlayer.UpButton) && Global.LeftPlayer.Top > 0 && !controllerDisconnected)
                         {
                             Global.LeftPlayer.VectorY -= Math.Abs(paddleSpeed);
                         }
 
-                        if (InputManager.PressedKeysPlayer1.GetPressedButtons().Contains(Global.LeftPlayer.DownButton) && Global.LeftPlayer.Bottom < _viewPort.Height)
+                        if (InputManager.PressedKeysPlayer1.GetPressedButtons().Contains(Global.LeftPlayer.DownButton) && Global.LeftPlayer.Bottom < _viewPort.Height && !controllerDisconnected)
                         {
                             Global.LeftPlayer.VectorY += Math.Abs(paddleSpeed);
                         }
@@ -785,6 +828,7 @@ namespace Pong.Screens
 
                 case Mode.MultiPlayer:
 
+
                     if (Global.isOnline)
                     {
                         ScreenManager.Change(ScreenState.Error);
@@ -816,24 +860,51 @@ namespace Pong.Screens
                                 Global.RightPlayer.VectorY += paddleSpeed;
                             }
                         }
-                        else //if (!Global.UsingKeyboard && InputManager.IsPlayer1Connected)
+                        else
                         {
-                            if (InputManager.PressedKeysPlayer1.GetPressedButtons().Contains(Global.LeftPlayer.UpButton) && Global.LeftPlayer.Top > 0)
+                            if (!InputManager.PressedKeysPlayer1.IsConnected && !InputManager.PressedKeysPlayer2.IsConnected)
+                            {
+                                errorFont.Text.Clear();
+                                errorFont.Text.Append("Player 1 & Player 2 controllers are disconected");
+                                errorFont.SetCenterAsOrigin();
+                                controllerDisconnected = true;
+                            }
+                            else if (!InputManager.PressedKeysPlayer1.IsConnected)
+                            {
+                                errorFont.Text.Clear();
+                                errorFont.Text.Append("Player 1 controller is disconected");
+                                errorFont.SetCenterAsOrigin();
+                                controllerDisconnected = true;
+                            }
+                            else if (!InputManager.PressedKeysPlayer2.IsConnected)
+                            {
+                                errorFont.Text.Clear();
+                                errorFont.Text.Append("Player 2 controller is disconected");
+                                errorFont.SetCenterAsOrigin();
+                                controllerDisconnected = true;
+                            }
+                            else
+                            {
+                                errorFont.Text.Clear();
+                                controllerDisconnected = false;
+                            }
+
+                            if (InputManager.PressedKeysPlayer1.GetPressedButtons().Contains(Global.LeftPlayer.UpButton) && Global.LeftPlayer.Top > 0 && !controllerDisconnected)
                             {
                                 Global.LeftPlayer.VectorY -= Math.Abs(paddleSpeed);
                             }
 
-                            if (InputManager.PressedKeysPlayer1.GetPressedButtons().Contains(Global.LeftPlayer.DownButton) && Global.LeftPlayer.Bottom < _viewPort.Height)
+                            if (InputManager.PressedKeysPlayer1.GetPressedButtons().Contains(Global.LeftPlayer.DownButton) && Global.LeftPlayer.Bottom < _viewPort.Height && !controllerDisconnected)
                             {
                                 Global.LeftPlayer.VectorY += Math.Abs(paddleSpeed);
                             }
 
-                            if (InputManager.PressedKeysPlayer2.GetPressedButtons().Contains(Global.RightPlayer.UpButton) && Global.RightPlayer.Top > 0)
+                            if (InputManager.PressedKeysPlayer2.GetPressedButtons().Contains(Global.RightPlayer.UpButton) && Global.RightPlayer.Top > 0 && !controllerDisconnected)
                             {
                                 Global.RightPlayer.VectorY -= Math.Abs(paddleSpeed);
                             }
 
-                            if (InputManager.PressedKeysPlayer2.GetPressedButtons().Contains(Global.RightPlayer.DownButton) && Global.RightPlayer.Bottom < _viewPort.Height)
+                            if (InputManager.PressedKeysPlayer2.GetPressedButtons().Contains(Global.RightPlayer.DownButton) && Global.RightPlayer.Bottom < _viewPort.Height && !controllerDisconnected)
                             {
                                 Global.RightPlayer.VectorY += Math.Abs(paddleSpeed);
                             }
@@ -857,90 +928,94 @@ namespace Pong.Screens
                     break;
             }
 
-
+            
             Vector2 amountSpeed = Vector2.Zero;
-
-            while (Math.Abs(amountSpeed.X) < Math.Abs(ball.Speed.X))
+            if (Global.UsingKeyboard || !controllerDisconnected)
             {
-                Vector2 speed = ball.Speed;
-                predictionSpeed = ball.Speed;
-                speed.Normalize();
-                ball.Position += speed;
-                amountSpeed += speed;
-                if (predictionPath.Count > 0)
+                while (Math.Abs(amountSpeed.X) < Math.Abs(ball.Speed.X))
                 {
-                    predictionPath.RemoveAt(0);
-                }
-                //ball.Update(gameTime);
-                //Checking if ball hit rightPaddle
-                if (ball.Right > Global.RightPlayer.Left && ball.Bottom > Global.RightPlayer.Top && ball.Top < Global.RightPlayer.Bottom)
-                {
-                    //ball intersected with rightPaddle!!! Is it traveling to the right? If so, inverse direction; otherwise, leave it alone
-                    if (ball.SpeedX > 0)
-                    {
-                        ball.SpeedX *= -1.05f;
-                        ball.SpeedY *= 1.05f;
-                    }
-                    if (Global.GameMode == GameMode.PingPong)
-                    {
-                        //get the Y distance from the center of the ball and the center of the paddle
-                        //dist: paddlecenterY - ballcenterY
-                        //add that onto the ball yspeed
-                        ball.SpeedY -= (Global.RightPlayer.Position.Y - ball.Position.Y) / 10;
-                        ball.SpeedY = MathHelper.Clamp(ball.SpeedY, -5, 5);
-                    }
-                    BounceCount = 0;
-                    speed = ball.Speed;
+                    Vector2 speed = ball.Speed;
+                    predictionSpeed = ball.Speed;
                     speed.Normalize();
-                    speedofBall = speed;
-                    predictionPath = new List<Vector2>();
-                    debug();
-                }
 
-                //Checking if ball hit leftPaddle
-                if (ball.Left < Global.LeftPlayer.Right && ball.Bottom > Global.LeftPlayer.Top && ball.Top < Global.LeftPlayer.Bottom)
-                {
+                    ball.Position += speed;
 
-                    //ball intersected with leftPaddle!!! Is it traveling to the left? If so, inverse direction; otherwise, leave it alone
-                    //generate based on difficulty
-                    if (Global.Difficulty == Difficulty.Medium)
+                    amountSpeed += speed;
+                    if (predictionPath.Count > 0)
                     {
-                        hitBall = rnd.Next(0, 2);
+                        predictionPath.RemoveAt(0);
                     }
-                    else if (Global.Difficulty == Difficulty.Hard)
+                    //ball.Update(gameTime);
+                    //Checking if ball hit rightPaddle
+                    if (ball.Right > Global.RightPlayer.Left && ball.Bottom > Global.RightPlayer.Top && ball.Top < Global.RightPlayer.Bottom)
                     {
-                        int temp = rnd.Next(0, 10);
-                        if (temp >= 1)
+                        //ball intersected with rightPaddle!!! Is it traveling to the right? If so, inverse direction; otherwise, leave it alone
+                        if (ball.SpeedX > 0)
                         {
-                            temp = 1;
+                            ball.SpeedX *= -1.05f;
+                            ball.SpeedY *= 1.05f;
                         }
-                        else
+                        if (Global.GameMode == GameMode.PingPong)
                         {
-                            temp = 0;
+                            //get the Y distance from the center of the ball and the center of the paddle
+                            //dist: paddlecenterY - ballcenterY
+                            //add that onto the ball yspeed
+                            ball.SpeedY -= (Global.RightPlayer.Position.Y - ball.Position.Y) / 10;
+                            ball.SpeedY = MathHelper.Clamp(ball.SpeedY, -5, 5);
                         }
-
-                        hitBall = temp;
+                        BounceCount = 0;
+                        speed = ball.Speed;
+                        speed.Normalize();
+                        speedofBall = speed;
+                        predictionPath = new List<Vector2>();
+                        debug();
                     }
-                    if (ball.SpeedX < 0)
+
+                    //Checking if ball hit leftPaddle
+                    if (ball.Left < Global.LeftPlayer.Right && ball.Bottom > Global.LeftPlayer.Top && ball.Top < Global.LeftPlayer.Bottom)
                     {
 
-                        ball.SpeedX *= -1.05f;
-                        ball.SpeedY *= 1.05f;
+                        //ball intersected with leftPaddle!!! Is it traveling to the left? If so, inverse direction; otherwise, leave it alone
+                        //generate based on difficulty
+                        if (Global.Difficulty == Difficulty.Medium)
+                        {
+                            hitBall = rnd.Next(0, 2);
+                        }
+                        else if (Global.Difficulty == Difficulty.Hard)
+                        {
+                            int temp = rnd.Next(0, 10);
+                            if (temp >= 1)
+                            {
+                                temp = 1;
+                            }
+                            else
+                            {
+                                temp = 0;
+                            }
+
+                            hitBall = temp;
+                        }
+                        if (ball.SpeedX < 0)
+                        {
+
+                            ball.SpeedX *= -1.05f;
+                            ball.SpeedY *= 1.05f;
+                        }
+                        if (Global.GameMode == GameMode.PingPong)
+                        {
+                            //get the Y distance from the center of the ball and the center of the paddle
+                            //dist: paddlecenterY - ballcenterY
+                            //add that onto the ball yspeed
+                            ball.SpeedY -= (Global.LeftPlayer.Position.Y - ball.Position.Y) / 10;
+                            ball.SpeedY = MathHelper.Clamp(ball.SpeedY, -5, 5);
+                        }
+                        BounceCount = 0;
+                        speed = ball.Speed;
+                        speed.Normalize();
+                        speedofBall = speed;
+                        predictionPath = new List<Vector2>();
+                        debug();
                     }
-                    if (Global.GameMode == GameMode.PingPong)
-                    {
-                        //get the Y distance from the center of the ball and the center of the paddle
-                        //dist: paddlecenterY - ballcenterY
-                        //add that onto the ball yspeed
-                        ball.SpeedY -= (Global.LeftPlayer.Position.Y - ball.Position.Y) / 10;
-                        ball.SpeedY = MathHelper.Clamp(ball.SpeedY, -5, 5);
-                    }
-                    BounceCount = 0;
-                    speed = ball.Speed;
-                    speed.Normalize();
-                    speedofBall = speed;
-                    predictionPath = new List<Vector2>();
-                    debug();
                 }
             }
             if ((speedofBall.Y < 0 && predictionSpeed.Y > 0) || (speedofBall.Y > 0 && predictionSpeed.Y < 0))

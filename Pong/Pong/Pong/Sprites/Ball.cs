@@ -113,6 +113,20 @@ namespace Pong.Sprites
             }
         }
 
+        private bool _isPaused = false;
+
+        public bool IsPaused
+        {
+            set
+            {
+                _isPaused = value;
+            }
+            get
+            {
+                return _isPaused;
+            }
+        }
+
         public BallState BallState { get; set; }
 
         private Rectangle _boundingBox;
@@ -131,8 +145,11 @@ namespace Pong.Sprites
 
         public override void Update(GameTime gameTime)
         {
-            _position += _speed;
-            base.Update(gameTime);
+            if (!_isPaused)
+            {
+                _position += _speed;
+                base.Update(gameTime);
+            }
         }
 
     }
