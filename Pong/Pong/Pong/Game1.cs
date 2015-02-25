@@ -76,6 +76,7 @@ namespace Pong
            
 
             Global.Scale = new Vector2(GraphicsDevice.Viewport.Width / 1920f);
+            Global.UsingKeyboard = !InputManager.PressedKeysPlayer1.IsConnected;
 
             IsMouseVisible = true;
             base.Initialize();

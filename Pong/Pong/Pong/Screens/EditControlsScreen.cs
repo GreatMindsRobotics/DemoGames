@@ -12,6 +12,7 @@ using FontEffectsLib.CoreTypes;
 using FontEffectsLib.FontTypes;
 using FontEffectsLib.SpriteTypes;
 using System.Xml.Linq;
+using System.Xml;
 
 
 namespace Pong.Screens
@@ -49,6 +50,29 @@ namespace Pong.Screens
 
             GameSprite background = new GameSprite(Content.Load<Texture2D>("Background\\Keys"), Vector2.Zero, Color.White);
             background.Scale = Global.Scale;
+
+            XDocument optionsXml = XDocument.Load(@"XML\Options.xml");
+
+            if (Global.UsingKeyboard)
+            {
+                XElement player1 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Keyboard")).Elements(XName.Get("Player")).ToList()[0];
+                XElement player2 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("Keyboard")).Elements(XName.Get("Player")).ToList()[1];
+
+                Global.LeftPlayer.UpKey = (Keys)int.Parse(player1.Element(XName.Get("Up")).Value);
+                Global.LeftPlayer.DownKey = (Keys)int.Parse(player1.Element(XName.Get("Down")).Value);
+                Global.RightPlayer.UpKey = (Keys)int.Parse(player2.Element(XName.Get("Up")).Value);
+                Global.RightPlayer.DownKey = (Keys)int.Parse(player2.Element(XName.Get("Down")).Value);
+            }
+            else
+            {
+                XElement player1 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("GamePad")).Elements(XName.Get("Player")).ToList()[0];
+                XElement player2 = optionsXml.Root.Elements(XName.Get("PlayerControls")).Elements(XName.Get("GamePad")).Elements(XName.Get("Player")).ToList()[1];
+
+                Global.LeftPlayer.UpButton = (GamePadMapper.GamePadButtons)int.Parse(player1.Element(XName.Get("Up")).Value);
+                Global.LeftPlayer.DownButton = (GamePadMapper.GamePadButtons)int.Parse(player1.Element(XName.Get("Down")).Value);
+                Global.RightPlayer.UpButton = (GamePadMapper.GamePadButtons)int.Parse(player2.Element(XName.Get("Up")).Value);
+                Global.RightPlayer.DownButton = (GamePadMapper.GamePadButtons)int.Parse(player2.Element(XName.Get("Down")).Value);
+            }
 
             //titleDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts//JingJingTitle"), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), dropSpeed, "Controls", Color.White);
             //titleDropInFont.IsVisible = true;

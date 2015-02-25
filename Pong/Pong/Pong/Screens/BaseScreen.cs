@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
 using FontEffectsLib.CoreTypes;
+using Pong.Sprites;
+using Pong.CoreTypes;
 
 namespace Pong.Screens
 {
@@ -49,11 +51,38 @@ namespace Pong.Screens
         }
 
         public virtual void Update(GameTime gameTime)
-        {
+        {            
             foreach (ISprite sprite in _sprites)
             {
                 sprite.Update(gameTime);
             }
+
+                //Check for selected button if no controller is connected
+                if(!Global.UsingKeyboard)
+                {
+                    bool isAnyButtonSelected = false;
+
+                    foreach (Button button in _sprites.OfType<Button>())
+                    {
+                        if (button.IsPressed)
+                        {
+                            isAnyButtonSelected = true;
+                            break;
+                        }
+                    }
+
+                    if (!isAnyButtonSelected)
+                    { 
+                        //Select any button
+                        Button selectMe = _sprites.OfType<Button>().FirstOrDefault();
+                        if (selectMe != null)
+                        {
+                            selectMe.IsPressed = true;
+                        }
+                    }
+
+                }
+
         }
 
         public virtual void Reset()
