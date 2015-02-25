@@ -22,6 +22,8 @@ namespace Pong.Screens
 
         Vector2 dropSpeed = new Vector2(0, 45);
 
+        FadingFont inputFont;
+
         Button singlePlayerBtn;
         Button multiPlayerBtn;
         Button optionsBtn;
@@ -58,13 +60,19 @@ namespace Pong.Screens
             optionsBtn.Origin = new Vector2(optionsBtn.Texture.Width / 2, 169);
             optionsBtn.Position = new Vector2(1743, 907 + optionsBtn.SourceRectangle.Value.Height / 2);
 
-            _sprites.Add(background);
 
+            inputFont = new FadingFont(Content.Load<SpriteFont>("Fonts\\Outage"), new Vector2(1610, 987), 0.1f, 1.0f, 0.01f, 1.0f, "", Color.White, false);
+            inputFont.SetCenterAsOrigin();
+            inputFont.EnableShadow = false;
+
+            _sprites.Add(background);
 
             //_sprites.Add(titleDropInFont);
             _sprites.Add(singlePlayerBtn);
             _sprites.Add(multiPlayerBtn);
             _sprites.Add(optionsBtn);
+
+            _sprites.Add(inputFont);
 
             if (!Global.UsingKeyboard)
             {
@@ -74,9 +82,31 @@ namespace Pong.Screens
 
         public override void Update(GameTime gameTime)
         {
+            Global.UsingKeyboard = !InputManager.PressedKeysPlayer1.IsConnected;
+
+            if (!Global.UsingKeyboard && !multiPlayerBtn.IsPressed && !optionsBtn.IsPressed)
+            {
+                singlePlayerBtn.IsPressed = true;
+            }
+
+
+            //#if XBOX
+            //                if (controllerDisconnected)
+            //                {
+
+            //                }
+            //                else
+            //                {
+
+            //                }
+            //#endif
+
 
             if (Global.UsingKeyboard)
             {
+                inputFont.Text.Clear();
+                inputFont.Text.Append("Using Keyboard");
+
                 if (InputManager.JustPressed(Keys.Escape))
                 {
                     Global.Close = true;
@@ -98,6 +128,9 @@ namespace Pong.Screens
             }
             else
             {
+                inputFont.Text.Clear();
+                inputFont.Text.Append("Using GamePad");
+
                 if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.Back))
                 {
                     Global.Close = true;
@@ -119,7 +152,7 @@ namespace Pong.Screens
                         singlePlayerBtn.IsPressed = true;
                     }
                 }
-                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One,GamePadMapper.GamePadButtons.DPadRight))
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadRight))
                 {
                     if (singlePlayerBtn.IsPressed)
                     {
@@ -140,7 +173,7 @@ namespace Pong.Screens
                         singlePlayerBtn.IsPressed = true;
                     }
                 }
-                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One,GamePadMapper.GamePadButtons.A))
+                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.A))
                 {
                     if (singlePlayerBtn.IsPressed)
                     {

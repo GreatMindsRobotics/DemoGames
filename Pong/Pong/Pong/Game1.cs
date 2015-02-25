@@ -27,7 +27,7 @@ namespace Pong
         TitleScreen titleScreen;
         MainMenuScreen mainMenuScreen;
         GameOverScreen gameOverScreen;
-        PlayerSelectScreen playerSelectScreen;
+        //PlayerSelectScreen playerSelectScreen;
         OnePlayerSelectScreen oneplayerSelectScreen;
         TwoPlayerSelectScreen twoplayerSelectScreen;
         OptionsScreen optionsScreen;
@@ -60,7 +60,7 @@ namespace Pong
             mainMenuScreen = new MainMenuScreen();
             titleScreen = new TitleScreen();
             gameOverScreen = new GameOverScreen();
-            playerSelectScreen = new PlayerSelectScreen();
+            //playerSelectScreen = new PlayerSelectScreen();
             oneplayerSelectScreen = new OnePlayerSelectScreen();
             twoplayerSelectScreen = new TwoPlayerSelectScreen();
             optionsScreen = new OptionsScreen();
@@ -94,7 +94,7 @@ namespace Pong
 
             titleScreen.Load(Content);
             gameOverScreen.Load(Content);
-            playerSelectScreen.Load(Content);
+            //playerSelectScreen.Load(Content);
             oneplayerSelectScreen.Load(Content);
             twoplayerSelectScreen.Load(Content);
             optionsScreen.Load(Content);
@@ -110,7 +110,7 @@ namespace Pong
             ScreenManager.AddScreen(ScreenState.Game, gameScreen);
             ScreenManager.AddScreen(ScreenState.MainMenu, mainMenuScreen);
             ScreenManager.AddScreen(ScreenState.GameOver, gameOverScreen);
-            ScreenManager.AddScreen(ScreenState.PlayerSelect, playerSelectScreen);
+            //ScreenManager.AddScreen(ScreenState.PlayerSelect, playerSelectScreen);
             ScreenManager.AddScreen(ScreenState.OnePlayerSelect, oneplayerSelectScreen);
             ScreenManager.AddScreen(ScreenState.TwoPlayerSelect, twoplayerSelectScreen);
             ScreenManager.AddScreen(ScreenState.Options, optionsScreen);

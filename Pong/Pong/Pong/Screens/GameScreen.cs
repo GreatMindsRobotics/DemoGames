@@ -488,19 +488,6 @@ namespace Pong.Screens
             {
                 ball.IsPaused = controllerDisconnected;
 
-
-#if XBOX
-                if (controllerDisconnected)
-                {
-
-                }
-                else
-                {
-
-                }
-#endif 
-
-
             }
             if (ball.BallState == BallState.Moving)
             {
