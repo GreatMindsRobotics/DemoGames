@@ -166,9 +166,18 @@ namespace Pong.Screens
                 {
                     ScreenManager.Back();
                 }
+                changeRightUpBtn.Text = Global.RightPlayer.UpKey.ToString();
+                changeRightDownBtn.Text = Global.RightPlayer.DownKey.ToString();
+                changeLeftUpBtn.Text = Global.LeftPlayer.UpKey.ToString();
+                changeLeftDownBtn.Text = Global.LeftPlayer.DownKey.ToString();
             }
             else
             {
+                changeRightUpBtn.Text = Global.RightPlayer.UpButton.ToString();
+                changeRightDownBtn.Text = Global.RightPlayer.DownButton.ToString();
+                changeLeftUpBtn.Text = Global.LeftPlayer.UpButton.ToString();
+                changeLeftDownBtn.Text = Global.LeftPlayer.DownButton.ToString();
+
                 if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.Back))
                 {
                     XDocument optionsXml = XDocument.Load(@"XML\Options.xml");

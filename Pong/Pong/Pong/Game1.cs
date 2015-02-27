@@ -30,6 +30,8 @@ namespace Pong
         //PlayerSelectScreen playerSelectScreen;
         OnePlayerSelectScreen oneplayerSelectScreen;
         TwoPlayerSelectScreen twoplayerSelectScreen;
+        OnlineOptionsScreen onlineOptionsScreen;
+        OnlineJoinScreen onlineJoinScreen;
         OptionsScreen optionsScreen;
         EditControlsScreen editControls;
         PauseScreen pauseScreen;
@@ -63,6 +65,8 @@ namespace Pong
             //playerSelectScreen = new PlayerSelectScreen();
             oneplayerSelectScreen = new OnePlayerSelectScreen();
             twoplayerSelectScreen = new TwoPlayerSelectScreen();
+            onlineOptionsScreen = new OnlineOptionsScreen();
+            onlineJoinScreen = new OnlineJoinScreen();
             optionsScreen = new OptionsScreen();
             editControls = new EditControlsScreen();
             pauseScreen = new PauseScreen();
@@ -98,6 +102,8 @@ namespace Pong
             //playerSelectScreen.Load(Content);
             oneplayerSelectScreen.Load(Content);
             twoplayerSelectScreen.Load(Content);
+            onlineOptionsScreen.Load(Content);
+            onlineJoinScreen.Load(Content);
             optionsScreen.Load(Content);
             editControls.Load(Content);
             pauseScreen.Load(Content);
@@ -114,6 +120,8 @@ namespace Pong
             //ScreenManager.AddScreen(ScreenState.PlayerSelect, playerSelectScreen);
             ScreenManager.AddScreen(ScreenState.OnePlayerSelect, oneplayerSelectScreen);
             ScreenManager.AddScreen(ScreenState.TwoPlayerSelect, twoplayerSelectScreen);
+            ScreenManager.AddScreen(ScreenState.OnlineOptionsScreen, onlineOptionsScreen);
+            ScreenManager.AddScreen(ScreenState.OnlineJoinScreen, onlineJoinScreen);
             ScreenManager.AddScreen(ScreenState.Options, optionsScreen);
             ScreenManager.AddScreen(ScreenState.EditControls, editControls);
             ScreenManager.AddScreen(ScreenState.Pause, pauseScreen);

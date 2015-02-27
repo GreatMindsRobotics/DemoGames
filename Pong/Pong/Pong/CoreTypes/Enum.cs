@@ -40,6 +40,8 @@ namespace Pong
         PlayerSelect,
         OnePlayerSelect,
         TwoPlayerSelect,
+        OnlineOptionsScreen,
+        OnlineJoinScreen,
         Options,
         EditControls,
         Pause,

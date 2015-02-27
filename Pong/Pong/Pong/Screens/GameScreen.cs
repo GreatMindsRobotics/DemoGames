@@ -1063,6 +1063,7 @@ namespace Pong.Screens
             ball.BallState = BallState.Rested;
             ball.SpeedX = 0;
             ball.SpeedY = 0;
+            arrow.IsVisible = false;
             if (Global.GameMode == GameMode.PingPong)
             {
                 ball.Position = new Vector2(Global.LeftPlayer.Right + ball.Texture.Width * ball.Scale.X / 2 + 5, Global.LeftPlayer.Top + Global.LeftPlayer.Texture.Height * ball.Scale.Y / 2);
