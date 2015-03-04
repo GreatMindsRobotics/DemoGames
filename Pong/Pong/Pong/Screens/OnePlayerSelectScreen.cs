@@ -20,8 +20,10 @@ namespace Pong.Screens
         //DropInFont titleDropInFont;
         Vector2 dropSpeed = new Vector2(0, 45);
 
-        Button onlineBtn;
-        Button localBtn;
+
+        Button easyBtn;
+        Button mediumBtn;
+        Button hardBtn;
         Button backBtn;
 
         GamePadMapper gamePad;
@@ -30,7 +32,7 @@ namespace Pong.Screens
         {
             gamePad = new GamePadMapper(PlayerIndex.One);
 
-            GameSprite background = new GameSprite(Content.Load<Texture2D>("Background\\2Players"), Vector2.Zero, Color.White);
+            GameSprite background = new GameSprite(Content.Load<Texture2D>("Background\\Difficulty"), Vector2.Zero, Color.White);
             background.Scale = Global.Scale;
 
             //titleDropInFont = new DropInFont(Content.Load<SpriteFont>("Fonts\\JingJingTitle"), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), new Vector2(_viewPort.Width / 2, _viewPort.Height * 0.1f), dropSpeed, "Multiplayer", Color.CornflowerBlue);
@@ -41,13 +43,18 @@ namespace Pong.Screens
             //titleDropInFont.ShadowPosition = new Vector2(titleDropInFont.Position.X - 4, titleDropInFont.Position.Y + 4);
             //titleDropInFont.ShadowColor = Color.Gray;
 
-            onlineBtn = new Button(Content.Load<Texture2D>("Buttons//Online"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 707, 169), new Rectangle(0, 0, 707, 149));
-            onlineBtn.Origin = new Vector2(onlineBtn.Texture.Width / 2, 169);
-            onlineBtn.Position = new Vector2(960, 469 + onlineBtn.SourceRectangle.Value.Height / 2);
+            easyBtn = new Button(Content.Load<Texture2D>("Buttons//Easy"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 520, 169), new Rectangle(0, 0, 520, 149));
+            easyBtn.Origin = new Vector2(easyBtn.Texture.Width / 2, 169);
+            easyBtn.Position = new Vector2(960, 469 + easyBtn.SourceRectangle.Value.Height / 2);
 
-            localBtn = new Button(Content.Load<Texture2D>("Buttons//Local"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 707, 169), new Rectangle(0, 0, 707, 149));
-            localBtn.Origin = new Vector2(localBtn.Texture.Width / 2, 169);
-            localBtn.Position = new Vector2(960, 735 + localBtn.SourceRectangle.Value.Height / 2);
+            mediumBtn = new Button(Content.Load<Texture2D>("Buttons//Medium"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 520, 169), new Rectangle(0, 0, 520, 149));
+            mediumBtn.Origin = new Vector2(mediumBtn.Texture.Width / 2, 169);
+            mediumBtn.Position = new Vector2(960, 684 + mediumBtn.SourceRectangle.Value.Height / 2);
+
+
+            hardBtn = new Button(Content.Load<Texture2D>("Buttons//Hard"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 520, 169), new Rectangle(0, 0, 520, 149));
+            hardBtn.Origin = new Vector2(hardBtn.Texture.Width / 2, 169);
+            hardBtn.Position = new Vector2(960, 899 + hardBtn.SourceRectangle.Value.Height / 2);
 
 
             backBtn = new Button(Content.Load<Texture2D>("Buttons//Back"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 159, 169), new Rectangle(0, 0, 159, 149));
@@ -57,13 +64,14 @@ namespace Pong.Screens
 
             //_sprites.Add(titleDropInFont);
             _sprites.Add(background);
-            _sprites.Add(onlineBtn);
-            _sprites.Add(localBtn);
+            _sprites.Add(easyBtn);
+            _sprites.Add(mediumBtn);
+            _sprites.Add(hardBtn);
             _sprites.Add(backBtn);
 
             if (!Global.UsingKeyboard)
             {
-                onlineBtn.IsPressed = true;
+                easyBtn.IsPressed = true;
             }
         }
 
@@ -77,15 +85,20 @@ namespace Pong.Screens
                     ScreenManager.Back();
                 }
 
-                if (onlineBtn.IsClicked)
+                if (easyBtn.IsClicked)
                 {
-                    Global.isOnline = true;
-                    ScreenManager.Change(ScreenState.OnlineOptionsScreen);
+                    Global.Difficulty = Difficulty.Easy;
+                    ScreenManager.Change(ScreenState.Game);
                 }
-                else if (localBtn.IsClicked)
+                else if (mediumBtn.IsClicked)
                 {
-                    Global.isOnline = false;
-                    ScreenManager.Change(ScreenState.GameMode);
+                    Global.Difficulty = Difficulty.Medium;
+                    ScreenManager.Change(ScreenState.Game);
+                }
+                else if (hardBtn.IsClicked)
+                {
+                    Global.Difficulty = Difficulty.Hard;
+                    ScreenManager.Change(ScreenState.Game);
                 }
                 else if (backBtn.IsClicked)
                 {
@@ -101,30 +114,45 @@ namespace Pong.Screens
 
                 if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadDown))
                 {
-                    if (onlineBtn.IsPressed)
+                    if (easyBtn.IsPressed)
                     {
-                        onlineBtn.IsPressed = false;
-                        localBtn.IsPressed = true;
+                        easyBtn.IsPressed = false;
+                        mediumBtn.IsPressed = true;
+                    }
+                    else if (mediumBtn.IsPressed)
+                    {
+                        mediumBtn.IsPressed = false;
+                        hardBtn.IsPressed = true;
                     }
                 }
                 else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One,GamePadMapper.GamePadButtons.DPadUp))
                 {
-                    if (localBtn.IsPressed)
+                    if (mediumBtn.IsPressed)
                     {
-                        localBtn.IsPressed = false;
-                        onlineBtn.IsPressed = true;
+                        mediumBtn.IsPressed = false;
+                        easyBtn.IsPressed = true;
+                    }
+                    else if (hardBtn.IsPressed)
+                    {
+                        hardBtn.IsPressed = false;
+                        mediumBtn.IsPressed = true;
                     }
                 }
                 else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadLeft))
                 {
-                    if (onlineBtn.IsPressed)
+                    if (easyBtn.IsPressed)
                     {
-                        onlineBtn.IsPressed = false;
+                        easyBtn.IsPressed = false;
                         backBtn.IsPressed = true;
                     }
-                    else if (localBtn.IsPressed)
+                    else if (mediumBtn.IsPressed)
                     {
-                        localBtn.IsPressed = false;
+                        mediumBtn.IsPressed = false;
+                        backBtn.IsPressed = true;
+                    }
+                    else if (hardBtn.IsPressed)
+                    {
+                        hardBtn.IsPressed = false;
                         backBtn.IsPressed = true;
                     }
                 }
@@ -133,20 +161,25 @@ namespace Pong.Screens
                     if (backBtn.IsPressed)
                     {
                         backBtn.IsPressed = false;
-                        onlineBtn.IsPressed = true;
+                        easyBtn.IsPressed = true;
                     }
                 }
                 else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.A))
                 {
-                    if (onlineBtn.IsPressed)
+                    if (easyBtn.IsPressed)
                     {
-                        Global.isOnline = true;
-                        ScreenManager.Change(ScreenState.OnlineOptionsScreen);
+                        Global.Difficulty = Difficulty.Easy;
+                        ScreenManager.Change(ScreenState.Game);
                     }
-                    else if (localBtn.IsPressed)
+                    else if (mediumBtn.IsPressed)
                     {
-                        Global.isOnline = false;
-                        ScreenManager.Change(ScreenState.GameMode);
+                        Global.Difficulty = Difficulty.Medium;
+                        ScreenManager.Change(ScreenState.Game);
+                    }
+                    else if (hardBtn.IsPressed)
+                    {
+                        Global.Difficulty = Difficulty.Hard;
+                        ScreenManager.Change(ScreenState.Game);
                     }
                     else if (backBtn.IsPressed)
                     {

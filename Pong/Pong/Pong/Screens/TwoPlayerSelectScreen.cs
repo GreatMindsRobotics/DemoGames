@@ -81,7 +81,7 @@ namespace Pong.Screens
                 if (onlineBtn.IsClicked)
                 {
                     Global.isOnline = true;
-                    ScreenManager.Change(ScreenState.Error);
+                    ScreenManager.Change(ScreenState.OnlineOptionsScreen);
                 }
                 else if (localBtn.IsClicked)
                 {
@@ -142,7 +142,7 @@ namespace Pong.Screens
                     if (onlineBtn.IsPressed)
                     {
                         Global.isOnline = true;
-                        ScreenManager.Change(ScreenState.GameMode);
+                        ScreenManager.Change(ScreenState.OnlineOptionsScreen);
                     }
                     else if (localBtn.IsPressed)
                     {

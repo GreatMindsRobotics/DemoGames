@@ -15,12 +15,12 @@ namespace Pong.CoreTypes
     {
         Vector2 dropSpeed = new Vector2(0, 45);
 
-        //Button hostBtn;
-        //Button joinBtn;
+        Button hostBtn;
+        Button joinBtn;
         Button backBtn;
 
-        TextButton hostBtn;
-        TextButton joinBtn;
+        //TextButton hostBtn;
+        //TextButton joinBtn;
 
         GamePadMapper gamePad;
 
@@ -28,25 +28,25 @@ namespace Pong.CoreTypes
         {
             gamePad = new GamePadMapper(PlayerIndex.One);
 
-            //GameSprite background = new GameSprite(Content.Load<Texture2D>("Background\\2Players"), Vector2.Zero, Color.White);
-            //background.Scale = Global.Scale;
+            GameSprite background = new GameSprite(Content.Load<Texture2D>("Background\\2Players"), Vector2.Zero, Color.White);
+            background.Scale = Global.Scale;
 
-            //hostBtn = new Button(Content.Load<Texture2D>("Buttons//Host"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 707, 169), new Rectangle(0, 0, 707, 149));
-            //hostBtn.Origin = new Vector2(hostBtn.Texture.Width / 2, 169);
-            //hostBtn.Position = new Vector2(960, 469 + hostBtn.SourceRectangle.Value.Height / 2);
-
-            //joinBtn = new Button(Content.Load<Texture2D>("Buttons//Join"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 707, 169), new Rectangle(0, 0, 707, 149));
-            //joinBtn.Origin = new Vector2(joinBtn.Texture.Width / 2, 169);
-            //joinBtn.Position = new Vector2(960, 735 + joinBtn.SourceRectangle.Value.Height / 2);
-
-            hostBtn = new TextButton(Content.Load<Texture2D>("Buttons//Blank"), new Vector2(0, 0), Color.White, Content.Load<SpriteFont>("Fonts\\BigOutage"), Color.White, "Host", new Rectangle(0, 117, 404, 137), new Rectangle(0, 0, 404, 117));
+            hostBtn = new Button(Content.Load<Texture2D>("Buttons//Host"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 707, 169), new Rectangle(0, 0, 707, 149));
             hostBtn.Origin = new Vector2(hostBtn.Texture.Width / 2, 169);
             hostBtn.Position = new Vector2(960, 469 + hostBtn.SourceRectangle.Value.Height / 2);
 
-
-            joinBtn = new TextButton(Content.Load<Texture2D>("Buttons//Blank"), new Vector2(0, 0), Color.White, Content.Load<SpriteFont>("Fonts\\BigOutage"), Color.White, "Join", new Rectangle(0, 117, 404, 137), new Rectangle(0, 0, 404, 117));
+            joinBtn = new Button(Content.Load<Texture2D>("Buttons//Join"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 707, 169), new Rectangle(0, 0, 707, 149));
             joinBtn.Origin = new Vector2(joinBtn.Texture.Width / 2, 169);
             joinBtn.Position = new Vector2(960, 735 + joinBtn.SourceRectangle.Value.Height / 2);
+
+            //hostBtn = new TextButton(Content.Load<Texture2D>("Buttons//Blank"), new Vector2(0, 0), Color.White, Content.Load<SpriteFont>("Fonts\\BigOutage"), Color.White, "Host", new Rectangle(0, 117, 404, 137), new Rectangle(0, 0, 404, 117));
+            //hostBtn.Origin = new Vector2(hostBtn.Texture.Width / 2, 169);
+            //hostBtn.Position = new Vector2(960, 469 + hostBtn.SourceRectangle.Value.Height / 2);
+
+
+            //joinBtn = new TextButton(Content.Load<Texture2D>("Buttons//Blank"), new Vector2(0, 0), Color.White, Content.Load<SpriteFont>("Fonts\\BigOutage"), Color.White, "Join", new Rectangle(0, 117, 404, 137), new Rectangle(0, 0, 404, 117));
+            //joinBtn.Origin = new Vector2(joinBtn.Texture.Width / 2, 169);
+            //joinBtn.Position = new Vector2(960, 735 + joinBtn.SourceRectangle.Value.Height / 2);
             
 
             backBtn = new Button(Content.Load<Texture2D>("Buttons//Back"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 159, 169), new Rectangle(0, 0, 159, 149));
@@ -54,7 +54,7 @@ namespace Pong.CoreTypes
             backBtn.Position = new Vector2(177, 907 + backBtn.SourceRectangle.Value.Height / 2);
 
 
-            //_sprites.Add(background);
+            _sprites.Add(background);
             _sprites.Add(hostBtn);
             _sprites.Add(joinBtn);
             _sprites.Add(backBtn);

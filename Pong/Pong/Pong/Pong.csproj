@@ -77,8 +77,8 @@
   <ItemGroup>
     <Compile Include="CoreTypes\Global.cs" />
     <Compile Include="CoreTypes\InputManager.cs" />
-    <Compile Include="CoreTypes\OnlineJoinScreen.cs" />
-    <Compile Include="CoreTypes\OnlineOptionsScreen.cs" />
+    <Compile Include="Screens\OnlineJoinScreen.cs" />
+    <Compile Include="Screens\OnlineOptionsScreen.cs" />
     <Compile Include="DebugTypes\PathMapper.cs" />
     <Compile Include="CoreTypes\GamePadMapper.cs" />
     <Compile Include="Screens\EditControlsScreen.cs" />

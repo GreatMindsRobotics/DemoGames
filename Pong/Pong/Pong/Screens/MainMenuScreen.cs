@@ -114,7 +114,7 @@ namespace Pong.Screens
                 if (singlePlayerBtn.IsClicked)
                 {
                     Global.Mode = Mode.SinglePlayer;
-                    ScreenManager.Change(ScreenState.OnePlayerSelect);
+                    ScreenManager.Change(ScreenState.GameMode);
                 }
                 else if (multiPlayerBtn.IsClicked)
                 {
@@ -178,7 +178,7 @@ namespace Pong.Screens
                     if (singlePlayerBtn.IsPressed)
                     {
                         Global.Mode = Mode.SinglePlayer;
-                        ScreenManager.Change(ScreenState.OnePlayerSelect);
+                        ScreenManager.Change(ScreenState.GameMode);
                     }
                     else if (multiPlayerBtn.IsPressed)
                     {
