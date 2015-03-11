@@ -133,6 +133,7 @@ namespace Pong.CoreTypes
                 }
 
                 codeLable.Text.Clear();
+
                 codeLable.Text.Append(code);
                 codeLable.SetCenterAsOrigin();
 
