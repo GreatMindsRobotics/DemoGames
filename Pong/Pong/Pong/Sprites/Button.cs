@@ -14,6 +14,8 @@ namespace Pong.Sprites
     {
         bool isClicked = false;
 
+        public event EventHandler Clicked;
+
         public bool IsClicked
         {
             get
@@ -158,6 +160,11 @@ namespace Pong.Sprites
                             if (!isPressed)
                             {
                                 Mouse.SetPosition(mouse.X, mouse.Y + _rectangles[0].Height - _rectangles[1].Height);
+
+                                if (Clicked != null)
+                                {
+                                    Clicked(this, null);
+                                }
                             }
                             isPressed = true;
                             SourceRectangle = _rectangles[1];

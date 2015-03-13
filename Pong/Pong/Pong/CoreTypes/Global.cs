@@ -25,5 +25,7 @@ namespace Pong.CoreTypes
 
         public static bool Reset = false;
         public static bool Close = false;
+
+        public static string onlineCode;
     }
 }

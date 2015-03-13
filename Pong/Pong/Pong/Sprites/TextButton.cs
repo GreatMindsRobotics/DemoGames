@@ -32,6 +32,10 @@ namespace Pong.Sprites
 
         public string Text
         {
+            get
+            {
+                return fadingFont.Text.ToString();
+            }
             set
             {
                 fadingFont.Text.Clear();
@@ -39,6 +43,8 @@ namespace Pong.Sprites
                 //fadingFont.Position = new Vector2(Position.X - fadingFont.Size.X / 2, Top - fadingFont.Size.Y);
             }
         }
+
+        
 
          public TextButton(Texture2D image, Vector2 location, Color tint, SpriteFont font, Color fontColor, string text) :
             base(image, location, tint)
