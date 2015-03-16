@@ -21,7 +21,7 @@ namespace Pong.CoreTypes
 
         GamePadMapper gamePad;
 
-        string code;
+        //string code;
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
@@ -35,7 +35,7 @@ namespace Pong.CoreTypes
             //connectBtn.Position = new Vector2(960, 735 + connectBtn.SourceRectangle.Value.Height / 2);
 
 
-            codeLable = new FadingFont(Content.Load<SpriteFont>("Fonts\\BigOutage"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), 0.1f, 1.0f, 0.01f, 1.0f, code, Color.LightGoldenrodYellow, false);
+            codeLable = new FadingFont(Content.Load<SpriteFont>("Fonts\\BigOutage"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), 0.1f, 1.0f, 0.01f, 1.0f, Global.onlineCode, Color.LightGoldenrodYellow, false);
             codeLable.EnableShadow = false;
             codeLable.SetCenterAsOrigin();
 
@@ -64,6 +64,7 @@ namespace Pong.CoreTypes
 
             if (Global.UsingKeyboard)
             {
+
                 if (InputManager.JustPressed(Keys.Escape))
                 {
                     ScreenManager.Back();
@@ -76,6 +77,67 @@ namespace Pong.CoreTypes
                 else if (backBtn.IsClicked)
                 {
                     ScreenManager.Back();
+                }
+
+                if (InputManager.PressedKeys.Length > 0)
+                {
+                    if (InputManager.JustPressed(Keys.Back) && Global.onlineCode.Length > 0)
+                    {
+                        Global.onlineCode = Global.onlineCode.Substring(0, Global.onlineCode.Length - 1);
+                    }
+                    else if ((InputManager.PressedKeys.Contains(Keys.LeftShift) || InputManager.PressedKeys.Contains(Keys.RightShift)) && InputManager.JustPressed(Keys.D3))
+                    {
+                        Global.onlineCode += ("#");
+                    }
+                    else if ((InputManager.PressedKeys.Contains(Keys.LeftShift) || InputManager.PressedKeys.Contains(Keys.RightShift)) && InputManager.JustPressed(Keys.D7))
+                    {
+                        Global.onlineCode += ("&");
+                    }
+                    else if ((InputManager.PressedKeys.Contains(Keys.LeftShift) || InputManager.PressedKeys.Contains(Keys.RightShift)) && InputManager.JustPressed(Keys.D8))
+                    {
+                        Global.onlineCode += ("*");
+                    }
+                    else if (InputManager.JustPressed(Keys.OemPeriod))
+                    {
+                        Global.onlineCode += (".");
+                    }
+                    else if ((InputManager.PressedKeys.Contains(Keys.LeftShift) || InputManager.PressedKeys.Contains(Keys.RightShift)) && InputManager.JustPressed(Keys.OemMinus))
+                    {
+                        Global.onlineCode += ("_");
+                    }
+                    else if (InputManager.JustPressed(Keys.OemMinus))
+                    {
+                        Global.onlineCode += ("-");
+                    }
+                    else if ((InputManager.PressedKeys.Contains(Keys.LeftShift) || InputManager.PressedKeys.Contains(Keys.RightShift)) && InputManager.JustPressed(Keys.OemQuestion))
+                    {
+                        Global.onlineCode += ("?");
+                    }
+                    else if ((InputManager.PressedKeys.Contains(Keys.LeftShift) || InputManager.PressedKeys.Contains(Keys.RightShift)) && InputManager.JustPressed(Keys.D1))
+                    {
+                        Global.onlineCode += ("!");
+                    }
+                    else
+                    {
+                        for (int i = 48; i <= 57; i++)
+                        {
+                            if (InputManager.JustPressed((Keys)i))
+                            {
+                                Global.onlineCode += ((Keys)i).ToString()[1];
+                            }
+                        }
+
+                        for (int i = 65; i <= 90; i++)
+                        {
+                            if (InputManager.JustPressed((Keys)i))
+                            {
+                                Global.onlineCode += ((Keys)i).ToString();
+                            }
+                        }
+                    }
+                    codeLable.Text.Clear();
+                    codeLable.Text.Append(Global.onlineCode);
+                    codeLable.SetCenterAsOrigin();
                 }
             }
             else
@@ -96,7 +158,7 @@ namespace Pong.CoreTypes
                         connectBtn.IsPressed = false;
                         backBtn.IsPressed = true;
                     }
-                    
+
                 }
                 else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadRight))
                 {
@@ -119,22 +181,23 @@ namespace Pong.CoreTypes
                 }
 
 
-                if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.X))
-                {
-                    code += "X";
-                }
-                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.Y))
-                {
-                    code += "Y";
-                }
-                else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.B))
-                {
-                    code += "B";
-                }
+
+                //if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.X))
+                //{
+                //    code += "X";
+                //}
+                //else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.Y))
+                //{
+                //    code += "Y";
+                //}
+                //else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.B))
+                //{
+                //    code += "B";
+                //}
 
                 codeLable.Text.Clear();
 
-                codeLable.Text.Append(code);
+                codeLable.Text.Append(Global.onlineCode);
                 codeLable.SetCenterAsOrigin();
 
             }

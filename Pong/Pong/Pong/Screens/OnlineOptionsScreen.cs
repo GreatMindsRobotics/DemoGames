@@ -144,7 +144,7 @@ namespace Pong.CoreTypes
                     else if (joinBtn.IsPressed)
                     {
                         Global.IsHost = false;
-                        ScreenManager.Change(ScreenState.OnlineJoinScreen);
+                        ScreenManager.Change(ScreenState.Keyboard);
                     }
                     else if (backBtn.IsPressed)
                     {

@@ -133,7 +133,7 @@ namespace Pong
             ScreenManager.AddScreen(ScreenState.GameMode, gameModeScreen);
             ScreenManager.AddScreen(ScreenState.Keyboard, keyboardScreen);
 
-            ScreenManager.Change(ScreenState.Keyboard);
+            ScreenManager.Change(ScreenState.MainMenu);
             
         }
 

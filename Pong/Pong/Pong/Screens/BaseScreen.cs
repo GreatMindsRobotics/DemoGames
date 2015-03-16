@@ -58,30 +58,30 @@ namespace Pong.Screens
             }
 
                 //Check for selected button if no controller is connected
-                if(!Global.UsingKeyboard)
+            if (!Global.UsingKeyboard)
+            {
+                bool isAnyButtonSelected = false;
+
+                foreach (Button button in _sprites.OfType<Button>())
                 {
-                    bool isAnyButtonSelected = false;
-
-                    foreach (Button button in _sprites.OfType<Button>())
+                    if (button.IsPressed)
                     {
-                        if (button.IsPressed)
-                        {
-                            isAnyButtonSelected = true;
-                            break;
-                        }
+                        isAnyButtonSelected = true;
+                        break;
                     }
-
-                    if (!isAnyButtonSelected)
-                    { 
-                        //Select any button
-                        Button selectMe = _sprites.OfType<Button>().FirstOrDefault();
-                        if (selectMe != null)
-                        {
-                            selectMe.IsPressed = true;
-                        }
-                    }
-
                 }
+
+                if (!isAnyButtonSelected)
+                {
+                    //Select any button
+                    Button selectMe = _sprites.OfType<Button>().FirstOrDefault();
+                    if (selectMe != null)
+                    {
+                        selectMe.IsPressed = true;
+                    }
+                }
+
+            }
 
         }
 
