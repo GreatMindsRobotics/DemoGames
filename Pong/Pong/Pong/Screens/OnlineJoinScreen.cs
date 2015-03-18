@@ -15,7 +15,7 @@ namespace Pong.CoreTypes
     class OnlineJoinScreen : BaseScreen
     {
         Button backBtn;
-        Button connectBtn;
+        TextButton doneBtn;
 
         FadingFont codeLable;
 
@@ -39,10 +39,11 @@ namespace Pong.CoreTypes
             codeLable.EnableShadow = false;
             codeLable.SetCenterAsOrigin();
 
+            doneBtn = new TextButton(Content.Load<Texture2D>("Buttons//Blank"), new Vector2(0, 0), Color.White, Content.Load<SpriteFont>("Fonts\\BigOutage"), Color.White, "Done", new Rectangle(0, 117, 404, 137), new Rectangle(0, 0, 404, 117));
+            doneBtn.Scale = new Vector2(doneBtn.Scale.X + 0.02f, doneBtn.Scale.Y);
+            doneBtn.Origin = new Vector2(doneBtn.Texture.Width / 2, 137);
+            doneBtn.Position = new Vector2(960, 735 + doneBtn.SourceRectangle.Value.Height / 2);
 
-            connectBtn = new Button(Content.Load<Texture2D>("Buttons//Connect"), new Vector2(0, 0), Color.White, new Rectangle(0, 77, 356, 87), new Rectangle(0, 0, 356, 77));
-            connectBtn.Origin = new Vector2(connectBtn.Texture.Width / 2, 169);
-            connectBtn.Position = new Vector2(960, 735 + connectBtn.SourceRectangle.Value.Height / 2);
 
             backBtn = new Button(Content.Load<Texture2D>("Buttons//Back"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 159, 169), new Rectangle(0, 0, 159, 149));
             backBtn.Origin = new Vector2(backBtn.Texture.Width / 2, 169);
@@ -51,29 +52,41 @@ namespace Pong.CoreTypes
             _sprites.Add(background);
             _sprites.Add(codeLable);
             _sprites.Add(backBtn);
-            _sprites.Add(connectBtn);
+
+            _sprites.Add(doneBtn);
+
+
+
 
             if (!Global.UsingKeyboard)
             {
-                connectBtn.IsPressed = true;
+
+                doneBtn.IsPressed = true;
+
             }
         }
 
         public override void Update(GameTime gameTime)
         {
 
+            if (!Global.IsHost)
+            {
+                doneBtn.Text = "Join";
+            }
+
             if (Global.UsingKeyboard)
             {
+                if (doneBtn.IsClicked)
+                {
+                    //hi
+                    ScreenManager.Change(ScreenState.GameMode);
+                }
 
                 if (InputManager.JustPressed(Keys.Escape))
                 {
                     ScreenManager.Back();
                 }
 
-                if (connectBtn.IsClicked)
-                {
-                    //ScreenManager.Change(ScreenState.Game);
-                }
                 else if (backBtn.IsClicked)
                 {
                     ScreenManager.Back();
@@ -153,11 +166,12 @@ namespace Pong.CoreTypes
 
                 if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadLeft))
                 {
-                    if (connectBtn.IsPressed)
+                    if (doneBtn.IsPressed)
                     {
-                        connectBtn.IsPressed = false;
+                        doneBtn.IsPressed = false;
                         backBtn.IsPressed = true;
                     }
+
 
                 }
                 else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.DPadRight))
@@ -165,16 +179,25 @@ namespace Pong.CoreTypes
                     if (backBtn.IsPressed)
                     {
                         backBtn.IsPressed = false;
-                        connectBtn.IsPressed = true;
+
+                        doneBtn.IsPressed = true;
                     }
                 }
                 else if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.A))
                 {
-                    if (connectBtn.IsPressed)
+                    if (doneBtn.IsPressed)
                     {
-                        //ScreenManager.Change(ScreenState.Game);
+                        if (Global.IsHost)
+                        {
+                            ScreenManager.Change(ScreenState.GameMode);
+                        }
+                        else
+                        {
+                            ScreenManager.Change(ScreenState.Game);
+                        }
                     }
-                    else if (backBtn.IsPressed)
+
+                    if (backBtn.IsPressed)
                     {
                         ScreenManager.Back();
                     }

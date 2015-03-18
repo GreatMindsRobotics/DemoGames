@@ -73,7 +73,7 @@ namespace Pong.Screens
         {
 
             _keyboard = new Dictionary<string, Button>();
-
+            Global.onlineCode = "";
             gamePad = new GamePadMapper(PlayerIndex.One);
 
             GameSprite background = new GameSprite(Content.Load<Texture2D>("Background\\EnterCode"), Vector2.Zero, Color.White);
@@ -154,6 +154,8 @@ namespace Pong.Screens
             done.Origin = new Vector2(done.Texture.Width / 2, 137);
             done.Position = new Vector2(col1 + colDiff * 8 + 120, row1 + rowDiff * 4 + done.SourceRectangle.Value.Height / 2);
 
+            
+
             backBtn = new Button(Content.Load<Texture2D>("Buttons//Back"), new Vector2(0, 0), Color.White, new Rectangle(0, 149, 159, 169), new Rectangle(0, 0, 159, 149));
             backBtn.Origin = new Vector2(backBtn.Texture.Width / 2, 169);
             backBtn.Position = new Vector2(177, 907 + backBtn.SourceRectangle.Value.Height / 2);
@@ -175,6 +177,11 @@ namespace Pong.Screens
 
         public override void Update(GameTime gameTime)
         {
+            if (!Global.IsHost)
+            {
+                done.Text = "Join";
+            }
+
             if (back.IsClicked && Global.onlineCode.Length > 0)
             {
                 Global.onlineCode = Global.onlineCode.Substring(0, Global.onlineCode.Length - 1);
@@ -187,7 +194,6 @@ namespace Pong.Screens
             {
 
             }
-
 
             if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.Back))
             {
@@ -331,7 +337,7 @@ namespace Pong.Screens
                     space.IsPressed = false;
                     back.IsPressed = true;
                 }
-                else if (currentCol > 0)
+                else if (currentCol > 0 && !backBtn.IsPressed)
                 {
                     buttons[currentRow, currentCol].IsPressed = false;
                     currentCol--;
@@ -376,15 +382,22 @@ namespace Pong.Screens
                 }
                 else if (done.IsPressed)
                 {
-                    ScreenManager.Change(ScreenState.Game);
+                    if (Global.IsHost)
+                    {
+                        ScreenManager.Change(ScreenState.GameMode);
+                    }
+                    else
+                    {
+                        ScreenManager.Change(ScreenState.Game);
+                    }
                 }
                 else if (backBtn.IsPressed)
                 {
                     ScreenManager.Back();
                 }
-                else
+                else if (buttons[currentRow, currentCol].IsPressed)
                 {
-                    Global.onlineCode+=buttons[currentRow, currentCol].Text;
+                    Global.onlineCode += buttons[currentRow, currentCol].Text;
                 }
             }
 

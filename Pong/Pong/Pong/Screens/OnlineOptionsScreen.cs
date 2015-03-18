@@ -78,7 +78,7 @@ namespace Pong.CoreTypes
                 if (hostBtn.IsClicked)
                 {
                     Global.IsHost = true;
-                    ScreenManager.Change(ScreenState.GameMode);
+                    ScreenManager.Change(ScreenState.OnlineJoinScreen);
                 }
                 else if (joinBtn.IsClicked)
                 {
@@ -139,7 +139,7 @@ namespace Pong.CoreTypes
                     if (hostBtn.IsPressed)
                     {
                         Global.IsHost = true;
-                        ScreenManager.Change(ScreenState.GameMode);
+                        ScreenManager.Change(ScreenState.Keyboard);
                     }
                     else if (joinBtn.IsPressed)
                     {
