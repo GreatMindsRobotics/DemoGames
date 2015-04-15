@@ -130,7 +130,7 @@ namespace Pong.Screens
             Global.RightPlayer.UpButton = (GamePadMapper.GamePadButtons)int.Parse(player2.Element(XName.Get("Up")).Value);
             Global.RightPlayer.DownButton = (GamePadMapper.GamePadButtons)int.Parse(player2.Element(XName.Get("Down")).Value);
 
-            
+
             ball = new Ball(Content.Load<Texture2D>("Ball"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), Color.White);
             //ball.Scale = new Vector2(0.5f);
             ball.SetCenterAsOrigin();
@@ -817,7 +817,40 @@ namespace Pong.Screens
                     if (Global.isOnline)
                     {
                         ScreenManager.Change(ScreenState.Error);
-                        //TODO Add Online Capability
+
+                        Pong.WebService.Position ballPosition = Global.Webservice.GetBallPosition(Global.onlineCode);
+                        //ball.Position = new Vector2(ballPosition.x, ballPosition.y);
+
+                        //Pong.WebService.Position player1Position = Global.Webservice.getPlayerPosition(Global.onlineCode, 1);
+                        //Pong.WebService.Position player2Position = Global.Webservice.getPlayerPosition(Global.onlineCode, 2);
+
+
+                        if (Global.IsHost)
+                        {
+                            Pong.WebService.Position player2Position = Global.Webservice.getPlayerPosition(Global.onlineCode, 2);
+
+                            Global.RightPlayer.Position = new Vector2(player2Position.x, player2Position.y);
+
+                            Global.Webservice.setPlayerPosition(Global.onlineCode, 1, new WebService.Position() { x = Global.LeftPlayer.Position.X, y = Global.LeftPlayer.Position.Y });
+
+
+                            //setting ball.
+                            ballPosition.x = ball.Position.X;
+                            ballPosition.y = ball.Position.Y;
+                        }
+                        else
+                        {
+
+                            Pong.WebService.Position player1Position = Global.Webservice.getPlayerPosition(Global.onlineCode, 1);
+                            //not host
+                            //get host position
+
+                            Global.LeftPlayer.Position = new Vector2(player1Position.x, player1Position.y);
+                            //set paddle position
+
+                            Global.Webservice.setPlayerPosition(Global.onlineCode, 2, new WebService.Position() { x = Global.RightPlayer.Position.X, y = Global.RightPlayer.Position.Y });
+                        }
+
                     }
                     else
                     {
@@ -913,7 +946,7 @@ namespace Pong.Screens
                     break;
             }
 
-            
+
             Vector2 amountSpeed = Vector2.Zero;
             if (Global.UsingKeyboard || !controllerDisconnected)
             {

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="GMRPongService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:49252/GMRPongService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:49252/GMRPongService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:49252/GMRPongService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/GMRPongWCF" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IGMRPongService_AddGame_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddGame" />
+  </wsdl:message>
+  <wsdl:message name="IGMRPongService_AddGame_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddGameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGMRPongService_getPlayerPosition_InputMessage">
+    <wsdl:part name="parameters" element="tns:getPlayerPosition" />
+  </wsdl:message>
+  <wsdl:message name="IGMRPongService_getPlayerPosition_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getPlayerPositionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGMRPongService_setPlayerPosition_InputMessage">
+    <wsdl:part name="parameters" element="tns:setPlayerPosition" />
+  </wsdl:message>
+  <wsdl:message name="IGMRPongService_setPlayerPosition_OutputMessage">
+    <wsdl:part name="parameters" element="tns:setPlayerPositionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGMRPongService_GetBallPosition_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBallPosition" />
+  </wsdl:message>
+  <wsdl:message name="IGMRPongService_GetBallPosition_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBallPositionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGMRPongService_GetScore_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetScore" />
+  </wsdl:message>
+  <wsdl:message name="IGMRPongService_GetScore_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetScoreResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IGMRPongService">
+    <wsdl:operation name="AddGame">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGMRPongService/AddGame" message="tns:IGMRPongService_AddGame_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGMRPongService/AddGameResponse" message="tns:IGMRPongService_AddGame_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getPlayerPosition">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGMRPongService/getPlayerPosition" message="tns:IGMRPongService_getPlayerPosition_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGMRPongService/getPlayerPositionResponse" message="tns:IGMRPongService_getPlayerPosition_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="setPlayerPosition">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGMRPongService/setPlayerPosition" message="tns:IGMRPongService_setPlayerPosition_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGMRPongService/setPlayerPositionResponse" message="tns:IGMRPongService_setPlayerPosition_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBallPosition">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGMRPongService/GetBallPosition" message="tns:IGMRPongService_GetBallPosition_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGMRPongService/GetBallPositionResponse" message="tns:IGMRPongService_GetBallPosition_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetScore">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGMRPongService/GetScore" message="tns:IGMRPongService_GetScore_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGMRPongService/GetScoreResponse" message="tns:IGMRPongService_GetScore_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IGMRPongService" type="tns:IGMRPongService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AddGame">
+      <soap:operation soapAction="http://tempuri.org/IGMRPongService/AddGame" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPlayerPosition">
+      <soap:operation soapAction="http://tempuri.org/IGMRPongService/getPlayerPosition" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setPlayerPosition">
+      <soap:operation soapAction="http://tempuri.org/IGMRPongService/setPlayerPosition" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBallPosition">
+      <soap:operation soapAction="http://tempuri.org/IGMRPongService/GetBallPosition" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetScore">
+      <soap:operation soapAction="http://tempuri.org/IGMRPongService/GetScore" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GMRPongService">
+    <wsdl:port name="BasicHttpBinding_IGMRPongService" binding="tns:BasicHttpBinding_IGMRPongService">
+      <soap:address location="http://localhost:49252/GMRPongService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

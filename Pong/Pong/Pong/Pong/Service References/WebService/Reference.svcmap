@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="62d51676-bbc0-4c84-91b6-f3f60a738cc1" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:49252/GMRPongService.svc?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="GMRPongService.xsd" MetadataType="Schema" ID="1c748f8d-6fd7-4745-a00c-28cd113c628e" SourceId="1" SourceUrl="http://localhost:49252/GMRPongService.svc?xsd=xsd0" />
+    <MetadataFile FileName="GMRPongService1.xsd" MetadataType="Schema" ID="6a05738a-a6aa-4332-9bc4-beb7c05aa310" SourceId="1" SourceUrl="http://localhost:49252/GMRPongService.svc?xsd=xsd2" />
+    <MetadataFile FileName="GMRPongService2.xsd" MetadataType="Schema" ID="113fb459-39a8-482e-bbcc-c2cfc0083320" SourceId="1" SourceUrl="http://localhost:49252/GMRPongService.svc?xsd=xsd1" />
+    <MetadataFile FileName="GMRPongService.wsdl" MetadataType="Wsdl" ID="79220dc6-9f9a-451a-95a0-cd5ba384a0bc" SourceId="1" SourceUrl="http://localhost:49252/GMRPongService.svc?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
