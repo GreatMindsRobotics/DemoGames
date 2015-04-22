@@ -819,6 +819,9 @@ namespace Pong.Screens
                         ScreenManager.Change(ScreenState.Error);
 
                         Pong.WebService.Position ballPosition = Global.Webservice.GetBallPosition(Global.onlineCode);
+                        
+                        
+
                         //ball.Position = new Vector2(ballPosition.x, ballPosition.y);
 
                         //Pong.WebService.Position player1Position = Global.Webservice.getPlayerPosition(Global.onlineCode, 1);
@@ -831,8 +834,15 @@ namespace Pong.Screens
 
                             Global.RightPlayer.Position = new Vector2(player2Position.x, player2Position.y);
 
-                            Global.Webservice.setPlayerPosition(Global.onlineCode, 1, new WebService.Position() { x = Global.LeftPlayer.Position.X, y = Global.LeftPlayer.Position.Y });
 
+
+                            Global.Webservice.setPlayerPosition(Global.onlineCode, 1, new WebService.Position() { x = Global.LeftPlayer.Position.X, y = Global.LeftPlayer.Position.Y });
+                            Pong.WebService.Score rightScore = Global.Webservice.GetScore(Global.onlineCode);
+                            
+                            //HAVE SET SCORE DONE JUST  NEED TO IMPLEMENT                            
+                            //HAVE SET SCORE DONE JUST  NEED TO IMPLEMENT
+                            //HAVE SET SCORE DONE JUST  NEED TO IMPLEMENT
+                            //HAVE SET SCORE DONE JUST  NEED TO IMPLEMENT
 
                             //setting ball.
                             ballPosition.x = ball.Position.X;
@@ -848,7 +858,14 @@ namespace Pong.Screens
                             Global.LeftPlayer.Position = new Vector2(player1Position.x, player1Position.y);
                             //set paddle position
 
+
+                            //HAVE SET SCORE DONE JUST  NEED TO IMPLEMENT
+                            //HAVE SET SCORE DONE JUST  NEED TO IMPLEMENT
+                            //HAVE SET SCORE DONE JUST  NEED TO IMPLEMENT
+                            //HAVE SET SCORE DONE JUST  NEED TO IMPLEMENT
+
                             Global.Webservice.setPlayerPosition(Global.onlineCode, 2, new WebService.Position() { x = Global.RightPlayer.Position.X, y = Global.RightPlayer.Position.Y });
+                            Pong.WebService.Score leftScore = Global.Webservice.GetScore(Global.onlineCode);
                         }
 
                     }

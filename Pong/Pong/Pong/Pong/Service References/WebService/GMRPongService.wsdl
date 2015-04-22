@@ -37,6 +37,12 @@
   <wsdl:message name="IGMRPongService_GetScore_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetScoreResponse" />
   </wsdl:message>
+  <wsdl:message name="IGMRPongService_setScore_InputMessage">
+    <wsdl:part name="parameters" element="tns:setScore" />
+  </wsdl:message>
+  <wsdl:message name="IGMRPongService_setScore_OutputMessage">
+    <wsdl:part name="parameters" element="tns:setScoreResponse" />
+  </wsdl:message>
   <wsdl:portType name="IGMRPongService">
     <wsdl:operation name="AddGame">
       <wsdl:input wsaw:Action="http://tempuri.org/IGMRPongService/AddGame" message="tns:IGMRPongService_AddGame_InputMessage" />
@@ -57,6 +63,10 @@
     <wsdl:operation name="GetScore">
       <wsdl:input wsaw:Action="http://tempuri.org/IGMRPongService/GetScore" message="tns:IGMRPongService_GetScore_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGMRPongService/GetScoreResponse" message="tns:IGMRPongService_GetScore_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="setScore">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGMRPongService/setScore" message="tns:IGMRPongService_setScore_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGMRPongService/setScoreResponse" message="tns:IGMRPongService_setScore_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IGMRPongService" type="tns:IGMRPongService">
@@ -99,6 +109,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetScore">
       <soap:operation soapAction="http://tempuri.org/IGMRPongService/GetScore" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setScore">
+      <soap:operation soapAction="http://tempuri.org/IGMRPongService/setScore" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

@@ -153,6 +153,9 @@ namespace Pong.WebService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/GetScore", ReplyAction="http://tempuri.org/IGMRPongService/GetScoreResponse")]
         Pong.WebService.Score GetScore(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/setScore", ReplyAction="http://tempuri.org/IGMRPongService/setScoreResponse")]
+        void setScore(string name, int player, Pong.WebService.Score score);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -200,6 +203,10 @@ namespace Pong.WebService {
         
         public Pong.WebService.Score GetScore(string name) {
             return base.Channel.GetScore(name);
+        }
+        
+        public void setScore(string name, int player, Pong.WebService.Score score) {
+            base.Channel.setScore(name, player, score);
         }
     }
 }
