@@ -12,7 +12,7 @@ namespace GMRPongWCF
     public interface IGMRPongService
     {
         [OperationContract]
-        void AddGame(string name);
+        bool AddGame(string name);
 
         [OperationContract]
         Position getPlayerPosition(string name, int player);
@@ -25,5 +25,11 @@ namespace GMRPongWCF
 
         [OperationContract]
         Score GetScore(string name);
+
+        [OperationContract]
+        void SetGameType(string name, GameType gameType);
+
+        [OperationContract]
+        GameType GetGameType(string name);
     }
 }

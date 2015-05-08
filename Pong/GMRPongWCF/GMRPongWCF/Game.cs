@@ -7,6 +7,12 @@ using System.ServiceModel;
 
 namespace GMRPongWCF
 {
+    public enum GameType
+    {
+        Classic,
+        PingPong
+    }
+
     [DataContract]
     public class Game
     {
@@ -18,6 +24,9 @@ namespace GMRPongWCF
 
         [DataMember]
         Score score;
+
+        [DataMember]
+        GameType gameType;
 
         string name;
 
@@ -55,6 +64,18 @@ namespace GMRPongWCF
         public Score getScore()
         {
             return score;
+        }
+
+        [OperationContract]
+        public void setGameType(GameType gameType)
+        {
+            this.gameType = gameType;
+        }
+
+        [OperationContract]
+        public GameType getGameType()
+        {
+            return gameType;
         }
     }
 }

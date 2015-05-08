@@ -13,9 +13,17 @@ namespace GMRPongWCF
     {
         Dictionary<string, Game> games = new Dictionary<string, Game>();
 
-        public void AddGame(string name)
+        public bool AddGame(string name)
         {
-            games.Add(name, new Game(name));
+            try
+            {
+                games.Add(name, new Game(name));
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
         }
 
         public Position getPlayerPosition(string name, int player)
@@ -36,6 +44,16 @@ namespace GMRPongWCF
         public Score GetScore(string name)
         {
             return games[name].getScore();
+        }
+
+        public void SetGameType(string name, GameType gameType)
+        {
+            games[name].setGameType(gameType);
+        }
+
+        public GameType GetGameType(string name)
+        {
+            return games[name].getGameType();
         }
     }
 }

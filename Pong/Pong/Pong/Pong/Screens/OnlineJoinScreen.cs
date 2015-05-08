@@ -17,7 +17,7 @@ namespace Pong.CoreTypes
         Button backBtn;
         TextButton doneBtn;
 
-        FadingFont codeLable;
+        FadingFont codeLabel;
 
         GamePadMapper gamePad;
 
@@ -35,9 +35,9 @@ namespace Pong.CoreTypes
             //connectBtn.Position = new Vector2(960, 735 + connectBtn.SourceRectangle.Value.Height / 2);
 
 
-            codeLable = new FadingFont(Content.Load<SpriteFont>("Fonts\\BigOutage"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), 0.1f, 1.0f, 0.01f, 1.0f, Global.onlineCode, Color.LightGoldenrodYellow, false);
-            codeLable.EnableShadow = false;
-            codeLable.SetCenterAsOrigin();
+            codeLabel = new FadingFont(Content.Load<SpriteFont>("Fonts\\BigOutage"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2), 0.1f, 1.0f, 0.01f, 1.0f, Global.onlineCode, Color.LightGoldenrodYellow, false);
+            codeLabel.EnableShadow = false;
+            codeLabel.SetCenterAsOrigin();
 
             doneBtn = new TextButton(Content.Load<Texture2D>("Buttons//Blank"), new Vector2(0, 0), Color.White, Content.Load<SpriteFont>("Fonts\\BigOutage"), Color.White, "Done", new Rectangle(0, 117, 404, 137), new Rectangle(0, 0, 404, 117));
             doneBtn.Scale = new Vector2(doneBtn.Scale.X + 0.02f, doneBtn.Scale.Y);
@@ -50,7 +50,7 @@ namespace Pong.CoreTypes
             backBtn.Position = new Vector2(177, 907 + backBtn.SourceRectangle.Value.Height / 2);
 
             _sprites.Add(background);
-            _sprites.Add(codeLable);
+            _sprites.Add(codeLabel);
             _sprites.Add(backBtn);
 
             _sprites.Add(doneBtn);
@@ -78,8 +78,28 @@ namespace Pong.CoreTypes
             {
                 if (doneBtn.IsClicked)
                 {
-                    //hi
-                    ScreenManager.Change(ScreenState.GameMode);
+                    if (Global.IsHost)
+                    {
+                        string name = codeLabel.Text.ToString();
+                        //add game to wcf
+                        if (name.Trim() != "" && WebServiceConnection.Client.AddGame(name))
+                        {
+                            WebServiceConnection.GameName = name;
+                            ScreenManager.Change(ScreenState.GameMode);
+                        }
+                        else
+                        {
+                            //name is taken
+                        }
+                    }
+                    else
+                    {
+                        //try to connect
+                        if (false) // connection successful
+                        {
+                            ScreenManager.Change(ScreenState.Game);
+                        }
+                    }
                 }
 
                 if (InputManager.JustPressed(Keys.Escape))
@@ -148,9 +168,9 @@ namespace Pong.CoreTypes
                             }
                         }
                     }
-                    codeLable.Text.Clear();
-                    codeLable.Text.Append(Global.onlineCode);
-                    codeLable.SetCenterAsOrigin();
+                    codeLabel.Text.Clear();
+                    codeLabel.Text.Append(Global.onlineCode);
+                    codeLabel.SetCenterAsOrigin();
                 }
             }
             else
@@ -189,11 +209,25 @@ namespace Pong.CoreTypes
                     {
                         if (Global.IsHost)
                         {
-                            ScreenManager.Change(ScreenState.GameMode);
+                            string name = codeLabel.Text.ToString();
+                            //add game to wcf
+                            if (name.Trim() != "" && WebServiceConnection.Client.AddGame(name))
+                            {
+                                WebServiceConnection.GameName = name;
+                                ScreenManager.Change(ScreenState.GameMode);
+                            }
+                            else
+                            {
+                                //name is taken
+                            }
                         }
                         else
                         {
-                            ScreenManager.Change(ScreenState.Game);
+                            //try to connect
+                            if (false) // connection successful
+                            {
+                                ScreenManager.Change(ScreenState.Game);
+                            }
                         }
                     }
 
@@ -218,10 +252,10 @@ namespace Pong.CoreTypes
                 //    code += "B";
                 //}
 
-                codeLable.Text.Clear();
+                codeLabel.Text.Clear();
 
-                codeLable.Text.Append(Global.onlineCode);
-                codeLable.SetCenterAsOrigin();
+                codeLabel.Text.Append(Global.onlineCode);
+                codeLabel.SetCenterAsOrigin();
 
             }
             base.Update(gameTime);
