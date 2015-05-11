@@ -90,6 +90,7 @@
     <Compile Include="Screens\OnePlayerSelectScreen.cs" />
     <Compile Include="Screens\OptionsScreen.cs" />
     <Compile Include="Screens\PauseScreen.cs" />
+    <Compile Include="Screens\WaitingScreen.cs" />
     <Compile Include="Service References\WebService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -121,9 +122,7 @@
     <None Include="Service References\WebService\GMRPongService.disco" />
     <None Include="Service References\WebService\configuration91.svcinfo" />
     <None Include="Service References\WebService\configuration.svcinfo" />
-    <None Include="Service References\WebService\Pong.WebService.GameType.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
+    <None Include="Service References\WebService\GMRPongService3.xsd" />
     <None Include="Service References\WebService\Pong.WebService.Position.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

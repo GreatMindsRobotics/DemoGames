@@ -47,7 +47,8 @@ namespace Pong
         Pause,
         Error,
         GameMode,
-        Keyboard
+        Keyboard,
+        Waiting
     }
 
     public enum ControlScreenState

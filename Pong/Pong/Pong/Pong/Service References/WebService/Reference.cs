@@ -135,23 +135,24 @@ namespace Pong.WebService {
         }
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="GameType", Namespace="http://schemas.datacontract.org/2004/07/GMRPongWCF")]
-    public enum GameType : int {
-        
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        Classic = 0,
-        
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        PingPong = 1,
-    }
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="WebService.IGMRPongService")]
     public interface IGMRPongService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/AddGame", ReplyAction="http://tempuri.org/IGMRPongService/AddGameResponse")]
-        bool AddGame(string name);
+        void AddGame(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/JoinGame", ReplyAction="http://tempuri.org/IGMRPongService/JoinGameResponse")]
+        void JoinGame(string name, int playerNumber);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/LeaveGame", ReplyAction="http://tempuri.org/IGMRPongService/LeaveGameResponse")]
+        void LeaveGame(string name, int playerNumber);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/CheckActiveGame", ReplyAction="http://tempuri.org/IGMRPongService/CheckActiveGameResponse")]
+        bool CheckActiveGame(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/RemoveGame", ReplyAction="http://tempuri.org/IGMRPongService/RemoveGameResponse")]
+        void RemoveGame(string name);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/getPlayerPosition", ReplyAction="http://tempuri.org/IGMRPongService/getPlayerPositionResponse")]
         Pong.WebService.Position getPlayerPosition(string name, int player);
@@ -165,11 +166,14 @@ namespace Pong.WebService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/GetScore", ReplyAction="http://tempuri.org/IGMRPongService/GetScoreResponse")]
         Pong.WebService.Score GetScore(string name);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/SetGameType", ReplyAction="http://tempuri.org/IGMRPongService/SetGameTypeResponse")]
-        void SetGameType(string name, Pong.WebService.GameType gameType);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/setScore", ReplyAction="http://tempuri.org/IGMRPongService/setScoreResponse")]
+        void setScore(string name, int player, int score);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/GetGameType", ReplyAction="http://tempuri.org/IGMRPongService/GetGameTypeResponse")]
-        Pong.WebService.GameType GetGameType(string name);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/GetGameNames", ReplyAction="http://tempuri.org/IGMRPongService/GetGameNamesResponse")]
+        string[] GetGameNames();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/IsFull", ReplyAction="http://tempuri.org/IGMRPongService/IsFullResponse")]
+        bool IsFull(string name);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -199,8 +203,24 @@ namespace Pong.WebService {
                 base(binding, remoteAddress) {
         }
         
-        public bool AddGame(string name) {
-            return base.Channel.AddGame(name);
+        public void AddGame(string name) {
+            base.Channel.AddGame(name);
+        }
+        
+        public void JoinGame(string name, int playerNumber) {
+            base.Channel.JoinGame(name, playerNumber);
+        }
+        
+        public void LeaveGame(string name, int playerNumber) {
+            base.Channel.LeaveGame(name, playerNumber);
+        }
+        
+        public bool CheckActiveGame(string name) {
+            return base.Channel.CheckActiveGame(name);
+        }
+        
+        public void RemoveGame(string name) {
+            base.Channel.RemoveGame(name);
         }
         
         public Pong.WebService.Position getPlayerPosition(string name, int player) {
@@ -219,12 +239,16 @@ namespace Pong.WebService {
             return base.Channel.GetScore(name);
         }
         
-        public void SetGameType(string name, Pong.WebService.GameType gameType) {
-            base.Channel.SetGameType(name, gameType);
+        public void setScore(string name, int player, int score) {
+            base.Channel.setScore(name, player, score);
         }
         
-        public Pong.WebService.GameType GetGameType(string name) {
-            return base.Channel.GetGameType(name);
+        public string[] GetGameNames() {
+            return base.Channel.GetGameNames();
+        }
+        
+        public bool IsFull(string name) {
+            return base.Channel.IsFull(name);
         }
     }
 }

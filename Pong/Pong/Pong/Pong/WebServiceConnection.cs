@@ -10,5 +10,7 @@ namespace Pong
         public static WebService.GMRPongServiceClient Client = new WebService.GMRPongServiceClient();
 
         public static string GameName = "";
+
+        public static int PlayerNumber = -1;
     }
 }

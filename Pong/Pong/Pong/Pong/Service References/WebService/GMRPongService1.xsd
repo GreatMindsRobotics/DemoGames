@@ -14,11 +14,4 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Score" nillable="true" type="tns:Score" />
-  <xs:simpleType name="GameType">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Classic" />
-      <xs:enumeration value="PingPong" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:element name="GameType" nillable="true" type="tns:GameType" />
 </xs:schema>

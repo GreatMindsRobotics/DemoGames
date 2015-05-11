@@ -816,56 +816,36 @@ namespace Pong.Screens
 
                     if (Global.isOnline)
                     {
-                        ScreenManager.Change(ScreenState.Error);
+                        //ScreenManager.Change(ScreenState.Error);
 
-                        Pong.WebService.Position ballPosition = Global.Webservice.GetBallPosition(Global.onlineCode);
+                        Pong.WebService.Position ballPosition = WebServiceConnection.Client.GetBallPosition(Global.onlineCode);
                         
                         
 
-                        //ball.Position = new Vector2(ballPosition.x, ballPosition.y);
-
-                        //Pong.WebService.Position player1Position = Global.Webservice.getPlayerPosition(Global.onlineCode, 1);
-                        //Pong.WebService.Position player2Position = Global.Webservice.getPlayerPosition(Global.onlineCode, 2);
-
-
+                        ball.Position = new Vector2(ballPosition.x, ballPosition.y);
+                        Pong.WebService.Score Score = WebServiceConnection.Client.GetScore(WebServiceConnection.GameName);
+                        leftScore = Score.leftScore;
+                        rightScore = Score.rightScore;
                         if (Global.IsHost)
                         {
-                            Pong.WebService.Position player2Position = Global.Webservice.getPlayerPosition(Global.onlineCode, 2);
+                            Pong.WebService.Position player2Position = WebServiceConnection.Client.getPlayerPosition(Global.onlineCode, 0);
 
                             Global.RightPlayer.Position = new Vector2(player2Position.x, player2Position.y);
 
 
 
-                            Global.Webservice.setPlayerPosition(Global.onlineCode, 1, new WebService.Position() { x = Global.LeftPlayer.Position.X, y = Global.LeftPlayer.Position.Y });
-                            Pong.WebService.Score rightScore = Global.Webservice.GetScore(Global.onlineCode);
-                            
-                            //HAVE SET SCORE DONE JUST  NEED TO IMPLEMENT                            
-                            //HAVE SET SCORE DONE JUST  NEED TO IMPLEMENT
-                            //HAVE SET SCORE DONE JUST  NEED TO IMPLEMENT
-                            //HAVE SET SCORE DONE JUST  NEED TO IMPLEMENT
-
-                            //setting ball.
-                            ballPosition.x = ball.Position.X;
-                            ballPosition.y = ball.Position.Y;
+                            WebServiceConnection.Client.setPlayerPosition(WebServiceConnection.GameName, WebServiceConnection.PlayerNumber, new WebService.Position() { x = Global.LeftPlayer.Position.X, y = Global.LeftPlayer.Position.Y });
+                            WebServiceConnection.Client.setScore(WebServiceConnection.GameName, 1, Score.rightScore);
                         }
                         else
                         {
 
                             Pong.WebService.Position player1Position = Global.Webservice.getPlayerPosition(Global.onlineCode, 1);
-                            //not host
-                            //get host position
-
                             Global.LeftPlayer.Position = new Vector2(player1Position.x, player1Position.y);
-                            //set paddle position
 
-
-                            //HAVE SET SCORE DONE JUST  NEED TO IMPLEMENT
-                            //HAVE SET SCORE DONE JUST  NEED TO IMPLEMENT
-                            //HAVE SET SCORE DONE JUST  NEED TO IMPLEMENT
-                            //HAVE SET SCORE DONE JUST  NEED TO IMPLEMENT
 
                             Global.Webservice.setPlayerPosition(Global.onlineCode, 2, new WebService.Position() { x = Global.RightPlayer.Position.X, y = Global.RightPlayer.Position.Y });
-                            Pong.WebService.Score leftScore = Global.Webservice.GetScore(Global.onlineCode);
+                            WebServiceConnection.Client.setScore(WebServiceConnection.GameName, 0, Score.leftScore);
                         }
 
                     }

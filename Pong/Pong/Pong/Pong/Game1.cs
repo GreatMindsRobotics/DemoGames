@@ -38,6 +38,7 @@ namespace Pong
         ErrorScreen errorScreen;
         GameModeScreen gameModeScreen;
         KeyboardScreen keyboardScreen;
+        WaitingScreen waitingScreen;
 
 
         ScreenState screenState;
@@ -75,6 +76,8 @@ namespace Pong
             errorScreen = new ErrorScreen();
             gameModeScreen = new GameModeScreen();
             keyboardScreen = new KeyboardScreen();
+            waitingScreen = new WaitingScreen();
+            
             
 
             graphics.PreferredBackBufferWidth = 1920;
@@ -115,6 +118,7 @@ namespace Pong
             gameModeScreen.Load(Content);
             keyboardScreen.Load(Content);
             mainMenuScreen.Load(Content);
+            waitingScreen.Load(Content);
 
             
             ScreenManager.AddScreen(ScreenState.Title, titleScreen);
@@ -132,6 +136,7 @@ namespace Pong
             ScreenManager.AddScreen(ScreenState.Error, errorScreen);
             ScreenManager.AddScreen(ScreenState.GameMode, gameModeScreen);
             ScreenManager.AddScreen(ScreenState.Keyboard, keyboardScreen);
+            ScreenManager.AddScreen(ScreenState.Waiting, waitingScreen);
 
             ScreenManager.Change(ScreenState.MainMenu);
             

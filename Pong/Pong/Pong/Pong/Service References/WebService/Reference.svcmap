@@ -21,11 +21,12 @@
     <MetadataSource Address="http://localhost:49252/GMRPongService.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="GMRPongService.disco" MetadataType="Disco" ID="5f79cd04-0b47-41cd-ad59-64b667c5592d" SourceId="1" SourceUrl="http://localhost:49252/GMRPongService.svc?disco" />
+    <MetadataFile FileName="GMRPongService.wsdl" MetadataType="Wsdl" ID="5795f3e4-1199-4927-a473-4993244e592f" SourceId="1" SourceUrl="http://localhost:49252/GMRPongService.svc?wsdl" />
+    <MetadataFile FileName="GMRPongService3.xsd" MetadataType="Schema" ID="4feb6834-7027-4d7d-90ce-33968c0bcc0b" SourceId="1" SourceUrl="http://localhost:49252/GMRPongService.svc?xsd=xsd3" />
     <MetadataFile FileName="GMRPongService.xsd" MetadataType="Schema" ID="440cc6ec-ab31-4962-a8de-d9c751ebbb82" SourceId="1" SourceUrl="http://localhost:49252/GMRPongService.svc?xsd=xsd0" />
     <MetadataFile FileName="GMRPongService1.xsd" MetadataType="Schema" ID="c13a11ca-c172-4593-be16-8b00969e69d0" SourceId="1" SourceUrl="http://localhost:49252/GMRPongService.svc?xsd=xsd2" />
     <MetadataFile FileName="GMRPongService2.xsd" MetadataType="Schema" ID="397b8fcd-5574-4a37-afb4-a57b2808fa69" SourceId="1" SourceUrl="http://localhost:49252/GMRPongService.svc?xsd=xsd1" />
-    <MetadataFile FileName="GMRPongService.wsdl" MetadataType="Wsdl" ID="5795f3e4-1199-4927-a473-4993244e592f" SourceId="1" SourceUrl="http://localhost:49252/GMRPongService.svc?wsdl" />
+    <MetadataFile FileName="GMRPongService.disco" MetadataType="Disco" ID="5f79cd04-0b47-41cd-ad59-64b667c5592d" SourceId="1" SourceUrl="http://localhost:49252/GMRPongService.svc?disco" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

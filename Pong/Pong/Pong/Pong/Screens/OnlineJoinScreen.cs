@@ -19,6 +19,8 @@ namespace Pong.CoreTypes
 
         FadingFont codeLabel;
 
+        FadingFont takenLabel;
+
         GamePadMapper gamePad;
 
         //string code;
@@ -39,6 +41,11 @@ namespace Pong.CoreTypes
             codeLabel.EnableShadow = false;
             codeLabel.SetCenterAsOrigin();
 
+            takenLabel = new FadingFont(Content.Load<SpriteFont>("Fonts\\Outage"), new Vector2(_viewPort.Width / 2, _viewPort.Height / 2 + 100), 0.1f, 1.0f, 0.01f, 1.0f,"That name is taken", Color.Red, false);
+            takenLabel.EnableShadow = false;
+            takenLabel.SetCenterAsOrigin();
+            takenLabel.IsVisible = false;
+
             doneBtn = new TextButton(Content.Load<Texture2D>("Buttons//Blank"), new Vector2(0, 0), Color.White, Content.Load<SpriteFont>("Fonts\\BigOutage"), Color.White, "Done", new Rectangle(0, 117, 404, 137), new Rectangle(0, 0, 404, 117));
             doneBtn.Scale = new Vector2(doneBtn.Scale.X + 0.02f, doneBtn.Scale.Y);
             doneBtn.Origin = new Vector2(doneBtn.Texture.Width / 2, 137);
@@ -51,6 +58,7 @@ namespace Pong.CoreTypes
 
             _sprites.Add(background);
             _sprites.Add(codeLabel);
+            _sprites.Add(takenLabel);
             _sprites.Add(backBtn);
 
             _sprites.Add(doneBtn);
@@ -78,26 +86,39 @@ namespace Pong.CoreTypes
             {
                 if (doneBtn.IsClicked)
                 {
+                    string name = codeLabel.Text.ToString();
                     if (Global.IsHost)
                     {
-                        string name = codeLabel.Text.ToString();
                         //add game to wcf
-                        if (name.Trim() != "" && WebServiceConnection.Client.AddGame(name))
+
+
+                        if (name.Trim() != "" && !WebServiceConnection.Client.CheckActiveGame(name))
                         {
+
+                            takenLabel.IsVisible = false;
+                            WebServiceConnection.Client.AddGame(name);
                             WebServiceConnection.GameName = name;
+                            WebServiceConnection.PlayerNumber = 0;
                             ScreenManager.Change(ScreenState.GameMode);
                         }
                         else
                         {
-                            //name is taken
+                            takenLabel.IsVisible = true;
                         }
                     }
                     else
                     {
                         //try to connect
-                        if (false) // connection successful
+                        //remember gamepad!!!!!!!!!
+                        if (name.Trim() != "" && WebServiceConnection.Client.CheckActiveGame(name))
                         {
-                            ScreenManager.Change(ScreenState.Game);
+                            if (!WebServiceConnection.Client.IsFull(name))
+                            {
+                                WebServiceConnection.Client.JoinGame(name, 1);
+                                WebServiceConnection.GameName = name;
+                                WebServiceConnection.PlayerNumber = 1;
+                                ScreenManager.Change(ScreenState.Waiting);
+                            }
                         }
                     }
                 }
@@ -207,26 +228,39 @@ namespace Pong.CoreTypes
                 {
                     if (doneBtn.IsPressed)
                     {
+                        string name = codeLabel.Text.ToString();
                         if (Global.IsHost)
                         {
-                            string name = codeLabel.Text.ToString();
                             //add game to wcf
-                            if (name.Trim() != "" && WebServiceConnection.Client.AddGame(name))
+
+
+                            if (name.Trim() != "" && !WebServiceConnection.Client.CheckActiveGame(name))
                             {
+
+                                takenLabel.IsVisible = false;
+                                WebServiceConnection.Client.AddGame(name);
                                 WebServiceConnection.GameName = name;
+                                WebServiceConnection.PlayerNumber = 0;
                                 ScreenManager.Change(ScreenState.GameMode);
                             }
                             else
                             {
-                                //name is taken
+                                takenLabel.IsVisible = true;
                             }
                         }
                         else
                         {
                             //try to connect
-                            if (false) // connection successful
+                            //remember gamepad!!!!!!!!!
+                            if (name.Trim() != "" && WebServiceConnection.Client.CheckActiveGame(name))
                             {
-                                ScreenManager.Change(ScreenState.Game);
+                                if (!WebServiceConnection.Client.IsFull(name))
+                                {
+                                    WebServiceConnection.Client.JoinGame(name, 1);
+                                    WebServiceConnection.GameName = name;
+                                    WebServiceConnection.PlayerNumber = 1;
+                                    ScreenManager.Change(ScreenState.Waiting);
+                                }
                             }
                         }
                     }

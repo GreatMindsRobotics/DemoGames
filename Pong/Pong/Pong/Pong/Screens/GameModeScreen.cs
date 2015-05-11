@@ -73,6 +73,12 @@ namespace Pong.Screens
             {
                 if (InputManager.JustPressed(Keys.Escape))
                 {
+
+                    if (Global.IsHost && Global.isOnline)
+                    {
+                        WebServiceConnection.Client.RemoveGame(WebServiceConnection.GameName);
+                    }
+
                     ScreenManager.Back();
                 }
             }
@@ -80,6 +86,10 @@ namespace Pong.Screens
             {
                 if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.Back))
                 {
+                    if (Global.IsHost && Global.isOnline)
+                    {
+                        WebServiceConnection.Client.RemoveGame(WebServiceConnection.GameName);
+                    }
                     ScreenManager.Back();
                 }
 
@@ -131,7 +141,7 @@ namespace Pong.Screens
                         }
                         else
                         {
-                            ScreenManager.Change(ScreenState.Game);
+                            ScreenManager.Change(ScreenState.Waiting);
                         }
                     }
                     else if (pingPongBtn.IsPressed)
@@ -144,11 +154,15 @@ namespace Pong.Screens
                         }
                         else
                         {
-                            ScreenManager.Change(ScreenState.Game);
+                            ScreenManager.Change(ScreenState.Waiting);
                         }
                     }
                     else if (backBtn.IsPressed)
                     {
+                        if (Global.IsHost && Global.isOnline)
+                        {
+                            WebServiceConnection.Client.RemoveGame(WebServiceConnection.GameName);
+                        }
                         ScreenManager.Back();
                     }
                 }
@@ -165,7 +179,8 @@ namespace Pong.Screens
                         break;
 
                     case Mode.MultiPlayer:
-                        ScreenManager.Change(ScreenState.Game);
+                        ScreenManager.Change(ScreenState.Waiting);
+                        WebServiceConnection.Client.JoinGame(WebServiceConnection.GameName, WebServiceConnection.PlayerNumber);
                         break;
 
                     default:
@@ -183,7 +198,8 @@ namespace Pong.Screens
                         break;
 
                     case Mode.MultiPlayer:
-                        ScreenManager.Change(ScreenState.Game);
+                        WebServiceConnection.Client.JoinGame(WebServiceConnection.GameName, WebServiceConnection.PlayerNumber);
+                        ScreenManager.Change(ScreenState.Waiting);
                         break;
 
                     default:
@@ -192,6 +208,10 @@ namespace Pong.Screens
             }
             else if(backBtn.IsClicked)
             {
+                if (Global.IsHost && Global.isOnline)
+                {
+                    WebServiceConnection.Client.RemoveGame(WebServiceConnection.GameName);
+                }
                 ScreenManager.Back();
             }
 
