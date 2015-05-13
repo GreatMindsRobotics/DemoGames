@@ -828,25 +828,25 @@ namespace Pong.Screens
                         rightScore = Score.rightScore;
                         if (Global.IsHost)
                         {
-                            Pong.WebService.Position player2Position = WebServiceConnection.Client.getPlayerPosition(Global.onlineCode, 0);
+                            Pong.WebService.Position player2Position = WebServiceConnection.Client.getPlayerPosition(Global.onlineCode, 1);
 
                             Global.RightPlayer.Position = new Vector2(player2Position.x, player2Position.y);
-
-
-
                             WebServiceConnection.Client.setPlayerPosition(WebServiceConnection.GameName, WebServiceConnection.PlayerNumber, new WebService.Position() { x = Global.LeftPlayer.Position.X, y = Global.LeftPlayer.Position.Y });
                             WebServiceConnection.Client.setScore(WebServiceConnection.GameName, 1, Score.rightScore);
                         }
                         else
                         {
+                            
+                            Pong.WebService.Position player1Position = WebServiceConnection.Client.getPlayerPosition(Global.onlineCode, 0);
 
-                            Pong.WebService.Position player1Position = Global.Webservice.getPlayerPosition(Global.onlineCode, 1);
                             Global.LeftPlayer.Position = new Vector2(player1Position.x, player1Position.y);
 
 
-                            Global.Webservice.setPlayerPosition(Global.onlineCode, 2, new WebService.Position() { x = Global.RightPlayer.Position.X, y = Global.RightPlayer.Position.Y });
+                            //Global.Webservice.setPlayerPosition(Global.onlineCode, 2, new WebService.Position() { x = Global.RightPlayer.Position.X, y = Global.RightPlayer.Position.Y });
+                            WebServiceConnection.Client.setPlayerPosition(WebServiceConnection.GameName, WebServiceConnection.PlayerNumber, new WebService.Position() { x = Global.RightPlayer.Position.X, y = Global.RightPlayer.Position.Y });
                             WebServiceConnection.Client.setScore(WebServiceConnection.GameName, 0, Score.leftScore);
                         }
+                        
 
                     }
                     else

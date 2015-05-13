@@ -28,6 +28,5 @@ namespace Pong.CoreTypes
 
         public static string onlineCode;
 
-        public static Pong.WebService.IGMRPongService Webservice;
     }
 }

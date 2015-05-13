@@ -73,7 +73,7 @@ namespace Pong.CoreTypes
 
             }
         }
-
+        //Abdurrahman
         public override void Update(GameTime gameTime)
         {
 
