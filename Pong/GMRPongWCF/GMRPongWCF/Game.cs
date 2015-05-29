@@ -4,78 +4,116 @@ using System.Linq;
 using System.Web;
 using System.Runtime.Serialization;
 using System.ServiceModel;
+using System.Timers;
 
 namespace GMRPongWCF
 {
-    public enum GameType
-    {
-        Classic,
-        PingPong
-    }
-
     [DataContract]
     public class Game
     {
-        [DataMember]
-        Position[] players;
+        Timer gameTimer = new Timer(50/3.0);
 
         [DataMember]
-        Position ball;
+        private int score1 = 0, score2 = 0;
+
+
 
         [DataMember]
-        Score score;
+        private Ball _ball;
 
         [DataMember]
-        GameType gameType;
+        private int _w;
 
-        string name;
+        [DataMember]
+        private int _h;
 
-        public Game(string name)
+        [DataMember]
+        private GameMode _gameMode;
+
+
+        public GameMode GameMode
         {
-            this.name = name;
-            players = new Position[2];
-            for(int i = 0; i < 2; i++)
+            get
             {
-                players[i] = new Position();
+                return _gameMode;
             }
-            ball = new Position();
-            score = new Score();
+            set
+            {
+                _gameMode = value;
+            }
         }
 
-        [OperationContract]
-        public Position getPlayerPosition(int player)
+
+        [DataMember]
+        public Position paddle1Position { get; set; }
+
+
+        [DataMember]
+        public Position paddle2Position { get; set; }
+
+        public Ball Ball
         {
-            return players[player];
+            get
+            {
+                return _ball;
+            }
         }
 
-        [OperationContract]
-        public void setPlayerPosition(int player, Position position)
+        public Game(Ball ball, int w, int h, GameMode gameMode)
         {
-            players[player] = position;
+            _ball = ball;
+            _w = w;
+            _h = h;
+            _gameMode = gameMode;
+            gameTimer.Elapsed += new ElapsedEventHandler(gameTimer_Elapsed);
+            paddle1Position = new Position(0, 0);
+            paddle2Position = new Position(0, 0);
         }
 
-        [OperationContract]
-        public Position getBallPosition()
+        public void Start()
         {
-            return ball;
+            gameTimer.Start();
         }
 
-        [OperationContract]
-        public Score getScore()
+        void gameTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            return score;
+            Update();
         }
 
-        [OperationContract]
-        public void setGameType(GameType gameType)
+        public void Update()
         {
-            this.gameType = gameType;
+            _ball.Update();
+            if (_gameMode == GMRPongWCF.GameMode.Classical)
+            {
+                if ((_ball.Speed.Y < 0 && (_ball.Position.Y - _ball.R) <= 0) || (_ball.Speed.Y > 0 && (_ball.Position.Y + _ball.R) >= _h))
+                {
+                    float newSpeedY = _ball.Speed.Y * -1;
+                    _ball.Speed = new Speed(_ball.Speed.X, newSpeedY);
+                }
+                else if ((_ball.Speed.X < 0 && (_ball.Position.X - _ball.R) <= 0))
+                {
+                    _ball.Position = new Position(_w / 2, _h / 2);
+                    _ball.Speed = new Speed(0, 0);
+                    score1++;
+                }
+                else if ((_ball.Speed.X > 0 && (_ball.Position.X + _ball.R) >= _w))
+                {
+                    _ball.Position = new Position(_w / 2, _h / 2);
+                    _ball.Speed = new Speed(0, 0);
+                    score2++;
+                }
+            }
         }
 
-        [OperationContract]
-        public GameType getGameType()
+        public void MoveBall()
         {
-            return gameType;
+            if (_ball.IsMoving)
+            {
+                _ball.Speed = new Speed(5, 5);
+            }
         }
+
+
+
     }
 }

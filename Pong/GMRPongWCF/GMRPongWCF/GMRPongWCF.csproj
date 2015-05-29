@@ -63,14 +63,16 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ball.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="GameMode.cs" />
     <Compile Include="GMRPongService.svc.cs">
       <DependentUpon>GMRPongService.svc</DependentUpon>
     </Compile>
     <Compile Include="IGMRPongService.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Score.cs" />
+    <Compile Include="Speed.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

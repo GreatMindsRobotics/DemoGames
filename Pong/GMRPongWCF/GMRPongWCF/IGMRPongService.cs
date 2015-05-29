@@ -11,25 +11,34 @@ namespace GMRPongWCF
     [ServiceContract()]
     public interface IGMRPongService
     {
+        #region Joining Game Methods
         [OperationContract]
-        bool AddGame(string name);
+        void AddGame(string name, int width, int height);
 
         [OperationContract]
-        Position getPlayerPosition(string name, int player);
+        void JoinGame(string name, int playerNumber);
 
         [OperationContract]
-        void setPlayerPosition(string name, int player, Position position);
+        void SetGameMode(string name, GameMode mode);
 
         [OperationContract]
-        Position GetBallPosition(string name);
+        void LeaveGame(string name, int playerNumber);
 
         [OperationContract]
-        Score GetScore(string name);
+        bool CheckActiveGame(string name);
 
         [OperationContract]
-        void SetGameType(string name, GameType gameType);
+        void RemoveGame(string name);
 
         [OperationContract]
-        GameType GetGameType(string name);
+        ICollection<string> GetGameNames();
+
+        [OperationContract]
+        bool IsFull(string name);
+
+        #endregion Joining Game Methods
+
+
+
     }
 }

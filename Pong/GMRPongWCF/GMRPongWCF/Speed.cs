@@ -8,7 +8,7 @@ using System.ServiceModel;
 namespace GMRPongWCF
 {
     [DataContract]
-    public class Position
+    public class Speed
     {
         [DataMember]
         private float _x;
@@ -23,10 +23,6 @@ namespace GMRPongWCF
             {
                 return _x;
             }
-            set
-            {
-                _x = value;
-            }
         }
 
         public float Y
@@ -35,17 +31,12 @@ namespace GMRPongWCF
             {
                 return _y;
             }
-            set
-            {
-                _y = value;
-            }
         }
 
-        public Position(float x, float y)
+        public Speed(float x, float y)
         {
             _x = x;
             _y = y;
         }
-
     }
 }
