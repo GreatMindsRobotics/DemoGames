@@ -13,20 +13,49 @@ namespace Pong.WebService {
     using System;
     
     
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="GameMode", Namespace="http://schemas.datacontract.org/2004/07/GMRPongWCF")]
+    public enum GameMode : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Classical = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        PingPong = 1,
+    }
+    
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Position", Namespace="http://schemas.datacontract.org/2004/07/GMRPongWCF")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Game", Namespace="http://schemas.datacontract.org/2004/07/GMRPongWCF")]
     [System.SerializableAttribute()]
-    public partial class Position : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class Game : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private float xField;
+        private Pong.WebService.Ball _ballField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private float yField;
+        private Pong.WebService.GameMode _gameModeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int _hField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int _wField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Pong.WebService.Position paddle1PositionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Pong.WebService.Position paddle2PositionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int score1Field;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int score2Field;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -39,27 +68,105 @@ namespace Pong.WebService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public float x {
+        public Pong.WebService.Ball _ball {
             get {
-                return this.xField;
+                return this._ballField;
             }
             set {
-                if ((this.xField.Equals(value) != true)) {
-                    this.xField = value;
-                    this.RaisePropertyChanged("x");
+                if ((object.ReferenceEquals(this._ballField, value) != true)) {
+                    this._ballField = value;
+                    this.RaisePropertyChanged("_ball");
                 }
             }
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public float y {
+        public Pong.WebService.GameMode _gameMode {
             get {
-                return this.yField;
+                return this._gameModeField;
             }
             set {
-                if ((this.yField.Equals(value) != true)) {
-                    this.yField = value;
-                    this.RaisePropertyChanged("y");
+                if ((this._gameModeField.Equals(value) != true)) {
+                    this._gameModeField = value;
+                    this.RaisePropertyChanged("_gameMode");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int _h {
+            get {
+                return this._hField;
+            }
+            set {
+                if ((this._hField.Equals(value) != true)) {
+                    this._hField = value;
+                    this.RaisePropertyChanged("_h");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int _w {
+            get {
+                return this._wField;
+            }
+            set {
+                if ((this._wField.Equals(value) != true)) {
+                    this._wField = value;
+                    this.RaisePropertyChanged("_w");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Pong.WebService.Position paddle1Position {
+            get {
+                return this.paddle1PositionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.paddle1PositionField, value) != true)) {
+                    this.paddle1PositionField = value;
+                    this.RaisePropertyChanged("paddle1Position");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Pong.WebService.Position paddle2Position {
+            get {
+                return this.paddle2PositionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.paddle2PositionField, value) != true)) {
+                    this.paddle2PositionField = value;
+                    this.RaisePropertyChanged("paddle2Position");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int score1 {
+            get {
+                return this.score1Field;
+            }
+            set {
+                if ((this.score1Field.Equals(value) != true)) {
+                    this.score1Field = value;
+                    this.RaisePropertyChanged("score1");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int score2 {
+            get {
+                return this.score2Field;
+            }
+            set {
+                if ((this.score2Field.Equals(value) != true)) {
+                    this.score2Field = value;
+                    this.RaisePropertyChanged("score2");
                 }
             }
         }
@@ -76,18 +183,21 @@ namespace Pong.WebService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Score", Namespace="http://schemas.datacontract.org/2004/07/GMRPongWCF")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Ball", Namespace="http://schemas.datacontract.org/2004/07/GMRPongWCF")]
     [System.SerializableAttribute()]
-    public partial class Score : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class Ball : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int leftScoreField;
+        private Pong.WebService.Position _positionField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int rightScoreField;
+        private int _rField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Pong.WebService.Speed _speedField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -100,27 +210,162 @@ namespace Pong.WebService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public int leftScore {
+        public Pong.WebService.Position _position {
             get {
-                return this.leftScoreField;
+                return this._positionField;
             }
             set {
-                if ((this.leftScoreField.Equals(value) != true)) {
-                    this.leftScoreField = value;
-                    this.RaisePropertyChanged("leftScore");
+                if ((object.ReferenceEquals(this._positionField, value) != true)) {
+                    this._positionField = value;
+                    this.RaisePropertyChanged("_position");
                 }
             }
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public int rightScore {
+        public int _r {
             get {
-                return this.rightScoreField;
+                return this._rField;
             }
             set {
-                if ((this.rightScoreField.Equals(value) != true)) {
-                    this.rightScoreField = value;
-                    this.RaisePropertyChanged("rightScore");
+                if ((this._rField.Equals(value) != true)) {
+                    this._rField = value;
+                    this.RaisePropertyChanged("_r");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Pong.WebService.Speed _speed {
+            get {
+                return this._speedField;
+            }
+            set {
+                if ((object.ReferenceEquals(this._speedField, value) != true)) {
+                    this._speedField = value;
+                    this.RaisePropertyChanged("_speed");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Position", Namespace="http://schemas.datacontract.org/2004/07/GMRPongWCF")]
+    [System.SerializableAttribute()]
+    public partial class Position : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private float _xField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private float _yField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public float _x {
+            get {
+                return this._xField;
+            }
+            set {
+                if ((this._xField.Equals(value) != true)) {
+                    this._xField = value;
+                    this.RaisePropertyChanged("_x");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public float _y {
+            get {
+                return this._yField;
+            }
+            set {
+                if ((this._yField.Equals(value) != true)) {
+                    this._yField = value;
+                    this.RaisePropertyChanged("_y");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Speed", Namespace="http://schemas.datacontract.org/2004/07/GMRPongWCF")]
+    [System.SerializableAttribute()]
+    public partial class Speed : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private float _xField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private float _yField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public float _x {
+            get {
+                return this._xField;
+            }
+            set {
+                if ((this._xField.Equals(value) != true)) {
+                    this._xField = value;
+                    this.RaisePropertyChanged("_x");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public float _y {
+            get {
+                return this._yField;
+            }
+            set {
+                if ((this._yField.Equals(value) != true)) {
+                    this._yField = value;
+                    this.RaisePropertyChanged("_y");
                 }
             }
         }
@@ -140,13 +385,16 @@ namespace Pong.WebService {
     public interface IGMRPongService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/AddGame", ReplyAction="http://tempuri.org/IGMRPongService/AddGameResponse")]
-        void AddGame(string name);
+        void AddGame(string name, int width, int height);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/JoinGame", ReplyAction="http://tempuri.org/IGMRPongService/JoinGameResponse")]
-        void JoinGame(string name, int playerNumber);
+        void JoinGame(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/SetGameMode", ReplyAction="http://tempuri.org/IGMRPongService/SetGameModeResponse")]
+        void SetGameMode(string name, Pong.WebService.GameMode mode);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/LeaveGame", ReplyAction="http://tempuri.org/IGMRPongService/LeaveGameResponse")]
-        void LeaveGame(string name, int playerNumber);
+        void LeaveGame(string name);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/CheckActiveGame", ReplyAction="http://tempuri.org/IGMRPongService/CheckActiveGameResponse")]
         bool CheckActiveGame(string name);
@@ -154,26 +402,17 @@ namespace Pong.WebService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/RemoveGame", ReplyAction="http://tempuri.org/IGMRPongService/RemoveGameResponse")]
         void RemoveGame(string name);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/getPlayerPosition", ReplyAction="http://tempuri.org/IGMRPongService/getPlayerPositionResponse")]
-        Pong.WebService.Position getPlayerPosition(string name, int player);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/setPlayerPosition", ReplyAction="http://tempuri.org/IGMRPongService/setPlayerPositionResponse")]
-        void setPlayerPosition(string name, int player, Pong.WebService.Position position);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/GetBallPosition", ReplyAction="http://tempuri.org/IGMRPongService/GetBallPositionResponse")]
-        Pong.WebService.Position GetBallPosition(string name);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/GetScore", ReplyAction="http://tempuri.org/IGMRPongService/GetScoreResponse")]
-        Pong.WebService.Score GetScore(string name);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/setScore", ReplyAction="http://tempuri.org/IGMRPongService/setScoreResponse")]
-        void setScore(string name, int player, int score);
-        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/GetGameNames", ReplyAction="http://tempuri.org/IGMRPongService/GetGameNamesResponse")]
         string[] GetGameNames();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/IsFull", ReplyAction="http://tempuri.org/IGMRPongService/IsFullResponse")]
         bool IsFull(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/GetGame", ReplyAction="http://tempuri.org/IGMRPongService/GetGameResponse")]
+        Pong.WebService.Game GetGame(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/MoveBall", ReplyAction="http://tempuri.org/IGMRPongService/MoveBallResponse")]
+        void MoveBall(string name, int speedX, int speedY);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -203,16 +442,20 @@ namespace Pong.WebService {
                 base(binding, remoteAddress) {
         }
         
-        public void AddGame(string name) {
-            base.Channel.AddGame(name);
+        public void AddGame(string name, int width, int height) {
+            base.Channel.AddGame(name, width, height);
         }
         
-        public void JoinGame(string name, int playerNumber) {
-            base.Channel.JoinGame(name, playerNumber);
+        public void JoinGame(string name) {
+            base.Channel.JoinGame(name);
         }
         
-        public void LeaveGame(string name, int playerNumber) {
-            base.Channel.LeaveGame(name, playerNumber);
+        public void SetGameMode(string name, Pong.WebService.GameMode mode) {
+            base.Channel.SetGameMode(name, mode);
+        }
+        
+        public void LeaveGame(string name) {
+            base.Channel.LeaveGame(name);
         }
         
         public bool CheckActiveGame(string name) {
@@ -223,32 +466,20 @@ namespace Pong.WebService {
             base.Channel.RemoveGame(name);
         }
         
-        public Pong.WebService.Position getPlayerPosition(string name, int player) {
-            return base.Channel.getPlayerPosition(name, player);
-        }
-        
-        public void setPlayerPosition(string name, int player, Pong.WebService.Position position) {
-            base.Channel.setPlayerPosition(name, player, position);
-        }
-        
-        public Pong.WebService.Position GetBallPosition(string name) {
-            return base.Channel.GetBallPosition(name);
-        }
-        
-        public Pong.WebService.Score GetScore(string name) {
-            return base.Channel.GetScore(name);
-        }
-        
-        public void setScore(string name, int player, int score) {
-            base.Channel.setScore(name, player, score);
-        }
-        
         public string[] GetGameNames() {
             return base.Channel.GetGameNames();
         }
         
         public bool IsFull(string name) {
             return base.Channel.IsFull(name);
+        }
+        
+        public Pong.WebService.Game GetGame(string name) {
+            return base.Channel.GetGame(name);
+        }
+        
+        public void MoveBall(string name, int speedX, int speedY) {
+            base.Channel.MoveBall(name, speedX, speedY);
         }
     }
 }

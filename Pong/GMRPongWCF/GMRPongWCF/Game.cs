@@ -16,8 +16,6 @@ namespace GMRPongWCF
         [DataMember]
         private int score1 = 0, score2 = 0;
 
-
-
         [DataMember]
         private Ball _ball;
 
@@ -30,6 +28,7 @@ namespace GMRPongWCF
         [DataMember]
         private GameMode _gameMode;
 
+        public bool IsGameReady;
 
         public GameMode GameMode
         {
@@ -68,10 +67,7 @@ namespace GMRPongWCF
             gameTimer.Elapsed += new ElapsedEventHandler(gameTimer_Elapsed);
             paddle1Position = new Position(0, 0);
             paddle2Position = new Position(0, 0);
-        }
-
-        public void Start()
-        {
+            IsGameReady = false;
             gameTimer.Start();
         }
 
@@ -105,15 +101,12 @@ namespace GMRPongWCF
             }
         }
 
-        public void MoveBall()
+        public void MoveBall(int speedX, int speedY)
         {
-            if (_ball.IsMoving)
+            if (!_ball.IsMoving)
             {
-                _ball.Speed = new Speed(5, 5);
+                _ball.Speed = new Speed(speedX, speedY);
             }
         }
-
-
-
     }
 }

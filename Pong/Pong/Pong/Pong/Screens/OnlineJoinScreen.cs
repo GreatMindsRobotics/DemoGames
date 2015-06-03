@@ -96,7 +96,7 @@ namespace Pong.CoreTypes
                         {
 
                             takenLabel.IsVisible = false;
-                            WebServiceConnection.Client.AddGame(name);
+                            WebServiceConnection.Client.AddGame(name, 1920, 1080);
                             WebServiceConnection.GameName = name;
                             WebServiceConnection.PlayerNumber = 0;
                             ScreenManager.Change(ScreenState.GameMode);
@@ -114,7 +114,7 @@ namespace Pong.CoreTypes
                         {
                             if (!WebServiceConnection.Client.IsFull(name))
                             {
-                                WebServiceConnection.Client.JoinGame(name, 1);
+                                WebServiceConnection.Client.JoinGame(name);
                                 WebServiceConnection.GameName = name;
                                 WebServiceConnection.PlayerNumber = 1;
                                 ScreenManager.Change(ScreenState.Waiting);
@@ -238,7 +238,7 @@ namespace Pong.CoreTypes
                             {
 
                                 takenLabel.IsVisible = false;
-                                WebServiceConnection.Client.AddGame(name);
+                                WebServiceConnection.Client.AddGame(name, 1920, 1080);
                                 WebServiceConnection.GameName = name;
                                 WebServiceConnection.PlayerNumber = 0;
                                 ScreenManager.Change(ScreenState.GameMode);
@@ -256,7 +256,7 @@ namespace Pong.CoreTypes
                             {
                                 if (!WebServiceConnection.Client.IsFull(name))
                                 {
-                                    WebServiceConnection.Client.JoinGame(name, 1);
+                                    WebServiceConnection.Client.JoinGame(name);
                                     WebServiceConnection.GameName = name;
                                     WebServiceConnection.PlayerNumber = 1;
                                     ScreenManager.Change(ScreenState.Waiting);

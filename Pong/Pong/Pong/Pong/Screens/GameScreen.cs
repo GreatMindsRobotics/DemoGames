@@ -361,6 +361,7 @@ namespace Pong.Screens
             {
                 //System.Diagnostics.Debugger.Break();
             }
+
             if (Global.UsingKeyboard)
             {
                 if (InputManager.JustPressed(Keys.Escape))
@@ -393,8 +394,12 @@ namespace Pong.Screens
 
                             ball.SpeedX = randx;
                             ball.SpeedY = randy;
+
+                            WebServiceConnection.Client.MoveBall(WebServiceConnection.GameName, randx, randy);
+
                         }
                     }
+
                     predictionSpeed = ball.Speed;
                     BounceCount = 0;
                     predictionPath = new List<Vector2>();
@@ -487,11 +492,12 @@ namespace Pong.Screens
                 ball.IsPaused = controllerDisconnected;
 
             }
+
             if (ball.BallState == BallState.Moving)
             {
+                #region Wall Bounce Logic
                 if (ball.Bottom >= _viewPort.Height)
                 {
-
                     if (ball.SpeedY > 0)
                     {
                         ball.SpeedY *= -1;
@@ -505,12 +511,12 @@ namespace Pong.Screens
                         ball.SpeedY *= -1;
                     }
                 }
+                #endregion Wall Bounce Logic
 
                 if (ball.Position.X - ball.Origin.X <= 0)
                 {
                     //Ball goes through the wall
                     //right scored
-
                     swichCount++;
 
                     if (swichCount >= 2)
@@ -612,6 +618,7 @@ namespace Pong.Screens
 
             }
 
+
             if (ball.BallState == BallState.Rested && Global.GameMode == GameMode.PingPong)
             {
                 if (stuckToLeftPaddle)
@@ -651,7 +658,7 @@ namespace Pong.Screens
             {
                 case Mode.SinglePlayer:
 
-
+                    #region Controls
                     //Rightpaddle Movement
                     if (Global.UsingKeyboard)
                     {
@@ -665,7 +672,7 @@ namespace Pong.Screens
                             Global.LeftPlayer.VectorY += Math.Abs(paddleSpeed);
                         }
                     }
-                    else
+                    else //using gamepad
                     {
                         if (!InputManager.PressedKeysPlayer1.IsConnected)
                         {
@@ -690,6 +697,10 @@ namespace Pong.Screens
                             Global.LeftPlayer.VectorY += Math.Abs(paddleSpeed);
                         }
                     }
+#endregion Controls
+
+                    #region Difficulty
+
                     switch (Global.Difficulty)
                     {
                         case Difficulty.Easy:
@@ -782,7 +793,9 @@ namespace Pong.Screens
                             break;
                     }
 
+                    #endregion Difficulty
 
+                    #region Extra AI Ping Pong Logic 
                     if (Global.GameMode == GameMode.PingPong && !stuckToLeftPaddle && ball.BallState == BallState.Rested)
                     {
                         new DebugTypes.PathMapper(Vector2.Zero, new Vector2(20, 30), _viewPort.Bounds, DebugTypes.PathMapper.BoundingBoxSide.Right).Update(gameTime);
@@ -806,7 +819,7 @@ namespace Pong.Screens
 
                         ball.BallState = BallState.Moving;
                     }
-
+#endregion Extra AI Ping Pong Logic 
 
                     break;
 
@@ -816,36 +829,61 @@ namespace Pong.Screens
 
                     if (Global.isOnline)
                     {
+
+
+                        try
+                        {
+                        
+                            WebService.Game webGame = WebServiceConnection.Client.GetGame(WebServiceConnection.GameName);
+
+                            ball.Position = new Vector2(webGame._ball._position._x, webGame._ball._position._y);
+                            ball.SpeedX = webGame._ball._speed._x;
+                            ball.SpeedY = webGame._ball._speed._y;
+
+                            //Global.LeftPlayer.Position = 
+
+                        }
+                        catch
+                        {
+                            //ignore help
+                        }
+
+
+                        if (ball.SpeedX == 0 && ball.SpeedY == 0)
+                        {
+                            ball.BallState = BallState.Rested;
+                        }
+
                         //ScreenManager.Change(ScreenState.Error);
 
-                        Pong.WebService.Position ballPosition = WebServiceConnection.Client.GetBallPosition(Global.onlineCode);
+                        //Pong.WebService.Position ballPosition = WebServiceConnection.Client.GetBallPosition(Global.onlineCode);
                         
                         
 
-                        ball.Position = new Vector2(ballPosition.x, ballPosition.y);
-                        Pong.WebService.Score Score = WebServiceConnection.Client.GetScore(WebServiceConnection.GameName);
-                        leftScore = Score.leftScore;
-                        rightScore = Score.rightScore;
-                        if (Global.IsHost)
-                        {
-                            Pong.WebService.Position player2Position = WebServiceConnection.Client.getPlayerPosition(Global.onlineCode, 1);
+                        //ball.Position = new Vector2(ballPosition.x, ballPosition.y);
+                        //Pong.WebService.Score Score = WebServiceConnection.Client.GetScore(WebServiceConnection.GameName);
+                        //leftScore = Score.leftScore;
+                        //rightScore = Score.rightScore;
+                        //if (Global.IsHost)
+                        //{
+                        //    Pong.WebService.Position player2Position = WebServiceConnection.Client.getPlayerPosition(Global.onlineCode, 1);
 
-                            Global.RightPlayer.Position = new Vector2(player2Position.x, player2Position.y);
-                            WebServiceConnection.Client.setPlayerPosition(WebServiceConnection.GameName, WebServiceConnection.PlayerNumber, new WebService.Position() { x = Global.LeftPlayer.Position.X, y = Global.LeftPlayer.Position.Y });
-                            WebServiceConnection.Client.setScore(WebServiceConnection.GameName, 1, Score.rightScore);
-                        }
-                        else
-                        {
+                        //    Global.RightPlayer.Position = new Vector2(player2Position.x, player2Position.y);
+                        //    WebServiceConnection.Client.setPlayerPosition(WebServiceConnection.GameName, WebServiceConnection.PlayerNumber, new WebService.Position() { x = Global.LeftPlayer.Position.X, y = Global.LeftPlayer.Position.Y });
+                        //    WebServiceConnection.Client.setScore(WebServiceConnection.GameName, 1, Score.rightScore);
+                        //}
+                        //else
+                        //{
                             
-                            Pong.WebService.Position player1Position = WebServiceConnection.Client.getPlayerPosition(Global.onlineCode, 0);
+                        //    Pong.WebService.Position player1Position = WebServiceConnection.Client.getPlayerPosition(Global.onlineCode, 0);
 
-                            Global.LeftPlayer.Position = new Vector2(player1Position.x, player1Position.y);
+                        //    Global.LeftPlayer.Position = new Vector2(player1Position.x, player1Position.y);
 
 
-                            //Global.Webservice.setPlayerPosition(Global.onlineCode, 2, new WebService.Position() { x = Global.RightPlayer.Position.X, y = Global.RightPlayer.Position.Y });
-                            WebServiceConnection.Client.setPlayerPosition(WebServiceConnection.GameName, WebServiceConnection.PlayerNumber, new WebService.Position() { x = Global.RightPlayer.Position.X, y = Global.RightPlayer.Position.Y });
-                            WebServiceConnection.Client.setScore(WebServiceConnection.GameName, 0, Score.leftScore);
-                        }
+                        //    //Global.Webservice.setPlayerPosition(Global.onlineCode, 2, new WebService.Position() { x = Global.RightPlayer.Position.X, y = Global.RightPlayer.Position.Y });
+                        //    WebServiceConnection.Client.setPlayerPosition(WebServiceConnection.GameName, WebServiceConnection.PlayerNumber, new WebService.Position() { x = Global.RightPlayer.Position.X, y = Global.RightPlayer.Position.Y });
+                        //    WebServiceConnection.Client.setScore(WebServiceConnection.GameName, 0, Score.leftScore);
+                        //}
                         
 
                     }

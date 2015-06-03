@@ -180,7 +180,8 @@ namespace Pong.Screens
 
                     case Mode.MultiPlayer:
                         ScreenManager.Change(ScreenState.Waiting);
-                        WebServiceConnection.Client.JoinGame(WebServiceConnection.GameName, WebServiceConnection.PlayerNumber);
+                        WebServiceConnection.Client.SetGameMode(WebServiceConnection.GameName, WebService.GameMode.Classical);
+                        
                         break;
 
                     default:
@@ -198,8 +199,10 @@ namespace Pong.Screens
                         break;
 
                     case Mode.MultiPlayer:
-                        WebServiceConnection.Client.JoinGame(WebServiceConnection.GameName, WebServiceConnection.PlayerNumber);
                         ScreenManager.Change(ScreenState.Waiting);
+
+                        WebServiceConnection.Client.SetGameMode(WebServiceConnection.GameName, WebService.GameMode.PingPong);
+                       
                         break;
 
                     default:

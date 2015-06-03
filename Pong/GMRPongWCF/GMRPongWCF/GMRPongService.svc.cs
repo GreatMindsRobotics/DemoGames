@@ -30,6 +30,18 @@ namespace GMRPongWCF
             games[name].GameMode = mode; 
         }
 
+        public void JoinGame(string name)
+        {
+            games[name].IsGameReady = true;
+        }
+
+        public bool IsFull(string name)
+        {
+            return games[name].IsGameReady;
+        }
+
+        #endregion Joining Game Methods
+
         /// <summary>
         /// Awesome Player Position Setter made by Jessica P. & Kevin K.
         /// </summary>
@@ -49,22 +61,10 @@ namespace GMRPongWCF
             }
         }
 
-        public void JoinGame(string name, int playerNumber)
-        {
-            throw new NotImplementedException();
-            //games[name].setConnection(playerNumber, true);
-        }
-
-        public void LeaveGame(string name, int playerNumber)
+        public void LeaveGame(string name)
         {
             throw new NotImplementedException();
             //games[name].setConnection(playerNumber, false);
-        }
-
-        public bool IsFull(string name)
-        {
-            //return games[name].getConnections()[1] == true;
-            throw new NotImplementedException();
         }
 
         public bool CheckActiveGame(string name)
@@ -77,9 +77,14 @@ namespace GMRPongWCF
             return games.Keys;
         }
 
-        #endregion Joining Game Methods
+        public Game GetGame(string name)
+        {
+            return games[name];
+        }
 
-
-
+        public void MoveBall(string name, int speedX, int speedY)
+        {
+            games[name].MoveBall(speedX, speedY);
+        }
     }
 }

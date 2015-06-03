@@ -123,10 +123,7 @@
     <None Include="Service References\WebService\configuration91.svcinfo" />
     <None Include="Service References\WebService\configuration.svcinfo" />
     <None Include="Service References\WebService\GMRPongService3.xsd" />
-    <None Include="Service References\WebService\Pong.WebService.Position.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\WebService\Pong.WebService.Score.datasource">
+    <None Include="Service References\WebService\Pong.WebService.Game.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\WebService\Reference.svcmap">

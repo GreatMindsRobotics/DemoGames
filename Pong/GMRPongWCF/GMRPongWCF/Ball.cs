@@ -55,7 +55,7 @@ namespace GMRPongWCF
         {
             get
             {
-                return _speed.X == 0 && _speed.Y == 0;
+                return _speed.X != 0 || _speed.Y != 0;
             }
         }
 

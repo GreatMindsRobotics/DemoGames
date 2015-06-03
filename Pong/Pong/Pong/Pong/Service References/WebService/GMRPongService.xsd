@@ -6,6 +6,8 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="width" type="xs:int" />
+        <xs:element minOccurs="0" name="height" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -18,7 +20,6 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="playerNumber" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -27,11 +28,23 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
+  <xs:element name="SetGameMode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/GMRPongWCF" minOccurs="0" name="mode" type="q1:GameMode" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetGameModeResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
   <xs:element name="LeaveGame">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="playerNumber" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -66,77 +79,6 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
-  <xs:element name="getPlayerPosition">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="player" type="xs:int" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="getPlayerPositionResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/GMRPongWCF" minOccurs="0" name="getPlayerPositionResult" nillable="true" type="q1:Position" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="setPlayerPosition">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="player" type="xs:int" />
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/GMRPongWCF" minOccurs="0" name="position" nillable="true" type="q2:Position" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="setPlayerPositionResponse">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetBallPosition">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetBallPositionResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/GMRPongWCF" minOccurs="0" name="GetBallPositionResult" nillable="true" type="q3:Position" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetScore">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetScoreResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/GMRPongWCF" minOccurs="0" name="GetScoreResult" nillable="true" type="q4:Score" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="setScore">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="player" type="xs:int" />
-        <xs:element minOccurs="0" name="score" type="xs:int" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="setScoreResponse">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
   <xs:element name="GetGameNames">
     <xs:complexType>
       <xs:sequence />
@@ -145,7 +87,7 @@
   <xs:element name="GetGameNamesResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetGameNamesResult" nillable="true" type="q5:ArrayOfstring" />
+        <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetGameNamesResult" nillable="true" type="q2:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -161,6 +103,34 @@
       <xs:sequence>
         <xs:element minOccurs="0" name="IsFullResult" type="xs:boolean" />
       </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetGame">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetGameResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/GMRPongWCF" minOccurs="0" name="GetGameResult" nillable="true" type="q3:Game" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MoveBall">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="speedX" type="xs:int" />
+        <xs:element minOccurs="0" name="speedY" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MoveBallResponse">
+    <xs:complexType>
+      <xs:sequence />
     </xs:complexType>
   </xs:element>
 </xs:schema>

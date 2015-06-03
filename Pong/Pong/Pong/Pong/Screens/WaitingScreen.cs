@@ -48,7 +48,7 @@ namespace Pong.Screens
             if (!Global.UsingKeyboard)
             {
                 backBtn.IsPressed = true;
-                WebServiceConnection.Client.LeaveGame(WebServiceConnection.GameName, WebServiceConnection.PlayerNumber);
+                WebServiceConnection.Client.LeaveGame(WebServiceConnection.GameName);
             }
         }
 
@@ -65,13 +65,13 @@ namespace Pong.Screens
                 if (InputManager.JustPressed(Keys.Escape))
                 {
                     ScreenManager.Back();
-                    WebServiceConnection.Client.LeaveGame(WebServiceConnection.GameName, WebServiceConnection.PlayerNumber);
+                    WebServiceConnection.Client.LeaveGame(WebServiceConnection.GameName);
                 }
 
                 if (backBtn.IsClicked)
                 {
                     ScreenManager.Back();
-                    WebServiceConnection.Client.LeaveGame(WebServiceConnection.GameName, WebServiceConnection.PlayerNumber);
+                    //WebServiceConnection.Client.LeaveGame(WebServiceConnection.GameName, WebServiceConnection.PlayerNumber);
                 }
 
             }
@@ -80,7 +80,7 @@ namespace Pong.Screens
                 if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.Back))
                 {
                     ScreenManager.Back();
-                    WebServiceConnection.Client.LeaveGame(WebServiceConnection.GameName, WebServiceConnection.PlayerNumber);
+                    WebServiceConnection.Client.LeaveGame(WebServiceConnection.GameName);
                 }
 
                 if (InputManager.IsGamepadButtonTapped(PlayerIndex.One, GamePadMapper.GamePadButtons.A))
@@ -88,7 +88,7 @@ namespace Pong.Screens
                     if (backBtn.IsPressed)
                     {
                         ScreenManager.Back();
-                        WebServiceConnection.Client.LeaveGame(WebServiceConnection.GameName, WebServiceConnection.PlayerNumber);
+                        WebServiceConnection.Client.LeaveGame(WebServiceConnection.GameName);
                     }
                 }
             }
