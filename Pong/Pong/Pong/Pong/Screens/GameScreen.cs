@@ -839,13 +839,13 @@ namespace Pong.Screens
                             ball.Position = new Vector2(webGame._ball._position._x, webGame._ball._position._y);
                             ball.SpeedX = webGame._ball._speed._x;
                             ball.SpeedY = webGame._ball._speed._y;
-
-                            //Global.LeftPlayer.Position = 
-
+                            leftScore = WebServiceConnection.Client.GetScore(WebServiceConnection.GameName, 1);
+                            rightScore = WebServiceConnection.Client.GetScore(WebServiceConnection.GameName, 2);
                         }
                         catch
                         {
                             //ignore help
+                            //ScreenManager.Change(ScreenState.Error);
                         }
 
 
@@ -854,16 +854,9 @@ namespace Pong.Screens
                             ball.BallState = BallState.Rested;
                         }
 
-                        //ScreenManager.Change(ScreenState.Error);
 
-                        //Pong.WebService.Position ballPosition = WebServiceConnection.Client.GetBallPosition(Global.onlineCode);
-                        
-                        
 
-                        //ball.Position = new Vector2(ballPosition.x, ballPosition.y);
-                        //Pong.WebService.Score Score = WebServiceConnection.Client.GetScore(WebServiceConnection.GameName);
-                        //leftScore = Score.leftScore;
-                        //rightScore = Score.rightScore;
+                       
                         //if (Global.IsHost)
                         //{
                         //    Pong.WebService.Position player2Position = WebServiceConnection.Client.getPlayerPosition(Global.onlineCode, 1);

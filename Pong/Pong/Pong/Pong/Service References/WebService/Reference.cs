@@ -411,6 +411,9 @@ namespace Pong.WebService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/GetGame", ReplyAction="http://tempuri.org/IGMRPongService/GetGameResponse")]
         Pong.WebService.Game GetGame(string name);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/GetScore", ReplyAction="http://tempuri.org/IGMRPongService/GetScoreResponse")]
+        int GetScore(string name, int player);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGMRPongService/MoveBall", ReplyAction="http://tempuri.org/IGMRPongService/MoveBallResponse")]
         void MoveBall(string name, int speedX, int speedY);
     }
@@ -476,6 +479,10 @@ namespace Pong.WebService {
         
         public Pong.WebService.Game GetGame(string name) {
             return base.Channel.GetGame(name);
+        }
+        
+        public int GetScore(string name, int player) {
+            return base.Channel.GetScore(name, player);
         }
         
         public void MoveBall(string name, int speedX, int speedY) {

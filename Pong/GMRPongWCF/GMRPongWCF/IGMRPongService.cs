@@ -42,6 +42,9 @@ namespace GMRPongWCF
         Game GetGame(string name);
 
         [OperationContract]
+        int GetScore(string name, int player);
+
+        [OperationContract]
         void MoveBall(string name, int speedX, int speedY);
 
 

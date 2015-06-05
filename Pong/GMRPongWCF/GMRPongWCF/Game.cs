@@ -14,7 +14,7 @@ namespace GMRPongWCF
         Timer gameTimer = new Timer(50/3.0);
 
         [DataMember]
-        private int score1 = 0, score2 = 0;
+        public int score1 = 0, score2 = 0;
 
         [DataMember]
         private Ball _ball;
@@ -24,6 +24,12 @@ namespace GMRPongWCF
 
         [DataMember]
         private int _h;
+
+        [DataMember]
+        private int paddleW = 51;
+
+        [DataMember]
+        private int paddleH = 355;
 
         [DataMember]
         private GameMode _gameMode;
@@ -85,6 +91,16 @@ namespace GMRPongWCF
                 {
                     float newSpeedY = _ball.Speed.Y * -1;
                     _ball.Speed = new Speed(_ball.Speed.X, newSpeedY);
+                }
+                else if (((_ball.Position.Y + _ball.R) <= (paddle1Position.Y - (paddleH / 2)) && (_ball.Position.Y + _ball.R) >= (paddle1Position.Y + (paddleH / 2))) && (_ball.Position.X <= paddleW))
+                {
+                    float newSpeedX = Math.Abs(_ball.Speed.X);
+                    _ball.Speed = new Speed(newSpeedX, _ball.Speed.Y);
+                }
+                else if (((_ball.Position.Y + _ball.R) <= (paddle2Position.Y - (paddleH / 2)) && (_ball.Position.Y + _ball.R) >= (paddle2Position.Y + (paddleH / 2))) && (_ball.Position.X + (_ball.R*2) >= (_w- paddleW)))
+                {
+                    float newSpeedX = Math.Abs(_ball.Speed.X) * -1;
+                    _ball.Speed = new Speed(newSpeedX, _ball.Speed.Y);
                 }
                 else if ((_ball.Speed.X < 0 && (_ball.Position.X - _ball.R) <= 0))
                 {

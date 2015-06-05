@@ -82,6 +82,18 @@ namespace GMRPongWCF
             return games[name];
         }
 
+        public int GetScore(string name, int player)
+        {
+            if (player == 1)
+            {
+                return games[name].score1;
+            }
+            else
+            {
+                return games[name].score2;
+            }
+        }
+
         public void MoveBall(string name, int speedX, int speedY)
         {
             games[name].MoveBall(speedX, speedY);
