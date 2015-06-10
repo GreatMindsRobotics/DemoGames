@@ -20,6 +20,12 @@ namespace GMRPongWCF
         private Ball _ball;
 
         [DataMember]
+        private Paddle _leftPaddle;
+
+        [DataMember]
+        private Paddle _rightPaddle;
+
+        [DataMember]
         private int _w;
 
         [DataMember]
@@ -48,14 +54,6 @@ namespace GMRPongWCF
             }
         }
 
-
-        [DataMember]
-        public Position paddle1Position { get; set; }
-
-
-        [DataMember]
-        public Position paddle2Position { get; set; }
-
         public Ball Ball
         {
             get
@@ -64,15 +62,31 @@ namespace GMRPongWCF
             }
         }
 
-        public Game(Ball ball, int w, int h, GameMode gameMode)
+        public Paddle LeftPaddle
         {
+            get
+            {
+                return _leftPaddle;
+            }
+        }
+
+        public Paddle RightPaddle
+        {
+            get
+            {
+                return _rightPaddle;
+            }
+        }
+
+        public Game(Paddle leftPaddle, Paddle rightPaddle, Ball ball, int w, int h, GameMode gameMode)
+        {
+            _leftPaddle = leftPaddle;
+            _rightPaddle = rightPaddle;
             _ball = ball;
             _w = w;
             _h = h;
             _gameMode = gameMode;
             gameTimer.Elapsed += new ElapsedEventHandler(gameTimer_Elapsed);
-            paddle1Position = new Position(0, 0);
-            paddle2Position = new Position(0, 0);
             IsGameReady = false;
             gameTimer.Start();
         }
@@ -92,29 +106,38 @@ namespace GMRPongWCF
                     float newSpeedY = _ball.Speed.Y * -1;
                     _ball.Speed = new Speed(_ball.Speed.X, newSpeedY);
                 }
-                else if (((_ball.Position.Y + _ball.R) <= (paddle1Position.Y - (paddleH / 2)) && (_ball.Position.Y + _ball.R) >= (paddle1Position.Y + (paddleH / 2))) && (_ball.Position.X <= paddleW))
+                else if (((_ball.Position.Y + _ball.R) >= (_leftPaddle.Position.Y - (paddleH / 2)) && 
+                    (_ball.Position.Y - _ball.R) <= (_leftPaddle.Position.Y + (paddleH / 2))) && 
+                    (_ball.Position.X - _ball.R <= _leftPaddle.Position.X + _leftPaddle.W / 2))
                 {
                     float newSpeedX = Math.Abs(_ball.Speed.X);
                     _ball.Speed = new Speed(newSpeedX, _ball.Speed.Y);
                 }
-                else if (((_ball.Position.Y + _ball.R) <= (paddle2Position.Y - (paddleH / 2)) && (_ball.Position.Y + _ball.R) >= (paddle2Position.Y + (paddleH / 2))) && (_ball.Position.X + (_ball.R*2) >= (_w- paddleW)))
+
+                else if (((_ball.Position.Y + _ball.R) >= (_rightPaddle.Position.Y - (paddleH / 2)) && 
+                    (_ball.Position.Y + _ball.R) <= (_rightPaddle.Position.Y + (paddleH / 2))) && 
+                    (_ball.Position.X + _ball.R >= _rightPaddle.Position.X + _rightPaddle.W / 2))
                 {
                     float newSpeedX = Math.Abs(_ball.Speed.X) * -1;
                     _ball.Speed = new Speed(newSpeedX, _ball.Speed.Y);
                 }
+
                 else if ((_ball.Speed.X < 0 && (_ball.Position.X - _ball.R) <= 0))
                 {
                     _ball.Position = new Position(_w / 2, _h / 2);
                     _ball.Speed = new Speed(0, 0);
-                    score1++;
+                    score2++;
+                    
                 }
                 else if ((_ball.Speed.X > 0 && (_ball.Position.X + _ball.R) >= _w))
                 {
                     _ball.Position = new Position(_w / 2, _h / 2);
                     _ball.Speed = new Speed(0, 0);
-                    score2++;
+                    score1++;
                 }
             }
+
+            // if (_ball.Position.X - _ball.R < leftPaddle.Right && ball.Bottom > Global.LeftPlayer.Top && ball.Top < Global.LeftPlayer.Bottom)
         }
 
         public void MoveBall(int speedX, int speedY)
@@ -122,6 +145,18 @@ namespace GMRPongWCF
             if (!_ball.IsMoving)
             {
                 _ball.Speed = new Speed(speedX, speedY);
+            }
+        }
+
+        public void MovePaddle(int playerIndex, int newYValue)
+        {
+            if (playerIndex == 1)
+            {
+                _leftPaddle.Position.Y = newYValue;
+            }
+            else 
+            {
+                _rightPaddle.Position.Y = newYValue;
             }
         }
     }

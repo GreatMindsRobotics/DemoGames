@@ -17,7 +17,10 @@ namespace GMRPongWCF
 
         public void AddGame(string name, int width, int height)
         {
-            games.Add(name, new Game(new Ball(new Speed(0,0), new Position(width/2, height/2), 55), width, height, GameMode.Classical));//new Game(name));
+            games.Add(name, new Game(new Paddle(new Speed(0, 0), new Position(51 / 2 + 30, height / 2), 51, 355),
+                                        new Paddle(new Speed(0, 0), new Position(width - (51/2) - 30, height/2), 51, 355), 
+                                        new Ball(new Speed(0, 0), new Position(width / 2, height / 2), 55), 
+                                        width, height, GameMode.Classical));//new Game(name));
         }
 
         public void RemoveGame(string name)
@@ -53,11 +56,11 @@ namespace GMRPongWCF
         {
             if (player == 1)
             {
-                games[name].paddle1Position = new Position(x, y);
+                games[name].LeftPaddle.Position = new Position(x, y);
             }
             else
             {
-                games[name].paddle2Position = new Position(x, y);
+                games[name].RightPaddle.Position = new Position(x, y);
             }
         }
 
@@ -97,6 +100,12 @@ namespace GMRPongWCF
         public void MoveBall(string name, int speedX, int speedY)
         {
             games[name].MoveBall(speedX, speedY);
+        }
+
+
+        public void MovePaddle(string name, int playerIndex, int newYValue)
+        {
+            games[name].MovePaddle(playerIndex, newYValue);
         }
     }
 }

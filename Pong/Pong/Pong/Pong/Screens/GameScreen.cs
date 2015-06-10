@@ -209,15 +209,30 @@ namespace Pong.Screens
             if (leftSideScored)
             {
                 leftScore += 1;
-                leftScoreFont.Text.Clear().Append(leftScore);
+                
                 leftScoreFont.Fade = true;
             }
             else
             {
                 rightScore += 1;
-                rightScoreFont.Text.Clear().Append(rightScore);
+                
                 rightScoreFont.Fade = true;
             }
+
+
+            try
+            {
+                leftScore = WebServiceConnection.Client.GetScore(WebServiceConnection.GameName, 1);
+                rightScore = WebServiceConnection.Client.GetScore(WebServiceConnection.GameName, 2);
+            }
+            catch
+            {
+                //ignore... kinda this is bad
+            }
+
+
+            leftScoreFont.Text.Clear().Append(leftScore);
+            rightScoreFont.Text.Clear().Append(rightScore);
 
             //Reset the ball
             ball.BallState = BallState.Rested;
@@ -839,8 +854,7 @@ namespace Pong.Screens
                             ball.Position = new Vector2(webGame._ball._position._x, webGame._ball._position._y);
                             ball.SpeedX = webGame._ball._speed._x;
                             ball.SpeedY = webGame._ball._speed._y;
-                            leftScore = WebServiceConnection.Client.GetScore(WebServiceConnection.GameName, 1);
-                            rightScore = WebServiceConnection.Client.GetScore(WebServiceConnection.GameName, 2);
+  
                         }
                         catch
                         {

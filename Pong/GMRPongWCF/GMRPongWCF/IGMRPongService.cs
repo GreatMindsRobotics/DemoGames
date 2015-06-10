@@ -47,6 +47,8 @@ namespace GMRPongWCF
         [OperationContract]
         void MoveBall(string name, int speedX, int speedY);
 
+        [OperationContract]
+        void MovePaddle(string name, int playerIndex, int newYValue);
 
         //TODO FOR NEXT TIME
         //STORE PADDLE POSITION ON THE CLIENT
