@@ -74,6 +74,12 @@
   <wsdl:message name="IGMRPongService_MoveBall_OutputMessage">
     <wsdl:part name="parameters" element="tns:MoveBallResponse" />
   </wsdl:message>
+  <wsdl:message name="IGMRPongService_MovePaddle_InputMessage">
+    <wsdl:part name="parameters" element="tns:MovePaddle" />
+  </wsdl:message>
+  <wsdl:message name="IGMRPongService_MovePaddle_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MovePaddleResponse" />
+  </wsdl:message>
   <wsdl:portType name="IGMRPongService">
     <wsdl:operation name="AddGame">
       <wsdl:input wsaw:Action="http://tempuri.org/IGMRPongService/AddGame" message="tns:IGMRPongService_AddGame_InputMessage" />
@@ -118,6 +124,10 @@
     <wsdl:operation name="MoveBall">
       <wsdl:input wsaw:Action="http://tempuri.org/IGMRPongService/MoveBall" message="tns:IGMRPongService_MoveBall_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGMRPongService/MoveBallResponse" message="tns:IGMRPongService_MoveBall_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MovePaddle">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGMRPongService/MovePaddle" message="tns:IGMRPongService_MovePaddle_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGMRPongService/MovePaddleResponse" message="tns:IGMRPongService_MovePaddle_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IGMRPongService" type="tns:IGMRPongService">
@@ -214,6 +224,15 @@
     </wsdl:operation>
     <wsdl:operation name="MoveBall">
       <soap:operation soapAction="http://tempuri.org/IGMRPongService/MoveBall" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MovePaddle">
+      <soap:operation soapAction="http://tempuri.org/IGMRPongService/MovePaddle" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

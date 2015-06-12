@@ -116,7 +116,7 @@ namespace GMRPongWCF
 
                 else if (((_ball.Position.Y + _ball.R) >= (_rightPaddle.Position.Y - (paddleH / 2)) && 
                     (_ball.Position.Y + _ball.R) <= (_rightPaddle.Position.Y + (paddleH / 2))) && 
-                    (_ball.Position.X + _ball.R >= _rightPaddle.Position.X + _rightPaddle.W / 2))
+                    (_ball.Position.X + _ball.R >= _rightPaddle.Position.X - _rightPaddle.W / 2))
                 {
                     float newSpeedX = Math.Abs(_ball.Speed.X) * -1;
                     _ball.Speed = new Speed(newSpeedX, _ball.Speed.Y);
@@ -139,6 +139,9 @@ namespace GMRPongWCF
 
             // if (_ball.Position.X - _ball.R < leftPaddle.Right && ball.Bottom > Global.LeftPlayer.Top && ball.Top < Global.LeftPlayer.Bottom)
         }
+
+
+
 
         public void MoveBall(int speedX, int speedY)
         {

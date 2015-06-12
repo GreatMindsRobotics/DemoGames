@@ -410,8 +410,10 @@ namespace Pong.Screens
                             ball.SpeedX = randx;
                             ball.SpeedY = randy;
 
-                            WebServiceConnection.Client.MoveBall(WebServiceConnection.GameName, randx, randy);
-
+                            if (Global.isOnline)
+                            {
+                                WebServiceConnection.Client.MoveBall(WebServiceConnection.GameName, randx, randy);
+                            }
                         }
                     }
 
@@ -854,6 +856,9 @@ namespace Pong.Screens
                             ball.Position = new Vector2(webGame._ball._position._x, webGame._ball._position._y);
                             ball.SpeedX = webGame._ball._speed._x;
                             ball.SpeedY = webGame._ball._speed._y;
+
+                            Global.LeftPlayer.VectorY = webGame._leftPaddle._position._y;
+                            Global.RightPlayer.VectorY = webGame._rightPaddle._position._y;
   
                         }
                         catch
@@ -868,6 +873,36 @@ namespace Pong.Screens
                             ball.BallState = BallState.Rested;
                         }
 
+                      
+                        if(Global.IsHost)
+                        {
+                            if (InputManager.IsDown(Global.LeftPlayer.UpKey) && Global.LeftPlayer.Top > 0)
+                            {
+                                //Global.LeftPlayer.VectorY -= Math.Abs(paddleSpeed);
+                                WebServiceConnection.Client.MovePaddle(WebServiceConnection.GameName, 1, (int)(Global.LeftPlayer.VectorY - Math.Abs(paddleSpeed)));
+                            }
+
+                            if (InputManager.IsDown(Global.LeftPlayer.DownKey) && Global.LeftPlayer.Bottom < _viewPort.Height)
+                            {
+                                //Global.LeftPlayer.VectorY += Math.Abs(paddleSpeed);
+                                WebServiceConnection.Client.MovePaddle(WebServiceConnection.GameName, 1, (int)(Global.LeftPlayer.VectorY + Math.Abs(paddleSpeed)));
+                            }
+
+                        }
+                        else
+                        {
+                            if (InputManager.IsDown(Global.RightPlayer.UpKey) && Global.RightPlayer.Top > 0)
+                            {
+                                //Global.RightPlayer.VectorY -= paddleSpeed;
+                                WebServiceConnection.Client.MovePaddle(WebServiceConnection.GameName, 2, (int)(Global.RightPlayer.VectorY - Math.Abs(paddleSpeed)));
+                            }
+
+                            if (InputManager.IsDown(Global.RightPlayer.DownKey) && Global.RightPlayer.Bottom < _viewPort.Height)
+                            {
+                                //Global.RightPlayer.VectorY += paddleSpeed;
+                                WebServiceConnection.Client.MovePaddle(WebServiceConnection.GameName, 2, (int)(Global.RightPlayer.VectorY += Math.Abs(paddleSpeed)));
+                            }
+                        }
 
 
                        
@@ -1005,76 +1040,80 @@ namespace Pong.Screens
                     {
                         predictionPath.RemoveAt(0);
                     }
-                    //ball.Update(gameTime);
-                    //Checking if ball hit rightPaddle
-                    if (ball.Right > Global.RightPlayer.Left && ball.Bottom > Global.RightPlayer.Top && ball.Top < Global.RightPlayer.Bottom)
+
+                    if (!Global.isOnline)
                     {
-                        //ball intersected with rightPaddle!!! Is it traveling to the right? If so, inverse direction; otherwise, leave it alone
-                        if (ball.SpeedX > 0)
+                        //ball.Update(gameTime);
+                        //Checking if ball hit rightPaddle
+                        if (ball.Right > Global.RightPlayer.Left && ball.Bottom > Global.RightPlayer.Top && ball.Top < Global.RightPlayer.Bottom)
                         {
-                            ball.SpeedX *= -1.05f;
-                            ball.SpeedY *= 1.05f;
-                        }
-                        if (Global.GameMode == GameMode.PingPong)
-                        {
-                            //get the Y distance from the center of the ball and the center of the paddle
-                            //dist: paddlecenterY - ballcenterY
-                            //add that onto the ball yspeed
-                            ball.SpeedY -= (Global.RightPlayer.Position.Y - ball.Position.Y) / 10;
-                            ball.SpeedY = MathHelper.Clamp(ball.SpeedY, -5, 5);
-                        }
-                        BounceCount = 0;
-                        speed = ball.Speed;
-                        speed.Normalize();
-                        speedofBall = speed;
-                        predictionPath = new List<Vector2>();
-                        debug();
-                    }
-
-                    //Checking if ball hit leftPaddle
-                    if (ball.Left < Global.LeftPlayer.Right && ball.Bottom > Global.LeftPlayer.Top && ball.Top < Global.LeftPlayer.Bottom)
-                    {
-
-                        //ball intersected with leftPaddle!!! Is it traveling to the left? If so, inverse direction; otherwise, leave it alone
-                        //generate based on difficulty
-                        if (Global.Difficulty == Difficulty.Medium)
-                        {
-                            hitBall = rnd.Next(0, 2);
-                        }
-                        else if (Global.Difficulty == Difficulty.Hard)
-                        {
-                            int temp = rnd.Next(0, 10);
-                            if (temp >= 1)
+                            //ball intersected with rightPaddle!!! Is it traveling to the right? If so, inverse direction; otherwise, leave it alone
+                            if (ball.SpeedX > 0)
                             {
-                                temp = 1;
+                                ball.SpeedX *= -1.05f;
+                                ball.SpeedY *= 1.05f;
                             }
-                            else
+                            if (Global.GameMode == GameMode.PingPong)
                             {
-                                temp = 0;
+                                //get the Y distance from the center of the ball and the center of the paddle
+                                //dist: paddlecenterY - ballcenterY
+                                //add that onto the ball yspeed
+                                ball.SpeedY -= (Global.RightPlayer.Position.Y - ball.Position.Y) / 10;
+                                ball.SpeedY = MathHelper.Clamp(ball.SpeedY, -5, 5);
                             }
-
-                            hitBall = temp;
+                            BounceCount = 0;
+                            speed = ball.Speed;
+                            speed.Normalize();
+                            speedofBall = speed;
+                            predictionPath = new List<Vector2>();
+                            debug();
                         }
-                        if (ball.SpeedX < 0)
+
+                        //Checking if ball hit leftPaddle
+                        if (ball.Left < Global.LeftPlayer.Right && ball.Bottom > Global.LeftPlayer.Top && ball.Top < Global.LeftPlayer.Bottom)
                         {
 
-                            ball.SpeedX *= -1.05f;
-                            ball.SpeedY *= 1.05f;
+                            //ball intersected with leftPaddle!!! Is it traveling to the left? If so, inverse direction; otherwise, leave it alone
+                            //generate based on difficulty
+                            if (Global.Difficulty == Difficulty.Medium)
+                            {
+                                hitBall = rnd.Next(0, 2);
+                            }
+                            else if (Global.Difficulty == Difficulty.Hard)
+                            {
+                                int temp = rnd.Next(0, 10);
+                                if (temp >= 1)
+                                {
+                                    temp = 1;
+                                }
+                                else
+                                {
+                                    temp = 0;
+                                }
+
+                                hitBall = temp;
+                            }
+                            if (ball.SpeedX < 0)
+                            {
+
+                                ball.SpeedX *= -1.05f;
+                                ball.SpeedY *= 1.05f;
+                            }
+                            if (Global.GameMode == GameMode.PingPong)
+                            {
+                                //get the Y distance from the center of the ball and the center of the paddle
+                                //dist: paddlecenterY - ballcenterY
+                                //add that onto the ball yspeed
+                                ball.SpeedY -= (Global.LeftPlayer.Position.Y - ball.Position.Y) / 10;
+                                ball.SpeedY = MathHelper.Clamp(ball.SpeedY, -5, 5);
+                            }
+                            BounceCount = 0;
+                            speed = ball.Speed;
+                            speed.Normalize();
+                            speedofBall = speed;
+                            predictionPath = new List<Vector2>();
+                            debug();
                         }
-                        if (Global.GameMode == GameMode.PingPong)
-                        {
-                            //get the Y distance from the center of the ball and the center of the paddle
-                            //dist: paddlecenterY - ballcenterY
-                            //add that onto the ball yspeed
-                            ball.SpeedY -= (Global.LeftPlayer.Position.Y - ball.Position.Y) / 10;
-                            ball.SpeedY = MathHelper.Clamp(ball.SpeedY, -5, 5);
-                        }
-                        BounceCount = 0;
-                        speed = ball.Speed;
-                        speed.Normalize();
-                        speedofBall = speed;
-                        predictionPath = new List<Vector2>();
-                        debug();
                     }
                 }
             }

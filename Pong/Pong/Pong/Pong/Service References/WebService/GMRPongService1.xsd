@@ -12,9 +12,11 @@
       <xs:element minOccurs="0" name="_ball" nillable="true" type="tns:Ball" />
       <xs:element minOccurs="0" name="_gameMode" type="tns:GameMode" />
       <xs:element minOccurs="0" name="_h" type="xs:int" />
+      <xs:element minOccurs="0" name="_leftPaddle" nillable="true" type="tns:Paddle" />
+      <xs:element minOccurs="0" name="_rightPaddle" nillable="true" type="tns:Paddle" />
       <xs:element minOccurs="0" name="_w" type="xs:int" />
-      <xs:element minOccurs="0" name="paddle1Position" nillable="true" type="tns:Position" />
-      <xs:element minOccurs="0" name="paddle2Position" nillable="true" type="tns:Position" />
+      <xs:element minOccurs="0" name="paddleH" type="xs:int" />
+      <xs:element minOccurs="0" name="paddleW" type="xs:int" />
       <xs:element minOccurs="0" name="score1" type="xs:int" />
       <xs:element minOccurs="0" name="score2" type="xs:int" />
     </xs:sequence>
@@ -42,4 +44,13 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Speed" nillable="true" type="tns:Speed" />
+  <xs:complexType name="Paddle">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="_h" type="xs:int" />
+      <xs:element minOccurs="0" name="_position" nillable="true" type="tns:Position" />
+      <xs:element minOccurs="0" name="_speed" nillable="true" type="tns:Speed" />
+      <xs:element minOccurs="0" name="_w" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Paddle" nillable="true" type="tns:Paddle" />
 </xs:schema>
